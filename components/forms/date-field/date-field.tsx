@@ -123,7 +123,7 @@ export function DateField({
         </span>
       </span>
       {error ? (
-        <p className={errorTextClasses} id={descriptionId}>
+        <p className={errorTextClasses} id={descriptionId} role="alert">
           {error}
         </p>
       ) : null}

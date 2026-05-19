@@ -13,9 +13,11 @@ type FormFieldRenderProps = {
   counterId: string | undefined;
 };
 
+type FormFieldChildren = (props: FormFieldRenderProps) => ReactNode;
+
 type FormFieldProps = {
   label: ReactNode;
-  children: ReactNode | ((props: FormFieldRenderProps) => ReactNode);
+  children: FormFieldChildren;
   counter?: ReactNode;
   error?: ReactNode;
   fullWidth?: boolean;
@@ -114,16 +116,13 @@ export function FormField({
   const hintId = !error && hint ? `${rootId}-hint` : undefined;
   const counterId = !error && counter ? `${rootId}-counter` : undefined;
   const descriptionId = [errorId, hintId, counterId].filter(Boolean).join(' ') || undefined;
-  const renderedChildren =
-    typeof children === 'function'
-      ? children({
-          inputId: controlId,
-          descriptionId,
-          errorId,
-          hintId,
-          counterId,
-        })
-      : children;
+  const renderedChildren = children({
+    inputId: controlId,
+    descriptionId,
+    errorId,
+    hintId,
+    counterId,
+  });
 
   return (
     <div

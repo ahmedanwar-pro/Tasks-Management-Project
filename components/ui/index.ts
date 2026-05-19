@@ -9,6 +9,5 @@ export { ErrorState } from './error-state/error-state';
 export { IconButton } from './icon-button/icon-button';
 export { Input } from './input/input';
 export { Modal } from './modal/modal';
-export { Select } from './select/select';
 export { Skeleton } from './skeleton/skeleton';
 export { Textarea } from './textarea/textarea';
