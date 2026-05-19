@@ -6,6 +6,7 @@ export { Drawer } from './drawer/drawer';
 export { DropdownMenu } from './dropdown-menu/dropdown-menu';
 export { EmptyState } from './empty-state/empty-state';
 export { ErrorState } from './error-state/error-state';
+export { Icon } from './icon/icon';
 export { IconButton } from './icon-button/icon-button';
 export { Input } from './input/input';
 export { Modal } from './modal/modal';
