@@ -17,6 +17,7 @@ type InputProps = {
   fullWidth?: boolean;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
+  iconRightAriaHidden?: boolean;
   invalid?: boolean;
   className?: string;
   inputClassName?: string;
@@ -57,6 +58,7 @@ export function Input({
   fullWidth = false,
   iconLeft,
   iconRight,
+  iconRightAriaHidden = true,
   invalid = false,
   className,
   inputClassName,
@@ -66,7 +68,7 @@ export function Input({
   const resolvedVariant = invalid ? 'danger' : variant;
 
   return (
-    <span
+    <div
       className={joinClasses(
         wrapperBaseClasses,
         variantClasses[resolvedVariant],
@@ -86,12 +88,13 @@ export function Input({
         aria-invalid={invalid || props['aria-invalid'] || undefined}
         className={joinClasses(inputBaseClasses, inputClassName)}
         ref={ref}
+        suppressHydrationWarning
       />
       {iconRight ? (
-        <span aria-hidden="true" className={iconClasses}>
+        <span aria-hidden={iconRightAriaHidden} className={iconClasses}>
           {iconRight}
         </span>
       ) : null}
-    </span>
+    </div>
   );
 }

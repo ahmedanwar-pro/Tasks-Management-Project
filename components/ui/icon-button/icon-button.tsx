@@ -70,6 +70,7 @@ export function IconButton({
       )}
       disabled={disabled}
       onClick={onClick}
+      suppressHydrationWarning
       type={type}
     >
       <span

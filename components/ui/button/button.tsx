@@ -15,7 +15,8 @@ type ButtonProps = {
   fullWidth?: boolean;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
-  loading?: boolean;
+  isLoading?: boolean;
+  loadingText?: ReactNode;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -63,7 +64,8 @@ export function Button({
   fullWidth = false,
   iconLeft,
   iconRight,
-  loading = false,
+  isLoading = false,
+  loadingText,
   disabled = false,
   type = 'button',
   onClick,
@@ -71,12 +73,14 @@ export function Button({
   children,
   ...props
 }: ButtonProps): ReactElement {
-  const isDisabled = disabled || loading;
+  const isDisabled = disabled || isLoading;
+  const label = isLoading ? (loadingText ?? children) : children;
 
   return (
     <button
       {...props}
-      aria-busy={loading || undefined}
+      aria-busy={isLoading || undefined}
+      aria-disabled={isDisabled || undefined}
       className={joinClasses(
         baseClasses,
         variantClasses[variant],
@@ -86,11 +90,12 @@ export function Button({
       )}
       disabled={isDisabled}
       onClick={onClick}
+      suppressHydrationWarning
       type={type}
     >
-      {loading ? <LoadingIndicator /> : iconLeft}
-      <span>{children}</span>
-      {!loading ? iconRight : null}
+      {isLoading ? <LoadingIndicator /> : iconLeft}
+      <span>{label}</span>
+      {!isLoading ? iconRight : null}
     </button>
   );
 }
