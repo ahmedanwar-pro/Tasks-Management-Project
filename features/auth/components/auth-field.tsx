@@ -8,7 +8,7 @@ import type {
 import { FormField } from '@/components/forms';
 import { Input } from '@/components/ui';
 
-type SignUpFieldProps = {
+type AuthFieldProps = {
   label: ReactNode;
   name: string;
   placeholder: string;
@@ -24,7 +24,7 @@ type SignUpFieldProps = {
   value?: string;
 } & Pick<InputHTMLAttributes<HTMLInputElement>, 'required'>;
 
-export function SignUpField({
+export function AuthField({
   label,
   name,
   placeholder,
@@ -39,7 +39,7 @@ export function SignUpField({
   ref,
   required,
   value,
-}: SignUpFieldProps): ReactElement {
+}: AuthFieldProps): ReactElement {
   const hasError = Boolean(error);
 
   return (
@@ -48,17 +48,17 @@ export function SignUpField({
       error={error}
       hint={hint}
       label={label}
-      required={required}
       labelClassName={
         hasError
           ? 'px-1 text-[11px] leading-[16.5px] tracking-[0.55px] !text-danger'
           : 'px-1 text-[11px] leading-[16.5px] tracking-[0.55px] text-text-secondary md:text-text-tertiary'
       }
       messageClassName={
-        hasError
+        hasError || !hint
           ? 'px-1 text-[11px] leading-[16.5px] md:text-[11px] md:leading-[16.5px]'
           : 'hidden px-1 text-[11px] leading-[16.5px] text-border-muted md:block'
       }
+      required={required}
     >
       {({ inputId, descriptionId }) => (
         <Input

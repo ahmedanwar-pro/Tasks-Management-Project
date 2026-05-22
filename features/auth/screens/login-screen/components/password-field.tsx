@@ -18,7 +18,7 @@ export function PasswordField({
 
   return (
     <AuthField
-      autoComplete="new-password"
+      autoComplete="current-password"
       error={error}
       iconRight={
         <IconButton

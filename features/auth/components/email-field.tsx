@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
-import { SignUpField } from './sign-up-field';
+import { AuthField } from './auth-field';
 
 type EmailFieldProps = {
   error?: string;
@@ -12,7 +12,7 @@ export function EmailField({
   registration,
 }: EmailFieldProps): ReactElement {
   return (
-    <SignUpField
+    <AuthField
       autoComplete="email"
       error={error}
       label="Email"

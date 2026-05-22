@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
-import { SignUpField } from './sign-up-field';
+import { AuthField } from '../../../components';
 
 type NameFieldProps = {
   error?: string;
@@ -21,7 +21,7 @@ export function NameField({
   registration,
 }: NameFieldProps): ReactElement {
   return (
-    <SignUpField
+    <AuthField
       autoComplete="name"
       error={error}
       hint="3-50 characters, letters only."

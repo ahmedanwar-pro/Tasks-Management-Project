@@ -2,8 +2,7 @@ import { useState } from 'react';
 import type { ReactElement } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 import { IconButton } from '@/components/ui';
-import { EyeIcon, EyeOffIcon } from './sign-up-icons';
-import { SignUpField } from './sign-up-field';
+import { AuthField, EyeIcon, EyeOffIcon } from '../../../components';
 
 type ConfirmPasswordFieldProps = {
   error?: string;
@@ -18,7 +17,7 @@ export function ConfirmPasswordField({
   const inputType = isPasswordVisible ? 'text' : 'password';
 
   return (
-    <SignUpField
+    <AuthField
       autoComplete="new-password"
       error={error}
       iconRight={

@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
-import { SignUpField } from './sign-up-field';
+import { AuthField } from '../../../components';
 
 type JobTitleFieldProps = {
   error?: string;
@@ -24,7 +24,7 @@ export function JobTitleField({
   registration,
 }: JobTitleFieldProps): ReactElement {
   return (
-    <SignUpField
+    <AuthField
       autoComplete="organization-title"
       error={error}
       label={<JobTitleLabel />}
