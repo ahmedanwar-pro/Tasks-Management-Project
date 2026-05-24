@@ -4,8 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import type { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, FormError } from '@/components/ui';
-import { EmailField } from '../../../components';
+import { FormError } from '@/components/ui';
+import { AuthSubmitButton, EmailField } from '../../../components';
 import { ConfirmPasswordField } from './confirm-password-field';
 import { JobTitleField } from './job-title-field';
 import { NameField } from './name-field';
@@ -99,15 +99,9 @@ export function SignUpForm(): ReactElement {
 
       {signUpError ? <FormError message={signUpError.message} /> : null}
 
-      <Button
-        className="text-body-md h-(--control-height-2xl) rounded-md leading-relaxed md:h-(--control-height-xl) md:rounded-sm"
-        fullWidth
-        isLoading={isSignUpPending}
-        size="lg"
-        type="submit"
-      >
+      <AuthSubmitButton isLoading={isSignUpPending}>
         Create Account
-      </Button>
+      </AuthSubmitButton>
     </form>
   );
 }

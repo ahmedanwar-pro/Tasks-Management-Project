@@ -1,7 +1,4 @@
-const uppercasePattern = /[A-Z]/;
-const lowercasePattern = /[a-z]/;
-const digitPattern = /\d/;
-const specialCharacterPattern = /[!@#$%^&*]/;
+import { passwordPolicy } from '@/features/auth/utils';
 
 export type PasswordChecklistItem = {
   isValid: boolean;
@@ -11,18 +8,18 @@ export type PasswordChecklistItem = {
 export function getPasswordChecklist(value: string): PasswordChecklistItem[] {
   return [
     {
-      isValid: value.length >= 8,
+      isValid: passwordPolicy.hasMinimumLength(value),
       label: 'At least 8 characters',
     },
     {
       isValid:
-        uppercasePattern.test(value) &&
-        lowercasePattern.test(value) &&
-        digitPattern.test(value),
+        passwordPolicy.hasUppercase(value) &&
+        passwordPolicy.hasLowercase(value) &&
+        passwordPolicy.hasDigit(value),
       label: 'One uppercase, lowercase, and digit',
     },
     {
-      isValid: specialCharacterPattern.test(value),
+      isValid: passwordPolicy.hasSpecialCharacter(value),
       label: 'One special character',
     },
   ];

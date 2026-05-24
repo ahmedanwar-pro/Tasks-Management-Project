@@ -1,5 +1,10 @@
-import type { JSX } from "react";
+import type { ReactElement } from 'react';
+import { ResetPasswordContent, ResetPasswordLayout } from './components';
 
-export function ResetPasswordScreen(): JSX.Element {
-  return <div>ResetPasswordScreen</div>;
+export function ResetPasswordScreen(): ReactElement {
+  return (
+    <ResetPasswordLayout>
+      <ResetPasswordContent />
+    </ResetPasswordLayout>
+  );
 }

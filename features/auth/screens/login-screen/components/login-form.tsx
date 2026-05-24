@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, FormError } from '@/components/ui';
-import { EmailField } from '../../../components';
+import { FormError } from '@/components/ui';
+import { AuthSubmitButton, EmailField } from '../../../components';
 import { RememberMeField } from './remember-me-field';
 import { PasswordField } from './password-field';
 import { useLoginMutation } from '../hooks/use-login-mutation';
@@ -43,11 +43,11 @@ export function LoginForm(): ReactElement {
     }
   }
 
-  function handleLogin({ email, password }: LoginFormValues) {
+  function handleLogin({ email, password, rememberMe }: LoginFormValues) {
     resetLogin();
 
     login(
-      { email, password },
+      { email, password, rememberMe },
       {
         onSuccess: () => router.push('/projects'),
       },
@@ -82,15 +82,7 @@ export function LoginForm(): ReactElement {
 
       {loginError ? <FormError message={loginError.message} /> : null}
 
-      <Button
-        className="text-body-md h-(--control-height-2xl) rounded-md leading-relaxed md:h-(--control-height-xl) md:rounded-sm"
-        fullWidth
-        isLoading={isLoginPending}
-        size="lg"
-        type="submit"
-      >
-        Log in
-      </Button>
+      <AuthSubmitButton isLoading={isLoginPending}>Log in</AuthSubmitButton>
     </form>
   );
 }
