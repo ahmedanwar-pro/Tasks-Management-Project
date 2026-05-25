@@ -1,4 +1,1 @@
-export type AppUser = {
-  name: string;
-  jobTitle?: string;
-};
+export type { UserProfile as AppUser } from '@/store/features/user/types';

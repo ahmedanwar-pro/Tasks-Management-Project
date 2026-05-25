@@ -3,6 +3,9 @@
 import type { User } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { clearUser, setUser } from '@/store/features/user/user-slice';
+import { selectCurrentUser } from '@/store/features/user/user-selectors';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import type { AppUser } from '../types';
 
 const fallbackUserName = 'User';
@@ -23,7 +26,8 @@ function mapCurrentUser(user: User | null): AppUser | null {
 }
 
 export function useCurrentUser() {
-  const [user, setUser] = useState<AppUser | null>(null);
+  const user = useAppSelector(selectCurrentUser);
+  const dispatch = useAppDispatch();
   const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
@@ -31,17 +35,24 @@ export function useCurrentUser() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
-        setUser(null);
+        dispatch(clearUser());
         setIsPending(false);
         return;
       }
 
-      setUser(mapCurrentUser(session?.user ?? null));
+      const currentUser = mapCurrentUser(session?.user ?? null);
+
+      if (currentUser) {
+        dispatch(setUser(currentUser));
+      } else {
+        dispatch(clearUser());
+      }
+
       setIsPending(false);
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [dispatch]);
 
   return { data: user, isPending };
 }
