@@ -88,6 +88,15 @@ export function setAuthSessionPersistence(rememberMe: boolean) {
   };
 }
 
+export function clearAuthSessionPersistence() {
+  if (!isBrowser()) {
+    return;
+  }
+
+  window.localStorage.removeItem(sessionOnlyPreferenceKey);
+  window.sessionStorage.removeItem(sessionOnlyPreferenceKey);
+}
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,

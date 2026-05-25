@@ -46,8 +46,10 @@ export function LoggedInAppLayout({
     <div className="bg-background text-text-primary min-h-dvh font-sans">
       <AppHeader
         initials={initials}
+        isLogoutPending={isLogoutPending}
         isUserLoading={isPending || isUnauthorized}
         menuOpen={drawerOpen}
+        onLogout={handleLogout}
         onOpenMenu={() => setDrawerOpen(true)}
         sidebarCollapsed={sidebarCollapsed}
         user={user ?? null}

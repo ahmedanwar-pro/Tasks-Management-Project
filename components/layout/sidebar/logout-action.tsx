@@ -7,13 +7,17 @@ type LogoutActionProps = {
   collapsed?: boolean;
   isPending: boolean;
   onLogout: () => void;
+  presentation?: 'sidebar' | 'menu';
 };
 
 export function LogoutAction({
   collapsed = false,
   isPending,
   onLogout,
+  presentation = 'sidebar',
 }: LogoutActionProps): ReactElement {
+  const menuItem = presentation === 'menu';
+
   return (
     <button
       aria-busy={isPending || undefined}
@@ -22,10 +26,12 @@ export function LogoutAction({
       }
       className={joinClasses(
         'focus-visible:outline-primary text-danger text-body-sm leading-base flex items-center rounded-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-60',
+        menuItem && 'transition-colors hover:bg-surface-muted',
         collapsed ? 'size-12 justify-center' : 'h-10 w-full gap-3 px-3',
       )}
       disabled={isPending}
       onClick={onLogout}
+      role={menuItem ? 'menuitem' : undefined}
       title={collapsed ? (isPending ? 'Logging out...' : 'Logout') : undefined}
       type="button"
     >

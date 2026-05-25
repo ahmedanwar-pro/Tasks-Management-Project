@@ -6,18 +6,22 @@ import { MobileHeaderBrand } from './mobile-header-brand';
 type AppHeaderProps = {
   user: AppUser | null;
   initials?: string;
+  isLogoutPending: boolean;
   isUserLoading: boolean;
   menuOpen: boolean;
   sidebarCollapsed: boolean;
+  onLogout: () => void;
   onOpenMenu: () => void;
 };
 
 export function AppHeader({
   user,
   initials,
+  isLogoutPending,
   isUserLoading,
   menuOpen,
   sidebarCollapsed,
+  onLogout,
   onOpenMenu,
 }: AppHeaderProps): ReactElement {
   return (
@@ -30,7 +34,13 @@ export function AppHeader({
       <div aria-hidden="true" className="hidden lg:block" />
 
       <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-        <HeaderUser initials={initials} isLoading={isUserLoading} user={user} />
+        <HeaderUser
+          initials={initials}
+          isLoading={isUserLoading}
+          isLogoutPending={isLogoutPending}
+          onLogout={onLogout}
+          user={user}
+        />
       </div>
     </header>
   );

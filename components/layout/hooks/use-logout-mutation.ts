@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
+import { clearAuthSessionPersistence, supabase } from '@/lib/supabase';
 
 async function logout(): Promise<void> {
   const { error } = await supabase.auth.signOut({ scope: 'local' });
@@ -9,6 +9,8 @@ async function logout(): Promise<void> {
   if (error) {
     throw error;
   }
+
+  clearAuthSessionPersistence();
 }
 
 export function useLogoutMutation() {

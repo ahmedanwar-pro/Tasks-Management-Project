@@ -1,11 +1,14 @@
 import type { ReactElement } from 'react';
-import { Avatar, Skeleton } from '@/components/ui';
+import { Skeleton } from '@/components/ui';
 import type { AppUser } from '../types';
+import { HeaderUserMenu } from './header-user-menu';
 
 type HeaderUserProps = {
   user: AppUser | null;
   initials?: string;
   isLoading: boolean;
+  isLogoutPending: boolean;
+  onLogout: () => void;
 };
 
 function HeaderUserLoadingState(): ReactElement {
@@ -28,6 +31,8 @@ export function HeaderUser({
   user,
   initials,
   isLoading,
+  isLogoutPending,
+  onLogout,
 }: HeaderUserProps): ReactElement {
   const displayName = user?.name ?? 'User';
 
@@ -47,11 +52,11 @@ export function HeaderUser({
           </span>
         ) : null}
       </div>
-      <Avatar
-        className="bg-primary-container! text-text-inverse! lg:rounded-md!"
+      <HeaderUserMenu
+        displayName={displayName}
         initials={initials}
-        name={displayName}
-        size="xl"
+        isLogoutPending={isLogoutPending}
+        onLogout={onLogout}
       />
     </>
   );
