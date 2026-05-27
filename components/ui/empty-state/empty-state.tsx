@@ -3,9 +3,11 @@ import { joinClasses } from '../utils';
 
 type EmptyStateVariant = 'framed' | 'plain' | 'add';
 type EmptyStateSize = 'sm' | 'md' | 'lg';
+type EmptyStateTitleElement = 'h1' | 'h2';
 
 type EmptyStateProps = {
   title?: ReactNode;
+  titleAs?: EmptyStateTitleElement;
   description?: ReactNode;
   icon?: ReactNode;
   action?: ReactNode;
@@ -49,6 +51,7 @@ const descriptionClasses: Record<EmptyStateSize, string> = {
 
 export function EmptyState({
   title,
+  titleAs: Title = 'h2',
   description,
   icon,
   action,
@@ -73,7 +76,7 @@ export function EmptyState({
         </div>
       ) : null}
       <div className="flex max-w-full flex-col items-center gap-2">
-        {title ? <h2 className={titleClasses[size]}>{title}</h2> : null}
+        {title ? <Title className={titleClasses[size]}>{title}</Title> : null}
         {description ? (
           <p className={descriptionClasses[size]}>{description}</p>
         ) : null}

@@ -12,8 +12,7 @@ export function ProjectFormActions({
   return (
     <div className="flex flex-col gap-4 pt-4 lg:flex-row-reverse lg:items-center lg:justify-between">
       <Button
-        className="rounded-md lg:w-auto! lg:rounded-sm"
-        fullWidth
+        className="text-body-md! h-(--control-height-2xl)! self-center rounded-md px-8! leading-relaxed! font-semibold!"
         isLoading={isLoading}
         loadingText="Creating project"
         size="lg"
