@@ -2,11 +2,19 @@ import Link from 'next/link';
 import type { ReactElement } from 'react';
 import { Button } from '@/components/ui';
 
-export function EditProjectFormActions(): ReactElement {
+type EditProjectFormActionsProps = {
+  isLoading: boolean;
+};
+
+export function EditProjectFormActions({
+  isLoading,
+}: EditProjectFormActionsProps): ReactElement {
   return (
     <div className="flex flex-col gap-4 pt-4 lg:flex-row-reverse lg:items-center lg:justify-between">
       <Button
         className="text-body-md! h-(--control-height-2xl)! self-center rounded-md px-8! leading-relaxed! font-semibold!"
+        isLoading={isLoading}
+        loadingText="Saving project"
         size="lg"
         type="submit"
       >
