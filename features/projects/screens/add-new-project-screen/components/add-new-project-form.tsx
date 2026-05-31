@@ -3,15 +3,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
-import { ProjectDescriptionField } from './project-description-field';
+import {
+  ProjectDescriptionField,
+  ProjectTitleField,
+  projectFormSchema,
+  type ProjectFormValues,
+} from '../../../project-form';
 import { ProjectFormActions } from './project-form-actions';
-import { ProjectTitleField } from './project-title-field';
-import { addNewProjectSchema, type AddNewProjectFormValues } from '../utils';
 
 type AddNewProjectFormProps = {
   isLoading: boolean;
   onFieldChange: () => void;
-  onSubmit: (values: AddNewProjectFormValues, onSuccess: () => void) => void;
+  onSubmit: (values: ProjectFormValues, onSuccess: () => void) => void;
 };
 
 export function AddNewProjectForm({
@@ -25,20 +28,20 @@ export function AddNewProjectForm({
     register,
     reset,
     watch,
-  } = useForm<AddNewProjectFormValues>({
+  } = useForm<ProjectFormValues>({
     defaultValues: {
       description: '',
       name: '',
     },
     mode: 'onSubmit',
     reValidateMode: 'onChange',
-    resolver: zodResolver(addNewProjectSchema),
+    resolver: zodResolver(projectFormSchema),
   });
 
   // eslint-disable-next-line react-hooks/incompatible-library -- The character count must update while typing.
   const descriptionValue = watch('description');
 
-  function handleCreateProject(values: AddNewProjectFormValues): void {
+  function handleCreateProject(values: ProjectFormValues): void {
     onSubmit(values, () => reset());
   }
 

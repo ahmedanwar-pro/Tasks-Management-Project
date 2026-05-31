@@ -7,18 +7,16 @@ import { useForm } from 'react-hook-form';
 import {
   ProjectDescriptionField,
   ProjectTitleField,
-} from '../../add-new-project-screen/components';
-import {
-  addNewProjectSchema,
-  type AddNewProjectFormValues,
-} from '../../add-new-project-screen/utils';
+  projectFormSchema,
+  type ProjectFormValues,
+} from '../../../project-form';
 import { EditProjectFormActions } from './edit-project-form-actions';
 
 type EditProjectFormProps = {
-  initialValues: AddNewProjectFormValues;
+  initialValues: ProjectFormValues;
   isLoading: boolean;
   onFieldChange: () => void;
-  onSubmit: (values: AddNewProjectFormValues) => void;
+  onSubmit: (values: ProjectFormValues) => void;
 };
 
 export function EditProjectForm({
@@ -33,11 +31,11 @@ export function EditProjectForm({
     register,
     reset,
     watch,
-  } = useForm<AddNewProjectFormValues>({
+  } = useForm<ProjectFormValues>({
     defaultValues: initialValues,
     mode: 'onSubmit',
     reValidateMode: 'onChange',
-    resolver: zodResolver(addNewProjectSchema),
+    resolver: zodResolver(projectFormSchema),
   });
 
   // eslint-disable-next-line react-hooks/incompatible-library -- The character count must update while typing.

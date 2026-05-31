@@ -6,8 +6,8 @@ import {
   AddNewProjectPageHeader,
   ProjectFormToast,
 } from './components';
+import type { ProjectFormValues } from '../../project-form';
 import { useCreateProjectMutation } from './hooks/use-create-project-mutation';
-import type { AddNewProjectFormValues } from './utils';
 
 export function AddNewProjectScreen(): ReactElement {
   const {
@@ -25,7 +25,7 @@ export function AddNewProjectScreen(): ReactElement {
   }
 
   function handleCreateProject(
-    { description, name }: AddNewProjectFormValues,
+    { description, name }: ProjectFormValues,
     onSuccess: () => void,
   ): void {
     resetCreateProject();

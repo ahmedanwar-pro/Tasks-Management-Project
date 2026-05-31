@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const addNewProjectSchema = z.object({
+export const projectFormSchema = z.object({
   description: z
     .string()
     .refine(
@@ -21,4 +21,4 @@ export const addNewProjectSchema = z.object({
     ),
 });
 
-export type AddNewProjectFormValues = z.input<typeof addNewProjectSchema>;
+export type ProjectFormValues = z.input<typeof projectFormSchema>;

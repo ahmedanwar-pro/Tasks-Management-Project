@@ -3,9 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import type { ReactElement } from 'react';
+import type { ProjectFormValues } from '../../project-form';
 import { ProjectsLoadingState } from '../projects-list-screen/components';
 import { ProjectFormToast } from '../add-new-project-screen/components';
-import type { AddNewProjectFormValues } from '../add-new-project-screen/utils';
 import { isProjectUnauthorizedError } from './api';
 import { EditProjectCard, EditProjectPageHeader } from './components';
 import { useProjectQuery, useUpdateProjectMutation } from './hooks';
@@ -34,7 +34,7 @@ export function EditProjectScreen({
   const isUnauthorized =
     isProjectUnauthorizedError(projectError) ||
     isProjectUnauthorizedError(updateProjectError);
-  const initialValues = useMemo<AddNewProjectFormValues>(
+  const initialValues = useMemo<ProjectFormValues>(
     () => ({
       description: project?.description ?? '',
       name: project?.name ?? '',
@@ -57,7 +57,7 @@ export function EditProjectScreen({
   function handleUpdateProject({
     description,
     name,
-  }: AddNewProjectFormValues): void {
+  }: ProjectFormValues): void {
     resetUpdateProject();
 
     submitProject({

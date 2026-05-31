@@ -1,13 +1,13 @@
 import type { ReactElement } from 'react';
+import type { ProjectFormValues } from '../../../project-form';
 import { AddNewProjectForm } from './add-new-project-form';
 import { InitializeProjectIntro } from './initialize-project-intro';
 import { ProjectTip } from './project-tip';
-import type { AddNewProjectFormValues } from '../utils';
 
 type AddNewProjectCardProps = {
   isLoading: boolean;
   onFieldChange: () => void;
-  onSubmit: (values: AddNewProjectFormValues, onSuccess: () => void) => void;
+  onSubmit: (values: ProjectFormValues, onSuccess: () => void) => void;
 };
 
 export function AddNewProjectCard({
