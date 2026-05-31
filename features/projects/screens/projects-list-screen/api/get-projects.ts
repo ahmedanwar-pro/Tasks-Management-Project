@@ -1,6 +1,11 @@
 import { supabase } from '@/lib/supabase';
 
-export type GetProjectsRequest = Record<string, never>;
+const getProjectsRpcName = 'get_projects';
+
+export type GetProjectsRequest = {
+  limit: number;
+  offset: number;
+};
 
 export type ProjectResponse = {
   id: string;
@@ -9,7 +14,10 @@ export type ProjectResponse = {
   created_at: string;
 };
 
-export type GetProjectsResponse = ProjectResponse[];
+export type GetProjectsResponse = {
+  projects: ProjectResponse[];
+  totalCount: number;
+};
 
 export class ProjectsUnauthorizedError extends Error {
   readonly status = 401;
@@ -20,11 +28,13 @@ export class ProjectsUnauthorizedError extends Error {
   }
 }
 
-function isUnauthorizedResponse(error: {
+type ProjectsApiError = {
   code?: string;
   message?: string;
   status?: number;
-}): boolean {
+};
+
+function isUnauthorizedResponse(error: ProjectsApiError): boolean {
   return (
     error.status === 401 ||
     error.code === 'PGRST301' ||
@@ -32,7 +42,7 @@ function isUnauthorizedResponse(error: {
   );
 }
 
-export async function getProjects(): Promise<GetProjectsResponse> {
+async function requireProjectsSession(): Promise<void> {
   const {
     data: { session },
     error: sessionError,
@@ -49,11 +59,21 @@ export async function getProjects(): Promise<GetProjectsResponse> {
   if (!session?.access_token) {
     throw new ProjectsUnauthorizedError();
   }
+}
+
+export async function getProjects({
+  limit,
+  offset,
+}: GetProjectsRequest): Promise<GetProjectsResponse> {
+  await requireProjectsSession();
 
   // The configured Supabase client applies its active session token to this RPC.
-  const { data, error } = await supabase.rpc('get_projects', undefined, {
-    get: true,
-  });
+  const { count, data, error } = await supabase
+    .rpc(getProjectsRpcName, undefined, {
+      count: 'exact',
+      get: true,
+    })
+    .range(offset, offset + limit - 1);
 
   if (error) {
     if (isUnauthorizedResponse(error)) {
@@ -63,7 +83,12 @@ export async function getProjects(): Promise<GetProjectsResponse> {
     throw error;
   }
 
-  return (data ?? []) as GetProjectsResponse;
+  const projects = (data ?? []) as ProjectResponse[];
+
+  return {
+    projects,
+    totalCount: count ?? projects.length,
+  };
 }
 
 export function isProjectsUnauthorizedError(

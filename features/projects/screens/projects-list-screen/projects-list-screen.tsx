@@ -1,12 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
-import {
-  isProjectsUnauthorizedError,
-  type ProjectResponse,
-} from './api/get-projects';
+import { isProjectsUnauthorizedError } from './api/get-projects';
 import {
   AddProjectCard,
   MobileCreateProjectButton,
@@ -17,41 +14,61 @@ import {
   ProjectsLoadingState,
   ProjectsPagination,
 } from './components';
-import type { ProjectSummary } from './components';
-import { useProjectsQuery } from './hooks/use-projects-query';
-
-function formatCreatedAt(createdAt: string): string {
-  const date = new Date(createdAt);
-
-  if (Number.isNaN(date.getTime())) {
-    return createdAt;
-  }
-
-  return new Intl.DateTimeFormat('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  }).format(date);
-}
-
-function getCreatedAtDateTime(createdAt: string): string | undefined {
-  return Number.isNaN(new Date(createdAt).getTime()) ? undefined : createdAt;
-}
-
-function mapProject(project: ProjectResponse): ProjectSummary {
-  return {
-    created_at: getCreatedAtDateTime(project.created_at),
-    createdAt: formatCreatedAt(project.created_at),
-    description: project.description ?? '',
-    id: project.id,
-    title: project.name,
-  };
-}
+import {
+  useMoreProjectsQuery,
+  useProjectsQuery,
+} from './hooks/use-projects-query';
+import {
+  useMobileProjectsLoadMore,
+  useMobileProjectsViewport,
+} from './hooks/use-mobile-projects-pagination';
+import {
+  initialProjectsPage,
+  projectsPerPage,
+} from './utils/projects-pagination';
+import { mapProject } from './utils/map-project';
 
 export function ProjectsListScreen(): ReactElement {
   const router = useRouter();
-  const { data, error, isPending, refetch } = useProjectsQuery();
-  const isUnauthorized = isProjectsUnauthorizedError(error);
+  const [currentPage, setCurrentPage] = useState(initialProjectsPage);
+  const resetToFirstPage = useCallback(() => {
+    setCurrentPage(initialProjectsPage);
+  }, []);
+  const isMobileViewport = useMobileProjectsViewport(resetToFirstPage);
+  const { data, error, isPending, refetch } = useProjectsQuery(
+    currentPage,
+    projectsPerPage,
+  );
+  const {
+    data: moreProjectsData,
+    error: moreProjectsError,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useMoreProjectsQuery(projectsPerPage);
+  const firstPageProjects = data?.projects ?? [];
+  const additionalMobileProjects =
+    moreProjectsData?.pages.flatMap((page) => page.projects) ?? [];
+  const displayedProjectResponses = isMobileViewport
+    ? [...firstPageProjects, ...additionalMobileProjects]
+    : firstPageProjects;
+  const hasMoreMobileProjects =
+    isMobileViewport &&
+    data !== undefined &&
+    displayedProjectResponses.length < data.totalCount;
+  const visibleError =
+    error ?? (isMobileViewport ? moreProjectsError : undefined);
+  const isUnauthorized =
+    isProjectsUnauthorizedError(error) ||
+    isProjectsUnauthorizedError(moreProjectsError);
+  const fetchMoreProjects = useCallback(() => {
+    void fetchNextPage();
+  }, [fetchNextPage]);
+  const loadMoreRef = useMobileProjectsLoadMore({
+    hasMoreProjects: hasMoreMobileProjects,
+    isFetchingNextPage,
+    onFetchNextPage: fetchMoreProjects,
+    visibleError,
+  });
 
   useEffect(() => {
     if (isUnauthorized) {
@@ -59,15 +76,21 @@ export function ProjectsListScreen(): ReactElement {
     }
   }, [isUnauthorized, router]);
 
+  const retryProjects = error ? refetch : fetchNextPage;
+
   if (isPending || isUnauthorized) {
     return <ProjectsLoadingState />;
   }
 
-  if (error) {
-    return <ProjectsErrorState onRetry={() => void refetch()} />;
+  if (visibleError) {
+    return <ProjectsErrorState onRetry={() => void retryProjects()} />;
   }
 
-  const projects = data.map(mapProject);
+  if (!data) {
+    return <ProjectsLoadingState />;
+  }
+
+  const projects = displayedProjectResponses.map(mapProject);
 
   if (projects.length === 0) {
     return <ProjectsEmptyState />;
@@ -93,7 +116,24 @@ export function ProjectsListScreen(): ReactElement {
         <AddProjectCard />
       </div>
 
-      <ProjectsPagination projectCount={projects.length} />
+      {hasMoreMobileProjects && (
+        <div
+          aria-live="polite"
+          className="text-text-secondary flex min-h-12 items-center justify-center pt-4 text-[12px] font-medium md:hidden"
+          ref={loadMoreRef}
+          role={isFetchingNextPage ? 'status' : undefined}
+        >
+          {isFetchingNextPage ? 'Loading more projects...' : null}
+        </div>
+      )}
+
+      <ProjectsPagination
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        pageSize={projectsPerPage}
+        projectCount={projects.length}
+        totalCount={data.totalCount}
+      />
       <MobileCreateProjectButton />
     </section>
   );
