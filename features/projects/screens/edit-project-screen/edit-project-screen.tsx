@@ -73,7 +73,7 @@ export function EditProjectScreen({
 
   return (
     <section className="mx-auto w-full max-w-7xl px-6 pt-8 pb-12 lg:px-8">
-      <EditProjectPageHeader />
+      <EditProjectPageHeader projectName={project?.name} />
 
       <ProjectFormToast
         error={visibleError ? visibleError.message : undefined}

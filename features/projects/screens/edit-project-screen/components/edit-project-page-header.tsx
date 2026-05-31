@@ -41,7 +41,15 @@ function BreadcrumbDivider(): ReactElement {
   );
 }
 
-export function EditProjectPageHeader(): ReactElement {
+type EditProjectPageHeaderProps = {
+  projectName?: string | null;
+};
+
+export function EditProjectPageHeader({
+  projectName,
+}: EditProjectPageHeaderProps): ReactElement {
+  const breadcrumbProjectName = projectName?.trim() || 'Project';
+
   return (
     <header className="hidden items-end justify-between pb-10 lg:flex">
       <div className="flex flex-col gap-4">
@@ -56,7 +64,7 @@ export function EditProjectPageHeader(): ReactElement {
             Projects
           </Link>
           <BreadcrumbDivider />
-          <span>Project Title</span>
+          <span>{breadcrumbProjectName}</span>
           <BreadcrumbDivider />
           <span className="text-primary">Edit</span>
         </nav>
