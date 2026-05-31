@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import Link from 'next/link';
 import { Card } from '@/components/ui';
-import { CalendarIcon, MoreIcon } from './projects-list-icons';
+import { CalendarIcon, EditIcon } from './projects-list-icons';
 
 type ProjectSummary = {
   id: string;
@@ -29,13 +29,13 @@ function ProjectCardDetails({ project }: ProjectCardSectionProps): ReactElement 
         >
           {project.title}
         </h2>
-        <button
-          aria-label={`More options for ${project.title}`}
-          className="text-text-subtle hover:text-text-secondary focus-visible:outline-primary relative z-20 flex h-5 w-4 shrink-0 items-center justify-end focus-visible:outline lg:hidden"
-          type="button"
+        <Link
+          aria-label={`Edit ${project.title}`}
+          className="text-text-subtle hover:text-text-secondary focus-visible:outline-primary relative z-20 flex h-5 w-4 shrink-0 items-center justify-end focus-visible:outline"
+          href={`/projects/${project.id}/edit`}
         >
-          <MoreIcon />
-        </button>
+          <EditIcon />
+        </Link>
       </div>
       <p
         className="text-body-sm text-text-secondary mt-6 line-clamp-2 leading-[22.75px] lg:mt-3 lg:line-clamp-none"

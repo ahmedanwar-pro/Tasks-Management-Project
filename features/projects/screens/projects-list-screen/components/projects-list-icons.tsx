@@ -39,6 +39,26 @@ export function MoreIcon(): ReactElement {
   );
 }
 
+export function EditIcon(): ReactElement {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 16 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m9.75 3.25 3 3M3.5 12.5l3.2-.62 6.18-6.18a1.41 1.41 0 0 0-2-2L4.7 9.88 3.5 12.5Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.4"
+      />
+    </svg>
+  );
+}
+
 export function CalendarIcon(): ReactElement {
   return (
     <svg

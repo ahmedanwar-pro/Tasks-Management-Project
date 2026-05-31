@@ -1,0 +1,23 @@
+import Link from 'next/link';
+import type { ReactElement } from 'react';
+import { Button } from '@/components/ui';
+
+export function EditProjectFormActions(): ReactElement {
+  return (
+    <div className="flex flex-col gap-4 pt-4 lg:flex-row-reverse lg:items-center lg:justify-between">
+      <Button
+        className="text-body-md! h-(--control-height-2xl)! self-center rounded-md px-8! leading-relaxed! font-semibold!"
+        size="lg"
+        type="submit"
+      >
+        Save
+      </Button>
+      <Link
+        className="text-primary text-body-md focus-visible:outline-primary lg:text-text-tertiary lg:text-body-sm lg:leading-base flex h-(--control-height-xl) items-center justify-center rounded-md leading-relaxed font-medium focus-visible:outline-2 focus-visible:outline-offset-2 lg:w-auto lg:px-6 lg:font-bold"
+        href="/projects"
+      >
+        Cancel
+      </Link>
+    </div>
+  );
+}
