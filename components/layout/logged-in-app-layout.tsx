@@ -8,6 +8,10 @@ import { useCurrentUser } from './hooks/use-current-user';
 import { useLogoutMutation } from './hooks/use-logout-mutation';
 import { AppSidebar } from './sidebar/app-sidebar';
 import { getActiveNavigationHref } from './sidebar/get-active-navigation-href';
+import {
+  getNavigationItems,
+  getProjectIdFromPathname,
+} from './sidebar/navigation-items';
 import { getUserInitials } from './utils/get-user-initials';
 
 type LoggedInAppLayoutProps = {
@@ -19,6 +23,7 @@ export function LoggedInAppLayout({
 }: LoggedInAppLayoutProps): ReactElement {
   const pathname = usePathname();
   const router = useRouter();
+  const projectId = getProjectIdFromPathname(pathname);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { data: user, isPending } = useCurrentUser();
@@ -59,6 +64,7 @@ export function LoggedInAppLayout({
         collapsed={sidebarCollapsed}
         drawerOpen={drawerOpen}
         isLogoutPending={isLogoutPending}
+        items={getNavigationItems(projectId)}
         logoutError={logoutError}
         onCloseDrawer={() => setDrawerOpen(false)}
         onLogout={handleLogout}

@@ -1,12 +1,14 @@
 import type { ReactElement } from 'react';
 import { Drawer, Logo } from '@/components/ui';
 import { LogoutAction, LogoutError } from './logout-action';
+import type { AppNavigationItem } from './navigation-items';
 import { SidebarNavigation } from './sidebar-navigation';
 
 type MobileSidebarDrawerProps = {
   activeHref: string;
   drawerOpen: boolean;
   isLogoutPending: boolean;
+  items: AppNavigationItem[];
   logoutError: Error | null;
   onCloseDrawer: () => void;
   onLogout: () => void;
@@ -16,6 +18,7 @@ export function MobileSidebarDrawer({
   activeHref,
   drawerOpen,
   isLogoutPending,
+  items,
   logoutError,
   onCloseDrawer,
   onLogout,
@@ -36,7 +39,11 @@ export function MobileSidebarDrawer({
           Close navigation menu
         </button>
         <Logo className="mb-8" />
-        <SidebarNavigation activeHref={activeHref} onNavigate={onCloseDrawer} />
+        <SidebarNavigation
+          activeHref={activeHref}
+          items={items}
+          onNavigate={onCloseDrawer}
+        />
         <div className="border-border-subtle border-t pt-6.25">
           <LogoutAction isPending={isLogoutPending} onLogout={onLogout} />
           {logoutError ? <LogoutError /> : null}

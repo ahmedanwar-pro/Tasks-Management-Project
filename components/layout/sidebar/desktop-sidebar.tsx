@@ -3,12 +3,14 @@ import { Logo } from '@/components/ui';
 import { joinClasses } from '@/components/ui/utils';
 import { LayoutIcon } from '../layout-icons';
 import { LogoutAction, LogoutError } from './logout-action';
+import type { AppNavigationItem } from './navigation-items';
 import { SidebarNavigation } from './sidebar-navigation';
 
 type DesktopSidebarProps = {
   activeHref: string;
   collapsed: boolean;
   isLogoutPending: boolean;
+  items: AppNavigationItem[];
   logoutError: Error | null;
   onLogout: () => void;
   onToggleCollapsed: () => void;
@@ -18,6 +20,7 @@ export function DesktopSidebar({
   activeHref,
   collapsed,
   isLogoutPending,
+  items,
   logoutError,
   onLogout,
   onToggleCollapsed,
@@ -38,7 +41,11 @@ export function DesktopSidebar({
       >
         <Logo variant={collapsed ? 'icon' : 'full'} />
       </div>
-      <SidebarNavigation activeHref={activeHref} collapsed={collapsed} />
+      <SidebarNavigation
+        activeHref={activeHref}
+        collapsed={collapsed}
+        items={items}
+      />
       <div
         className={joinClasses(
           'border-border-subtle flex shrink-0 flex-col border-t',

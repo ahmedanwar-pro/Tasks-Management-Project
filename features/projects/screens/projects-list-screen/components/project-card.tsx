@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import Link from 'next/link';
 import { Card } from '@/components/ui';
 import { CalendarIcon, MoreIcon } from './projects-list-icons';
 
@@ -30,7 +31,7 @@ function ProjectCardDetails({ project }: ProjectCardSectionProps): ReactElement 
         </h2>
         <button
           aria-label={`More options for ${project.title}`}
-          className="text-text-subtle hover:text-text-secondary focus-visible:outline-primary flex h-5 w-4 shrink-0 items-center justify-end focus-visible:outline lg:hidden"
+          className="text-text-subtle hover:text-text-secondary focus-visible:outline-primary relative z-20 flex h-5 w-4 shrink-0 items-center justify-end focus-visible:outline lg:hidden"
           type="button"
         >
           <MoreIcon />
@@ -76,9 +77,14 @@ export function ProjectCard({ project, className }: ProjectCardProps): ReactElem
   return (
     <li className={className}>
       <Card
-        className="pt-4-5 flex h-52.75 flex-col px-5 pb-5 shadow-sm lg:h-55 lg:justify-between lg:p-6 lg:shadow-none"
+        className="pt-4-5 relative flex h-52.75 flex-col px-5 pb-5 shadow-sm lg:h-55 lg:justify-between lg:p-6 lg:shadow-none"
         padding="none"
       >
+        <Link
+          aria-label={`Open epics for ${project.title}`}
+          className="focus-visible:outline-primary absolute inset-0 z-10 rounded-md focus-visible:outline-2 focus-visible:outline-offset-2"
+          href={`/projects/${project.id}/epics`}
+        />
         <ProjectCardDetails project={project} />
         <ProjectCardCreatedAt project={project} />
       </Card>

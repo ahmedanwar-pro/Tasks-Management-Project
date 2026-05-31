@@ -7,35 +7,51 @@ export type AppNavigationItem = {
   icon: LayoutIconName;
 };
 
-export const navigationItems: AppNavigationItem[] = [
-  {
-    label: 'Projects',
-    shortLabel: 'Projects',
-    href: '/projects',
-    icon: 'projects',
-  },
-  {
-    label: 'Project Epics',
-    shortLabel: 'Epics',
-    href: '/projects/demo/epics',
-    icon: 'epics',
-  },
-  {
-    label: 'Project Tasks',
-    shortLabel: 'Tasks',
-    href: '/projects/demo/tasks',
-    icon: 'tasks',
-  },
-  {
-    label: 'Project Members',
-    shortLabel: 'Members',
-    href: '/projects/demo/members',
-    icon: 'members',
-  },
-  {
-    label: 'Project Details',
-    shortLabel: 'Details',
-    href: '/projects/demo/edit',
-    icon: 'details',
-  },
-];
+const projectsNavigationItem: AppNavigationItem = {
+  label: 'Projects',
+  shortLabel: 'Projects',
+  href: '/projects',
+  icon: 'projects',
+};
+
+export function getProjectIdFromPathname(pathname: string): string | undefined {
+  return pathname.match(
+    /^\/projects\/([^/]+)\/(?:tasks|members|epics|edit|analytics)(?:\/|$)/,
+  )?.[1];
+}
+
+export function getNavigationItems(projectId?: string): AppNavigationItem[] {
+  if (!projectId) {
+    return [projectsNavigationItem];
+  }
+
+  const projectBaseHref = `/projects/${projectId}`;
+
+  return [
+    projectsNavigationItem,
+    {
+      label: 'Project Tasks',
+      shortLabel: 'Tasks',
+      href: `${projectBaseHref}/tasks`,
+      icon: 'tasks',
+    },
+    {
+      label: 'Project Members',
+      shortLabel: 'Members',
+      href: `${projectBaseHref}/members`,
+      icon: 'members',
+    },
+    {
+      label: 'Project Epics',
+      shortLabel: 'Epics',
+      href: `${projectBaseHref}/epics`,
+      icon: 'epics',
+    },
+    {
+      label: 'Project Details',
+      shortLabel: 'Details',
+      href: `${projectBaseHref}/edit`,
+      icon: 'details',
+    },
+  ];
+}

@@ -1,18 +1,26 @@
+import { getProjectIdFromPathname } from './navigation-items';
+
 export function getActiveNavigationHref(pathname: string): string {
+  const projectId = getProjectIdFromPathname(pathname);
+
+  if (!projectId) {
+    return '/projects';
+  }
+
   if (/^\/projects\/[^/]+\/members(?:\/|$)/.test(pathname)) {
-    return '/projects/demo/members';
+    return `/projects/${projectId}/members`;
   }
 
   if (/^\/projects\/[^/]+\/tasks(?:\/|$)/.test(pathname)) {
-    return '/projects/demo/tasks';
+    return `/projects/${projectId}/tasks`;
   }
 
   if (/^\/projects\/[^/]+\/epics(?:\/|$)/.test(pathname)) {
-    return '/projects/demo/epics';
+    return `/projects/${projectId}/epics`;
   }
 
   if (/^\/projects\/[^/]+\/edit(?:\/|$)/.test(pathname)) {
-    return '/projects/demo/edit';
+    return `/projects/${projectId}/edit`;
   }
 
   return '/projects';

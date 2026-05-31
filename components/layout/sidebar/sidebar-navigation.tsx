@@ -2,17 +2,19 @@ import Link from 'next/link';
 import type { ReactElement } from 'react';
 import { joinClasses } from '@/components/ui/utils';
 import { LayoutIcon } from '../layout-icons';
-import { navigationItems } from './navigation-items';
+import type { AppNavigationItem } from './navigation-items';
 
 type SidebarNavigationProps = {
   activeHref: string;
   collapsed?: boolean;
+  items: AppNavigationItem[];
   onNavigate?: () => void;
 };
 
 export function SidebarNavigation({
   activeHref,
   collapsed = false,
+  items,
   onNavigate,
 }: SidebarNavigationProps): ReactElement {
   return (
@@ -23,7 +25,7 @@ export function SidebarNavigation({
         collapsed ? 'gap-4' : 'gap-1',
       )}
     >
-      {navigationItems.map((item) => {
+      {items.map((item) => {
         const active = item.href === activeHref;
 
         return (

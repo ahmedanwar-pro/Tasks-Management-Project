@@ -2,21 +2,23 @@ import Link from 'next/link';
 import type { ReactElement } from 'react';
 import { joinClasses } from '@/components/ui/utils';
 import { LayoutIcon } from '../layout-icons';
-import { navigationItems } from './navigation-items';
+import type { AppNavigationItem } from './navigation-items';
 
 type MobileBottomNavigationProps = {
   activeHref: string;
+  items: AppNavigationItem[];
 };
 
 export function MobileBottomNavigation({
   activeHref,
+  items,
 }: MobileBottomNavigationProps): ReactElement {
   return (
     <nav
       aria-label="Primary mobile"
       className="bg-surface-low fixed inset-x-0 bottom-0 z-20 flex h-16 items-center justify-around px-4 sm:hidden"
     >
-      {navigationItems.map((item) => {
+      {items.map((item) => {
         const active = item.href === activeHref;
 
         return (
