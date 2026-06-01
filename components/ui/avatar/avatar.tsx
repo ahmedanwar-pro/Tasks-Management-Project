@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { HTMLAttributes, ReactElement } from 'react';
+import { getUserInitials } from '@/components/layout/utils/get-user-initials';
 import { joinClasses } from '../utils';
 
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -41,20 +42,6 @@ const statusSizeClasses: Record<AvatarSize, string> = {
   '2xl': 'size-2.5',
 };
 
-function getInitials(name?: string): string {
-  if (!name) {
-    return '';
-  }
-
-  return name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part.charAt(0))
-    .join('')
-    .toUpperCase();
-}
-
 export function Avatar({
   src,
   initials,
@@ -64,7 +51,7 @@ export function Avatar({
   className,
   ...props
 }: AvatarProps): ReactElement {
-  const avatarInitials = initials ?? getInitials(name);
+  const avatarInitials = initials ?? getUserInitials(name ?? '');
   const label = name ?? avatarInitials;
   const ariaLabel = status && label ? `${label}, ${status}` : label;
 
