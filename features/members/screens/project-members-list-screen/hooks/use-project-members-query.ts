@@ -8,8 +8,9 @@ import {
 
 const defaultClientRetryCount = 3;
 
-export function useProjectMembersQuery(projectId: string) {
+export function useProjectMembersQuery(projectId: string, enabled = true) {
   return useQuery({
+    enabled,
     queryFn: () => getProjectMembers(projectId),
     queryKey: ['project-members', projectId] as const,
     retry: (failureCount, error) =>

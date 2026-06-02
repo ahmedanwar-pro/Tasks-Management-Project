@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent } from 'react';
+import { useProjectMembersQuery } from '@/features/members/screens/project-members-list-screen/hooks';
 import type { AssigneeOption } from '../utils';
 import { mapAssigneeOption } from '../utils';
-import { useAddNewEpicMembersQuery } from './use-add-new-epic-members-query';
 
 type UseEpicAssigneeDropdownParams = {
   projectId: string;
@@ -32,7 +32,7 @@ export function useEpicAssigneeDropdown({
     error,
     isPending: isMembersPending,
     refetch: refetchMembers,
-  } = useAddNewEpicMembersQuery(projectId, shouldLoadMembers);
+  } = useProjectMembersQuery(projectId, shouldLoadMembers);
   const members = (data?.members ?? []).map(mapAssigneeOption);
   const isMembersLoading = shouldLoadMembers && isMembersPending;
   const hasError = Boolean(error);
