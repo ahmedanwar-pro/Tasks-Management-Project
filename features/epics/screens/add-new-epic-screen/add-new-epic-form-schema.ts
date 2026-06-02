@@ -10,6 +10,7 @@ function getTodayDateInputValue(): string {
 }
 
 export const addNewEpicFormSchema = z.object({
+  assigneeId: z.string(),
   deadline: z
     .string()
     .refine(

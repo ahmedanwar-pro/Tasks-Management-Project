@@ -27,6 +27,11 @@ export type ProjectMemberResponse = {
   user_id?: string | null;
   profile_id?: string | null;
   project_id?: string | null;
+  metadata?: {
+    id?: string | null;
+    name?: string | null;
+    email?: string | null;
+  } | null;
   name?: string | null;
   full_name?: string | null;
   display_name?: string | null;
