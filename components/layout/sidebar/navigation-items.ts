@@ -30,6 +30,12 @@ export function getNavigationItems(projectId?: string): AppNavigationItem[] {
   return [
     projectsNavigationItem,
     {
+      label: 'Project Epics',
+      shortLabel: 'Epics',
+      href: `${projectBaseHref}/epics`,
+      icon: 'epics',
+    },
+    {
       label: 'Project Tasks',
       shortLabel: 'Tasks',
       href: `${projectBaseHref}/tasks`,
@@ -40,12 +46,6 @@ export function getNavigationItems(projectId?: string): AppNavigationItem[] {
       shortLabel: 'Members',
       href: `${projectBaseHref}/members`,
       icon: 'members',
-    },
-    {
-      label: 'Project Epics',
-      shortLabel: 'Epics',
-      href: `${projectBaseHref}/epics`,
-      icon: 'epics',
     },
     {
       label: 'Project Details',
