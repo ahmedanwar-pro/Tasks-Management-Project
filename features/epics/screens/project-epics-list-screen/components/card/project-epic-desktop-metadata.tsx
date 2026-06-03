@@ -10,7 +10,7 @@ export function ProjectEpicDesktopMetadata({
   epic,
 }: ProjectEpicDesktopMetadataProps): ReactElement {
   return (
-    <div className="border-surface-low hidden border-t pt-[17px] lg:flex lg:items-center lg:justify-between">
+    <div className="border-surface-low hidden border-t pt-4.25 lg:flex lg:items-center lg:justify-between">
       <p className="text-text-secondary/80 flex min-w-0 items-center gap-2 text-[11px] leading-[16.5px]">
         <CreatedByIcon className="h-[9.917px] w-[11.083px]" />
         <span className="truncate">

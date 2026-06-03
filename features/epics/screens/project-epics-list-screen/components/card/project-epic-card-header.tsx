@@ -16,7 +16,7 @@ export function ProjectEpicCardHeader({
   return (
     <div className="flex items-start justify-between">
       <Badge
-        className="h-[25px] w-[72px] bg-[#dae2ff] px-2 py-1 text-[11px] leading-[16.5px] tracking-[0.55px] text-primary uppercase xl:h-[23px] xl:w-auto xl:bg-success xl:px-2.5 xl:py-1 xl:text-[10px] xl:leading-compact xl:tracking-[0.5px] xl:text-[#005235]"
+        className="text-primary xl:bg-success xl:leading-compact h-6.25 w-18 bg-[#dae2ff] px-2 py-1 text-[11px] leading-[16.5px] tracking-[0.55px] uppercase xl:h-[23px] xl:w-auto xl:px-2.5 xl:py-1 xl:text-[10px] xl:tracking-[0.5px] xl:text-[#005235]"
         size="sm"
         variant="success"
       >

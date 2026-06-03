@@ -6,7 +6,7 @@ import { ProjectEpicsSearchInput } from './project-epics-search-input';
 
 type ProjectEpicsHeaderProps = {
   projectId: string;
-  projectName: string;
+  projectName?: string | null;
 };
 
 export function ProjectEpicsHeader({

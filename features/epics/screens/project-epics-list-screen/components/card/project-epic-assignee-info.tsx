@@ -16,6 +16,7 @@ export function ProjectEpicAssigneeInfo({
         initials={epic.assignee.initials}
         name={epic.assignee.name}
         size="lg"
+        src={epic.assignee.avatarUrl}
       />
       <div className="min-w-0 xl:flex xl:flex-col-reverse">
         <p className="text-text-primary xl:text-body-sm xl:leading-base truncate text-[12px] leading-tight font-medium xl:font-semibold">

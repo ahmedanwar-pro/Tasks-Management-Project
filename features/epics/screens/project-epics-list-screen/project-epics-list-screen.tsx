@@ -1,11 +1,8 @@
+'use client';
+
 import type { ReactElement } from 'react';
-import {
-  ProjectEpicsFloatingAddButton,
-  ProjectEpicsHeader,
-  ProjectEpicsList,
-  ProjectEpicsPagination,
-} from './components';
-import { sampleEpics } from './utils';
+import { ProjectEpicsListScreenContent } from './components';
+import { useProjectEpicsListScreenData } from './hooks';
 
 type ProjectEpicsListScreenProps = {
   projectId: string;
@@ -14,22 +11,17 @@ type ProjectEpicsListScreenProps = {
 export function ProjectEpicsListScreen({
   projectId,
 }: ProjectEpicsListScreenProps): ReactElement {
-  const projectName = 'Project Name';
+  const { currentPage, epics, pageSize, projectName, totalCount } =
+    useProjectEpicsListScreenData(projectId);
 
   return (
-    <section
-      aria-labelledby="project-epics-title"
-      className="relative mx-auto flex w-full max-w-7xl flex-col px-6 pt-6 pb-32 md:px-8 lg:min-h-[calc(100dvh-4rem)] lg:px-8 lg:pt-8 lg:pb-8"
-    >
-      <ProjectEpicsHeader projectId={projectId} projectName={projectName} />
-      <ProjectEpicsList epics={sampleEpics} />
-      <ProjectEpicsPagination
-        currentPage={1}
-        pageSize={6}
-        totalCount={24}
-        visibleCount={sampleEpics.length}
-      />
-      <ProjectEpicsFloatingAddButton projectId={projectId} />
-    </section>
+    <ProjectEpicsListScreenContent
+      currentPage={currentPage}
+      epics={epics}
+      pageSize={pageSize}
+      projectId={projectId}
+      projectName={projectName}
+      totalCount={totalCount}
+    />
   );
 }
