@@ -5,7 +5,7 @@ import { ProjectEpicsEmptyState } from './list/empty-state';
 import { ProjectEpicsErrorState } from './list/project-epics-error-state';
 import { ProjectEpicsFloatingAddButton } from './list/project-epics-floating-add-button';
 import { ProjectEpicsList } from './list/project-epics-list';
-import { ProjectEpicsLoadingList } from './list/project-epics-loading-list';
+import { ProjectEpicsLoadingList } from './list/loading';
 import { ProjectEpicsPagination } from './list/project-epics-pagination';
 
 type ProjectEpicsListScreenContentProps = {

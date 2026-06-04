@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { ProjectEpicLoadingCard } from './loading/project-epic-loading-card';
+import { ProjectEpicLoadingCard } from './project-epic-loading-card';
 
 const loadingCards = Array.from({ length: 6 }, (_, index) => index);
 
