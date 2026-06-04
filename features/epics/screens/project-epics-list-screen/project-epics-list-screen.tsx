@@ -11,14 +11,24 @@ type ProjectEpicsListScreenProps = {
 export function ProjectEpicsListScreen({
   projectId,
 }: ProjectEpicsListScreenProps): ReactElement {
-  const { currentPage, epics, isLoading, pageSize, projectName, totalCount } =
-    useProjectEpicsListScreenData(projectId);
+  const {
+    currentPage,
+    epics,
+    isError,
+    isLoading,
+    onRetry,
+    pageSize,
+    projectName,
+    totalCount,
+  } = useProjectEpicsListScreenData(projectId);
 
   return (
     <ProjectEpicsListScreenContent
       currentPage={currentPage}
       epics={epics}
+      isError={isError}
       isLoading={isLoading}
+      onRetry={onRetry}
       pageSize={pageSize}
       projectId={projectId}
       projectName={projectName}

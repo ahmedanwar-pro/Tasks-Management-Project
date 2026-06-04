@@ -2,7 +2,9 @@ import type { ReactElement } from 'react';
 import { Button } from '@/components/ui';
 
 type ProjectsErrorStateProps = {
+  description?: string;
   onRetry: () => void;
+  title?: string;
 };
 
 function ConnectionErrorIcon(): ReactElement {
@@ -26,7 +28,9 @@ function ConnectionErrorIcon(): ReactElement {
 }
 
 export function ProjectsErrorState({
+  description = "We're having trouble retrieving your projects right now. Please try again in a moment.",
   onRetry,
+  title = 'Something went wrong',
 }: ProjectsErrorStateProps): ReactElement {
   return (
     <section
@@ -39,11 +43,10 @@ export function ProjectsErrorState({
           <ConnectionErrorIcon />
         </div>
         <h1 className="text-title-lg text-text-primary mt-6 font-semibold">
-          Something went wrong
+          {title}
         </h1>
         <p className="text-body-md text-text-secondary mt-2">
-          We&apos;re having trouble retrieving your projects right now. Please
-          try again in a moment.
+          {description}
         </p>
         <Button
           className="mt-6 shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1),0px_4px_6px_-4px_rgba(0,0,0,0.1)]"
