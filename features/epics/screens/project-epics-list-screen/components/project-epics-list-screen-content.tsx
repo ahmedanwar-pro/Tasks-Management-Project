@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import type { ProjectEpicListItem } from '../utils';
 import { ProjectEpicsHeader } from './header/project-epics-header';
+import { ProjectEpicsEmptyState } from './list/empty-state';
 import { ProjectEpicsErrorState } from './list/project-epics-error-state';
 import { ProjectEpicsFloatingAddButton } from './list/project-epics-floating-add-button';
 import { ProjectEpicsList } from './list/project-epics-list';
@@ -32,6 +33,10 @@ export function ProjectEpicsListScreenContent({
 }: ProjectEpicsListScreenContentProps): ReactElement {
   if (isError) {
     return <ProjectEpicsErrorState onRetry={onRetry} />;
+  }
+
+  if (!isLoading && totalCount === 0) {
+    return <ProjectEpicsEmptyState projectId={projectId} />;
   }
 
   return (
