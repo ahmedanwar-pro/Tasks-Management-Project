@@ -14,6 +14,7 @@ import { useProjectEpicsQuery } from './use-project-epics-query';
 type ProjectEpicsListScreenData = {
   currentPage: number;
   epics: ProjectEpicListItem[];
+  isLoading: boolean;
   pageSize: number;
   projectName: string;
   totalCount: number;
@@ -31,11 +32,11 @@ export function useProjectEpicsListScreenData(
     projectId,
     isBreadcrumbVisible,
   );
-  const { data: epicsData, error: epicsError } = useProjectEpicsQuery(
-    projectId,
-    currentPage,
-    projectEpicsPageSize,
-  );
+  const {
+    data: epicsData,
+    error: epicsError,
+    isPending: areEpicsPending,
+  } = useProjectEpicsQuery(projectId, currentPage, projectEpicsPageSize);
   const isUnauthorized = isProjectUnauthorizedError(epicsError);
   const projectName = project?.name ?? 'Project';
   const epics = (epicsData?.epics ?? []).map(mapProjectEpic);
@@ -50,6 +51,7 @@ export function useProjectEpicsListScreenData(
   return {
     currentPage,
     epics,
+    isLoading: areEpicsPending,
     pageSize: projectEpicsPageSize,
     projectName,
     totalCount,
