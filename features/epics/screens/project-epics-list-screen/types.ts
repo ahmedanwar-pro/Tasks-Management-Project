@@ -1,0 +1,45 @@
+import type { RefObject } from 'react';
+
+export type ProjectEpicListItem = {
+  id: string;
+  epic_id: string;
+  title: string;
+  assignee: {
+    avatarUrl?: string;
+    name: string;
+    initials: string;
+  };
+  createdBy: {
+    name: string;
+  };
+  createdDate: string;
+  createdDateTime: string;
+  deadline: string;
+};
+
+export type ProjectEpicsListSectionProps = {
+  currentPage: number;
+  epics: ProjectEpicListItem[];
+  hasMoreMobileEpics: boolean;
+  isFetchingNextPage: boolean;
+  isLoading: boolean;
+  isMobileViewport: boolean;
+  loadMoreRef: RefObject<HTMLDivElement | null>;
+  onPageChange: (page: number) => void;
+  pageSize: number;
+  totalCount: number;
+};
+
+export type ProjectEpicsListScreenContentProps = ProjectEpicsListSectionProps & {
+  isError: boolean;
+  onRetry: () => void;
+  projectId: string;
+  projectName: string;
+};
+
+export type ProjectEpicsListScreenData = Omit<
+  ProjectEpicsListScreenContentProps,
+  'projectId'
+> & {
+  totalPages: number;
+};

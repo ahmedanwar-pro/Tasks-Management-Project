@@ -1,67 +1,82 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+import type { ProjectEpicsListScreenData } from '../types';
 import {
-  useProjectMembersBreadcrumbVisibility,
-  useProjectNameQuery,
-} from '@/features/members/screens/project-members-list-screen/hooks';
-import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api';
-import { mapProjectEpic } from '../utils';
-import type { ProjectEpicListItem } from '../utils';
-import { useProjectEpicsQuery } from './use-project-epics-query';
-
-type ProjectEpicsListScreenData = {
-  currentPage: number;
-  epics: ProjectEpicListItem[];
-  isError: boolean;
-  isLoading: boolean;
-  onRetry: () => void;
-  pageSize: number;
-  projectName: string;
-  totalCount: number;
-};
-
-const projectEpicsPageSize = 6;
+  getProjectEpicsDisplayData,
+  getProjectEpicsErrorState,
+  getTotalPages,
+  mapProjectEpic,
+} from '../utils';
+import { useProjectEpicsAuthRedirect } from './list-screen-data/use-project-epics-auth-redirect';
+import { useProjectEpicsListScreenPagination } from './list-screen-data/use-project-epics-list-screen-pagination';
+import { useProjectEpicsProjectName } from './list-screen-data/use-project-epics-project-name';
+import { useMobileProjectEpicsLoadMore } from './mobile-pagination/use-mobile-project-epics-load-more';
+import {
+  useMoreProjectEpicsQuery,
+  useProjectEpicsQuery,
+} from './use-project-epics-query';
 
 export function useProjectEpicsListScreenData(
   projectId: string,
 ): ProjectEpicsListScreenData {
-  const router = useRouter();
-  const currentPage = 1;
-  const isBreadcrumbVisible = useProjectMembersBreadcrumbVisibility();
-  const { data: project } = useProjectNameQuery(
-    projectId,
-    isBreadcrumbVisible,
-  );
+  const { currentPage, isMobileViewport, limit, setCurrentPage } =
+    useProjectEpicsListScreenPagination();
+  const projectName = useProjectEpicsProjectName(projectId);
   const {
     data: epicsData,
     error: epicsError,
     isPending: areEpicsPending,
     refetch: refetchEpics,
-  } = useProjectEpicsQuery(projectId, currentPage, projectEpicsPageSize);
-  const isUnauthorized = isProjectUnauthorizedError(epicsError);
-  const isError = Boolean(epicsError) && !isUnauthorized;
-  const projectName = project?.name ?? 'Project';
-  const epics = (epicsData?.epics ?? []).map(mapProjectEpic);
+  } = useProjectEpicsQuery(projectId, currentPage, limit);
+  const {
+    data: moreEpicsData,
+    error: moreEpicsError,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useMoreProjectEpicsQuery(projectId, limit);
+  const { displayedEpicResponses, hasMoreMobileEpics } =
+    getProjectEpicsDisplayData({
+      epicsData,
+      isMobileViewport,
+      moreEpicsData,
+    });
+  const { isError, isUnauthorized, visibleError } = getProjectEpicsErrorState({
+    epicsError,
+    isMobileViewport,
+    moreEpicsError,
+  });
+  const epics = displayedEpicResponses.map(mapProjectEpic);
   const totalCount = epicsData?.totalCount ?? 0;
+  const totalPages = getTotalPages(totalCount, limit);
+  const fetchMoreEpics = useCallback(() => {
+    void fetchNextPage();
+  }, [fetchNextPage]);
+  const loadMoreRef = useMobileProjectEpicsLoadMore({
+    hasMoreEpics: hasMoreMobileEpics,
+    isFetchingNextPage,
+    onFetchNextPage: fetchMoreEpics,
+    visibleError,
+  });
 
-  useEffect(() => {
-    if (isUnauthorized) {
-      router.replace('/login');
-    }
-  }, [isUnauthorized, router]);
+  useProjectEpicsAuthRedirect(isUnauthorized);
 
   return {
     currentPage,
     epics,
+    hasMoreMobileEpics,
+    isFetchingNextPage,
     isError,
-    isLoading: areEpicsPending,
+    isLoading: areEpicsPending || isUnauthorized,
+    isMobileViewport,
+    loadMoreRef,
+    onPageChange: setCurrentPage,
     onRetry: () => {
-      void refetchEpics();
+      void (epicsError ? refetchEpics() : fetchNextPage());
     },
-    pageSize: projectEpicsPageSize,
+    pageSize: limit,
     projectName,
     totalCount,
+    totalPages,
   };
 }
