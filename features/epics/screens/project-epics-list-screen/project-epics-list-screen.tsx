@@ -14,8 +14,13 @@ export function ProjectEpicsListScreen({
   const {
     currentPage,
     epics,
+    hasMoreMobileEpics,
+    isFetchingNextPage,
     isError,
     isLoading,
+    isMobileViewport,
+    loadMoreRef,
+    onPageChange,
     onRetry,
     pageSize,
     projectName,
@@ -26,8 +31,13 @@ export function ProjectEpicsListScreen({
     <ProjectEpicsListScreenContent
       currentPage={currentPage}
       epics={epics}
+      hasMoreMobileEpics={hasMoreMobileEpics}
+      isFetchingNextPage={isFetchingNextPage}
       isError={isError}
       isLoading={isLoading}
+      isMobileViewport={isMobileViewport}
+      loadMoreRef={loadMoreRef}
+      onPageChange={onPageChange}
       onRetry={onRetry}
       pageSize={pageSize}
       projectId={projectId}
