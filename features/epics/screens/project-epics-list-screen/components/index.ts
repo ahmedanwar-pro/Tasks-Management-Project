@@ -1,9 +1,9 @@
 export { ProjectEpicsHeader } from './header/project-epics-header';
 export { ProjectEpicsListScreenContent } from './project-epics-list-screen-content';
-export { ProjectEpicsEmptyState } from './list/empty-state';
-export { ProjectEpicsErrorState } from './list/project-epics-error-state';
+export { ProjectEpicsEmptyState } from './empty-state';
+export { ProjectEpicsErrorState } from './error/project-epics-error-state';
 export { ProjectEpicsFloatingAddButton } from './list/project-epics-floating-add-button';
 export { ProjectEpicsList } from './list/project-epics-list';
 export { ProjectEpicsListSection } from './list/project-epics-list-section';
-export { ProjectEpicsLoadingList } from './list/loading';
-export { ProjectEpicsPagination } from './list/pagination/project-epics-pagination';
+export { ProjectEpicsLoadingList } from './loading';
+export { ProjectEpicsPagination } from './pagination/project-epics-pagination';

@@ -1,8 +1,8 @@
 import type { ReactElement } from 'react';
 import type { ProjectEpicsListScreenContentProps } from '../types';
+import { ProjectEpicsEmptyState } from './empty-state';
+import { ProjectEpicsErrorState } from './error/project-epics-error-state';
 import { ProjectEpicsHeader } from './header/project-epics-header';
-import { ProjectEpicsEmptyState } from './list/empty-state';
-import { ProjectEpicsErrorState } from './list/project-epics-error-state';
 import { ProjectEpicsFloatingAddButton } from './list/project-epics-floating-add-button';
 import { ProjectEpicsListSection } from './list/project-epics-list-section';
 

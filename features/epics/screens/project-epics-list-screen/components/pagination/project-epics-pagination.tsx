@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { getPageNumbers, getTotalPages } from '../../../utils';
+import { getPageNumbers, getTotalPages } from '../../utils';
 import { ProjectEpicsPaginationNav } from './project-epics-pagination-nav';
 import { ProjectEpicsPaginationSummary } from './project-epics-pagination-summary';
 

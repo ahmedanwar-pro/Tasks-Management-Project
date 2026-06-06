@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { ChevronIcon } from '../../icons/project-epics-icons';
+import { ChevronIcon } from '../icons/project-epics-icons';
 import {
   disabledPageButtonClasses,
   secondaryPageButtonClasses,

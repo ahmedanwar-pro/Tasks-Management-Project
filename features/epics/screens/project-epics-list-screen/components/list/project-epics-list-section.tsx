@@ -1,9 +1,9 @@
 import type { ReactElement } from 'react';
 import type { ProjectEpicsListSectionProps } from '../../types';
-import { ProjectEpicsLoadingList } from './loading';
+import { ProjectEpicsLoadingList } from '../loading';
+import { ProjectEpicsPagination } from '../pagination/project-epics-pagination';
 import { ProjectEpicsMobileLoadMore } from './project-epics-mobile-load-more';
 import { ProjectEpicsList } from './project-epics-list';
-import { ProjectEpicsPagination } from './pagination/project-epics-pagination';
 
 export function ProjectEpicsListSection({
   currentPage,
