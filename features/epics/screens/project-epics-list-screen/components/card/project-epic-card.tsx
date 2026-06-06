@@ -20,7 +20,7 @@ export function ProjectEpicCard({
     <Card
       aria-labelledby={`${epic.id}-title`}
       className={joinClasses(
-        'xl:border-l-success-icon flex flex-col gap-[11.3px] border-0 p-5 shadow-none lg:min-h-51.5 lg:justify-between lg:gap-2.75 lg:px-5 lg:py-4 lg:shadow-sm xl:border-l-4',
+        'xl:border-l-success-icon flex flex-col gap-[11.3px] border-0 p-5 shadow-none lg:min-h-[166px] lg:justify-between lg:gap-2.75 lg:px-5 lg:py-4 lg:shadow-sm xl:border-l-4',
         hideOnMobile && 'hidden lg:flex',
       )}
       padding="none"

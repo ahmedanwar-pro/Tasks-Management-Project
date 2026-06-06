@@ -14,7 +14,7 @@ export function ProjectEpicsHeader({
   projectName,
 }: ProjectEpicsHeaderProps): ReactElement {
   return (
-    <header className="flex flex-col lg:flex-row lg:items-end lg:justify-between lg:gap-6 xl:gap-8">
+    <header className="flex w-full shrink-0 flex-col lg:flex-row lg:items-end lg:justify-between lg:gap-6 xl:gap-8">
       <div className="flex min-w-0 flex-col gap-4">
         <ProjectEpicsBreadcrumb projectName={projectName} />
         <ProjectEpicsPageTitle />

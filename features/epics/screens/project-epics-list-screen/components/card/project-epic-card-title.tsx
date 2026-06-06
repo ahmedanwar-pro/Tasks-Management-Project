@@ -10,7 +10,7 @@ export function ProjectEpicCardTitle({
 }: ProjectEpicCardTitleProps): ReactElement {
   return (
     <h2
-      className="text-text-primary text-[18px] leading-[22.5px] font-semibold tracking-normal xl:text-[20px] xl:leading-[28px]"
+      className="text-text-primary text-[18px] leading-[22.5px] font-semibold tracking-normal xl:line-clamp-2 xl:text-[20px] xl:leading-[28px]"
       id={`${epic.id}-title`}
     >
       {epic.title}

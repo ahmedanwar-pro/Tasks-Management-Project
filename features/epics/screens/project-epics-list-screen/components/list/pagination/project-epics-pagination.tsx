@@ -22,7 +22,7 @@ export function ProjectEpicsPagination({
   const pageNumbers = getPageNumbers(totalPages);
 
   return (
-    <footer className="mt-auto hidden items-center justify-between pt-12 md:flex">
+    <footer className="mt-auto hidden items-center justify-between pt-12 md:flex lg:pt-8">
       <ProjectEpicsPaginationSummary
         totalCount={totalCount}
         visibleCount={visibleCount}
