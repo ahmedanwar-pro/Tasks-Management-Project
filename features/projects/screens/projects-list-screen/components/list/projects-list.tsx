@@ -1,10 +1,10 @@
 import type { ReactElement } from 'react';
-import type { ProjectSummary } from '../card/project-card';
+import type { ProjectListItem } from '../../types';
 import { ProjectCard } from '../card/project-card';
 import { AddProjectCard } from './add-project-card';
 
 type ProjectsListProps = {
-  projects: ProjectSummary[];
+  projects: ProjectListItem[];
 };
 
 export function ProjectsList({ projects }: ProjectsListProps): ReactElement {

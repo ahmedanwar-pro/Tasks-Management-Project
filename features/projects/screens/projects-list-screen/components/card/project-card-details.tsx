@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import Link from 'next/link';
+import type { ProjectCardSectionProps } from '../../types';
 import { EditIcon } from '../icons/projects-list-icons';
-import type { ProjectCardSectionProps } from './project-card-types';
 
 export function ProjectCardDetails({
   project,

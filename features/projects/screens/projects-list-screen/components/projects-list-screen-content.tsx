@@ -1,5 +1,5 @@
-import type { ReactElement, RefObject } from 'react';
-import type { ProjectSummary } from './card/project-card';
+import type { ReactElement } from 'react';
+import type { ProjectsListScreenContentProps } from '../types';
 import { ProjectsEmptyState } from './empty-state/projects-empty-state';
 import { ProjectsErrorState } from './error/projects-error-state';
 import { ProjectsListHeader } from './header/projects-list-header';
@@ -8,20 +8,6 @@ import { ProjectsList } from './list/projects-list';
 import { ProjectsMobileLoadMore } from './list/projects-mobile-load-more';
 import { ProjectsLoadingState } from './loading/projects-loading-state';
 import { ProjectsPagination } from './pagination/projects-pagination';
-
-type ProjectsListScreenContentProps = {
-  currentPage: number;
-  hasMoreMobileProjects: boolean;
-  isFetchingNextPage: boolean;
-  isLoading: boolean;
-  loadMoreRef: RefObject<HTMLDivElement | null>;
-  onPageChange: (page: number) => void;
-  onRetry: () => void;
-  pageSize: number;
-  projects: ProjectSummary[];
-  totalCount: number;
-  visibleError: unknown;
-};
 
 export function ProjectsListScreenContent({
   currentPage,

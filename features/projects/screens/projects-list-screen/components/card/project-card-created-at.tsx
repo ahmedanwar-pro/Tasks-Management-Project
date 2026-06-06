@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
+import type { ProjectCardSectionProps } from '../../types';
 import { CalendarIcon } from '../icons/projects-list-icons';
-import type { ProjectCardSectionProps } from './project-card-types';
 
 export function ProjectCardCreatedAt({
   project,

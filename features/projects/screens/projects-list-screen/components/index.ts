@@ -1,5 +1,4 @@
 export { ProjectCard } from './card/project-card';
-export type { ProjectSummary } from './card/project-card';
 export { ProjectsEmptyState } from './empty-state/projects-empty-state';
 export { ProjectsErrorState } from './error/projects-error-state';
 export { ProjectsListHeader } from './header/projects-list-header';

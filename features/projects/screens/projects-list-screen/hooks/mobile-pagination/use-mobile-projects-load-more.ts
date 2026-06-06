@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { mobileProjectsViewportQuery } from '../utils/projects-pagination';
+import { useEffect, useRef } from 'react';
+import { mobileProjectsViewportQuery } from '../../utils/projects-pagination';
 
 type UseMobileProjectsLoadMoreOptions = {
   hasMoreProjects: boolean;
@@ -9,33 +9,6 @@ type UseMobileProjectsLoadMoreOptions = {
   onFetchNextPage: () => void;
   visibleError: unknown;
 };
-
-export function useMobileProjectsViewport(onMobileViewport: () => void): boolean {
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(mobileProjectsViewportQuery);
-
-    function handleViewportChange(): void {
-      const matchesMobileViewport = mediaQuery.matches;
-
-      setIsMobileViewport(matchesMobileViewport);
-
-      if (matchesMobileViewport) {
-        onMobileViewport();
-      }
-    }
-
-    handleViewportChange();
-    mediaQuery.addEventListener('change', handleViewportChange);
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleViewportChange);
-    };
-  }, [onMobileViewport]);
-
-  return isMobileViewport;
-}
 
 export function useMobileProjectsLoadMore({
   hasMoreProjects,

@@ -1,5 +1,5 @@
 import type { ProjectResponse } from '../api/get-projects';
-import type { ProjectSummary } from '../components';
+import type { ProjectListItem } from '../types';
 
 function formatCreatedAt(createdAt: string): string {
   const date = new Date(createdAt);
@@ -19,7 +19,7 @@ function getCreatedAtDateTime(createdAt: string): string | undefined {
   return Number.isNaN(new Date(createdAt).getTime()) ? undefined : createdAt;
 }
 
-export function mapProject(project: ProjectResponse): ProjectSummary {
+export function mapProject(project: ProjectResponse): ProjectListItem {
   return {
     created_at: getCreatedAtDateTime(project.created_at),
     createdAt: formatCreatedAt(project.created_at),

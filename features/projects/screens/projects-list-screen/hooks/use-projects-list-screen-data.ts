@@ -1,39 +1,30 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
+import type { ProjectsListScreenData } from '../types';
 import { isProjectsUnauthorizedError } from '../api/get-projects';
 import { mapProject } from '../utils/map-project';
-import {
-  initialProjectsPage,
-  projectsPerPage,
-} from '../utils/projects-pagination';
-import {
-  useMobileProjectsLoadMore,
-  useMobileProjectsViewport,
-} from './use-mobile-projects-pagination';
+import { useProjectsAuthRedirect } from './list-screen-data/use-projects-auth-redirect';
+import { useProjectsListScreenPagination } from './list-screen-data/use-projects-list-screen-pagination';
+import { useMobileProjectsLoadMore } from './mobile-pagination/use-mobile-projects-load-more';
 import {
   useMoreProjectsQuery,
   useProjectsQuery,
 } from './use-projects-query';
 
-export function useProjectsListScreenData() {
-  const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(initialProjectsPage);
-  const resetToFirstPage = useCallback(() => {
-    setCurrentPage(initialProjectsPage);
-  }, []);
-  const isMobileViewport = useMobileProjectsViewport(resetToFirstPage);
+export function useProjectsListScreenData(): ProjectsListScreenData {
+  const { currentPage, isMobileViewport, limit, setCurrentPage } =
+    useProjectsListScreenPagination();
   const { data, error, isPending, refetch } = useProjectsQuery(
     currentPage,
-    projectsPerPage,
+    limit,
   );
   const {
     data: moreProjectsData,
     error: moreProjectsError,
     fetchNextPage,
     isFetchingNextPage,
-  } = useMoreProjectsQuery(projectsPerPage);
+  } = useMoreProjectsQuery(limit);
   const firstPageProjects = data?.projects ?? [];
   const additionalMobileProjects =
     moreProjectsData?.pages.flatMap((page) => page.projects) ?? [];
@@ -59,11 +50,7 @@ export function useProjectsListScreenData() {
     visibleError,
   });
 
-  useEffect(() => {
-    if (isUnauthorized) {
-      router.replace('/login');
-    }
-  }, [isUnauthorized, router]);
+  useProjectsAuthRedirect(isUnauthorized);
 
   const retryProjects = error ? refetch : fetchNextPage;
   const projects = displayedProjectResponses.map(mapProject);
@@ -76,7 +63,7 @@ export function useProjectsListScreenData() {
     loadMoreRef,
     onPageChange: setCurrentPage,
     onRetry: () => void retryProjects(),
-    pageSize: projectsPerPage,
+    pageSize: limit,
     projects,
     totalCount: data?.totalCount ?? 0,
     visibleError,

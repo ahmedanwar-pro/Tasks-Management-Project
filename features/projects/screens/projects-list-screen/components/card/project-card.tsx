@@ -1,12 +1,12 @@
 import type { ReactElement } from 'react';
 import Link from 'next/link';
 import { Card } from '@/components/ui';
+import type { ProjectListItem } from '../../types';
 import { ProjectCardCreatedAt } from './project-card-created-at';
 import { ProjectCardDetails } from './project-card-details';
-import type { ProjectSummary } from './project-card-types';
 
 type ProjectCardProps = {
-  project: ProjectSummary;
+  project: ProjectListItem;
   className?: string;
 };
 
@@ -31,5 +31,3 @@ export function ProjectCard({
     </li>
   );
 }
-
-export type { ProjectSummary };

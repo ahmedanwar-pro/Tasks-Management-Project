@@ -2,7 +2,7 @@
 
 import type { ReactElement } from 'react';
 import { ProjectsListScreenContent } from './components';
-import { useProjectsListScreenData } from './hooks/use-projects-list-screen-data';
+import { useProjectsListScreenData } from './hooks';
 
 export function ProjectsListScreen(): ReactElement {
   const {
