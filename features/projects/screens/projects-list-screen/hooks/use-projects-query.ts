@@ -10,9 +10,15 @@ import {
   type GetProjectsResponse,
   isProjectsUnauthorizedError,
 } from '../api/get-projects';
-import { getPaginationOffset } from '../utils/projects-pagination';
+import { getPaginationOffset } from '@/features/shared/utils/pagination';
 
 const defaultClientRetryCount = 3;
+
+function shouldRetryProjectsQuery(failureCount: number, error: Error) {
+  return (
+    !isProjectsUnauthorizedError(error) && failureCount < defaultClientRetryCount
+  );
+}
 
 export function useProjectsQuery(currentPage: number, limit: number) {
   const offset = getPaginationOffset(currentPage, limit);
@@ -20,9 +26,7 @@ export function useProjectsQuery(currentPage: number, limit: number) {
   return useQuery({
     queryFn: () => getProjects({ limit, offset }),
     queryKey: ['projects', currentPage, limit] as const,
-    retry: (failureCount, error) =>
-      !isProjectsUnauthorizedError(error) &&
-      failureCount < defaultClientRetryCount,
+    retry: shouldRetryProjectsQuery,
   });
 }
 
@@ -46,8 +50,6 @@ export function useMoreProjectsQuery(limit: number) {
         offset: getPaginationOffset(pageParam, limit),
       }),
     queryKey: ['projects', 'mobile-infinite', limit] as const,
-    retry: (failureCount, error) =>
-      !isProjectsUnauthorizedError(error) &&
-      failureCount < defaultClientRetryCount,
+    retry: shouldRetryProjectsQuery,
   });
 }

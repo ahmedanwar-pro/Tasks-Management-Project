@@ -1,37 +1,39 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { mobileProjectEpicsViewportQuery } from '../../utils';
+import type { RefObject } from 'react';
 
-type UseMobileProjectEpicsLoadMoreOptions = {
-  hasMoreEpics: boolean;
+type UseMobileLoadMoreOptions = {
+  hasMore: boolean;
   isFetchingNextPage: boolean;
-  onFetchNextPage: () => void;
+  mediaQuery: string;
+  onLoadMore: () => void;
   visibleError: unknown;
 };
 
-export function useMobileProjectEpicsLoadMore({
-  hasMoreEpics,
+export function useMobileLoadMore({
+  hasMore,
   isFetchingNextPage,
-  onFetchNextPage,
+  mediaQuery,
+  onLoadMore,
   visibleError,
-}: UseMobileProjectEpicsLoadMoreOptions): React.RefObject<HTMLDivElement | null> {
+}: UseMobileLoadMoreOptions): RefObject<HTMLDivElement | null> {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sentinel = loadMoreRef.current;
 
-    if (!sentinel || !hasMoreEpics || isFetchingNextPage || visibleError) {
+    if (!sentinel || !hasMore || isFetchingNextPage || visibleError) {
       return;
     }
 
     const observer = new IntersectionObserver((entries) => {
       if (
         entries[0]?.isIntersecting &&
-        window.matchMedia(mobileProjectEpicsViewportQuery).matches
+        window.matchMedia(mediaQuery).matches
       ) {
         observer.disconnect();
-        onFetchNextPage();
+        onLoadMore();
       }
     });
 
@@ -40,7 +42,7 @@ export function useMobileProjectEpicsLoadMore({
     return () => {
       observer.disconnect();
     };
-  }, [hasMoreEpics, isFetchingNextPage, onFetchNextPage, visibleError]);
+  }, [hasMore, isFetchingNextPage, mediaQuery, onLoadMore, visibleError]);
 
   return loadMoreRef;
 }

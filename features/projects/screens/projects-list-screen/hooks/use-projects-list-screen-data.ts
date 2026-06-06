@@ -1,12 +1,13 @@
 'use client';
 
 import { useCallback } from 'react';
+import { useMobileLoadMore } from '@/features/shared/hooks/use-mobile-load-more';
 import type { ProjectsListScreenData } from '../types';
 import { isProjectsUnauthorizedError } from '../api/get-projects';
 import { mapProject } from '../utils/map-project';
+import { mobileProjectsViewportQuery } from '../utils/projects-pagination';
 import { useProjectsAuthRedirect } from './list-screen-data/use-projects-auth-redirect';
 import { useProjectsListScreenPagination } from './list-screen-data/use-projects-list-screen-pagination';
-import { useMobileProjectsLoadMore } from './mobile-pagination/use-mobile-projects-load-more';
 import {
   useMoreProjectsQuery,
   useProjectsQuery,
@@ -43,10 +44,11 @@ export function useProjectsListScreenData(): ProjectsListScreenData {
   const fetchMoreProjects = useCallback(() => {
     void fetchNextPage();
   }, [fetchNextPage]);
-  const loadMoreRef = useMobileProjectsLoadMore({
-    hasMoreProjects: hasMoreMobileProjects,
+  const loadMoreRef = useMobileLoadMore({
+    hasMore: hasMoreMobileProjects,
     isFetchingNextPage,
-    onFetchNextPage: fetchMoreProjects,
+    mediaQuery: mobileProjectsViewportQuery,
+    onLoadMore: fetchMoreProjects,
     visibleError,
   });
 

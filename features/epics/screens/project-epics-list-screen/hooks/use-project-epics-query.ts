@@ -6,8 +6,8 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api';
+import { getPaginationOffset } from '@/features/shared/utils/pagination';
 import { getProjectEpics, type GetProjectEpicsResponse } from '../api';
-import { getPaginationOffset } from '../utils';
 
 const defaultClientRetryCount = 3;
 

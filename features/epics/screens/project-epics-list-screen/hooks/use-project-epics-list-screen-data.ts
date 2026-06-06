@@ -1,17 +1,18 @@
 'use client';
 
 import { useCallback } from 'react';
+import { useMobileLoadMore } from '@/features/shared/hooks/use-mobile-load-more';
 import type { ProjectEpicsListScreenData } from '../types';
+import { getTotalPages } from '@/features/shared/utils/pagination';
 import {
   getProjectEpicsDisplayData,
   getProjectEpicsErrorState,
-  getTotalPages,
   mapProjectEpic,
+  mobileProjectEpicsViewportQuery,
 } from '../utils';
 import { useProjectEpicsAuthRedirect } from './list-screen-data/use-project-epics-auth-redirect';
 import { useProjectEpicsListScreenPagination } from './list-screen-data/use-project-epics-list-screen-pagination';
 import { useProjectEpicsProjectName } from './list-screen-data/use-project-epics-project-name';
-import { useMobileProjectEpicsLoadMore } from './mobile-pagination/use-mobile-project-epics-load-more';
 import {
   useMoreProjectEpicsQuery,
   useProjectEpicsQuery,
@@ -52,10 +53,11 @@ export function useProjectEpicsListScreenData(
   const fetchMoreEpics = useCallback(() => {
     void fetchNextPage();
   }, [fetchNextPage]);
-  const loadMoreRef = useMobileProjectEpicsLoadMore({
-    hasMoreEpics: hasMoreMobileEpics,
+  const loadMoreRef = useMobileLoadMore({
+    hasMore: hasMoreMobileEpics,
     isFetchingNextPage,
-    onFetchNextPage: fetchMoreEpics,
+    mediaQuery: mobileProjectEpicsViewportQuery,
+    onLoadMore: fetchMoreEpics,
     visibleError,
   });
 

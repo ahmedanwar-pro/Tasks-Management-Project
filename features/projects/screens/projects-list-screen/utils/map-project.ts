@@ -1,18 +1,9 @@
 import type { ProjectResponse } from '../api/get-projects';
 import type { ProjectListItem } from '../types';
+import { formatDisplayDate } from '@/features/shared/utils/date-format';
 
 function formatCreatedAt(createdAt: string): string {
-  const date = new Date(createdAt);
-
-  if (Number.isNaN(date.getTime())) {
-    return createdAt;
-  }
-
-  return new Intl.DateTimeFormat('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  }).format(date);
+  return formatDisplayDate(createdAt, createdAt);
 }
 
 function getCreatedAtDateTime(createdAt: string): string | undefined {
