@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import type { ProjectEpicListItem } from '../../utils';
+import type { ProjectEpicListItem } from '../../types';
 import { CalendarIcon, CreatedByIcon } from '../icons/project-epics-icons';
 
 type ProjectEpicDesktopMetadataProps = {

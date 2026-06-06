@@ -1,4 +1,4 @@
-import type { ProjectEpicResponse } from '../api';
+import type { ProjectEpicResponse } from '../../api';
 import {
   getPersonAvatarUrl,
   getPersonName,

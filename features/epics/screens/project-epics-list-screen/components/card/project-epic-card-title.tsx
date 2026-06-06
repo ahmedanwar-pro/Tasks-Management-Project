@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import type { ProjectEpicListItem } from '../../utils';
+import type { ProjectEpicListItem } from '../../types';
 
 type ProjectEpicCardTitleProps = {
   epic: ProjectEpicListItem;

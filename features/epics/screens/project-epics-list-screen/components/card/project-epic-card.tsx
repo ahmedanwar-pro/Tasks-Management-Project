@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import { Card } from '@/components/ui';
 import { joinClasses } from '@/components/ui/utils';
-import type { ProjectEpicListItem } from '../../utils';
+import type { ProjectEpicListItem } from '../../types';
 import { ProjectEpicAssigneeSummary } from './project-epic-assignee-summary';
 import { ProjectEpicCardHeader } from './project-epic-card-header';
 import { ProjectEpicCardTitle } from './project-epic-card-title';

@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { Avatar } from '@/components/ui';
-import type { ProjectEpicListItem } from '../../utils';
+import type { ProjectEpicListItem } from '../../types';
 
 type ProjectEpicAssigneeInfoProps = {
   epic: ProjectEpicListItem;

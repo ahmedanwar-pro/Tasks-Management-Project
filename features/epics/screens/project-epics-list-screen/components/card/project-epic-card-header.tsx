@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { Badge } from '@/components/ui';
-import type { ProjectEpicListItem } from '../../utils';
+import type { ProjectEpicListItem } from '../../types';
 import {
   MoreActionsHorizontalIcon,
   MoreActionsIcon,

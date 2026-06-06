@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import type { ProjectEpicListItem } from '../../utils';
+import type { ProjectEpicListItem } from '../../types';
 import { ProjectEpicAssigneeInfo } from './project-epic-assignee-info';
 import { ProjectEpicMobileDeadline } from './project-epic-mobile-deadline';
 
