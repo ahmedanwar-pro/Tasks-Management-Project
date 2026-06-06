@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ReactElement } from 'react';
-import { PlusIcon } from './projects-list-icons';
+import { PlusIcon } from '../icons/projects-list-icons';
 
 export function MobileCreateProjectButton(): ReactElement {
   return (

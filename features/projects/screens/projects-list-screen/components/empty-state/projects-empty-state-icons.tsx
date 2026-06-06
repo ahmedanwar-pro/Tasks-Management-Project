@@ -1,8 +1,6 @@
-import Link from 'next/link';
 import type { ReactElement } from 'react';
-import { EmptyState } from '@/components/ui';
 
-function PlusIcon(): ReactElement {
+export function PlusIcon(): ReactElement {
   return (
     <svg
       aria-hidden="true"
@@ -19,7 +17,7 @@ function PlusIcon(): ReactElement {
   );
 }
 
-function CompassIcon(): ReactElement {
+export function CompassIcon(): ReactElement {
   return (
     <svg
       aria-hidden="true"
@@ -36,7 +34,7 @@ function CompassIcon(): ReactElement {
   );
 }
 
-function BlueprintLayersIcon(): ReactElement {
+export function BlueprintLayersIcon(): ReactElement {
   return (
     <svg
       aria-hidden="true"
@@ -53,7 +51,7 @@ function BlueprintLayersIcon(): ReactElement {
   );
 }
 
-function DraftingTriangleIcon(): ReactElement {
+export function DraftingTriangleIcon(): ReactElement {
   return (
     <svg
       aria-hidden="true"
@@ -67,52 +65,5 @@ function DraftingTriangleIcon(): ReactElement {
         fill="currentColor"
       />
     </svg>
-  );
-}
-
-function ProjectsEmptyIllustration(): ReactElement {
-  return (
-    <div className="bg-surface-low relative flex size-full items-center justify-center overflow-hidden rounded-md">
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage:
-            'linear-gradient(180deg, var(--color-primary) 12px, transparent 12px), linear-gradient(90deg, var(--color-primary) 12px, transparent 12px)',
-        }}
-      />
-      <div className="bg-primary-container-muted text-primary flex size-16 items-center justify-center rounded-lg shadow-[0px_20px_25px_-5px_rgba(4,27,60,0.05),0px_8px_10px_-6px_rgba(4,27,60,0.05)] lg:size-24">
-        <CompassIcon />
-      </div>
-      <div className="bg-surface text-primary absolute top-[16%] right-[13%] flex size-9 -rotate-6 items-center justify-center rounded-sm shadow-sm lg:top-[37.62px] lg:right-[37.63px] lg:size-12">
-        <BlueprintLayersIcon />
-      </div>
-      <div className="bg-surface text-text-muted absolute bottom-[14%] left-[13%] flex size-8 rotate-12 items-center justify-center rounded-sm shadow-sm lg:bottom-[44.29px] lg:left-[36.28px] lg:size-10">
-        <DraftingTriangleIcon />
-      </div>
-    </div>
-  );
-}
-
-export function ProjectsEmptyState(): ReactElement {
-  return (
-    <EmptyState
-      action={
-        <Link
-          className="text-text-inverse focus-visible:outline-primary text-body-md from-primary to-primary-container hover:from-primary-container hover:to-primary active:from-primary active:to-primary inline-flex h-(--control-height-2xl) shrink-0 items-center justify-center gap-2 rounded-md border border-transparent bg-linear-to-r px-8 font-sans leading-relaxed font-semibold tracking-normal whitespace-nowrap shadow-sm transition-colors duration-150 focus-visible:outline focus-visible:outline-offset-2 md:h-15! md:gap-[11.99px]! md:rounded-sm md:border-0! md:bg-[linear-gradient(167.24619143753972deg,var(--color-primary),var(--color-primary-container))]! md:px-8 md:text-[18px]! md:leading-[28px]! md:font-bold md:shadow-[0px_25px_50px_-12px_rgba(0,61,155,0.3)]!"
-          href="/projects/new"
-        >
-          <PlusIcon />
-          <span>Create New Project</span>
-        </Link>
-      }
-      className="[&_h1]:text-headline-md lg:[&_h1]:leading-display [&_p]:text-body-md [&_p]:text-text-secondary lg:[&_p]:text-body-lg min-h-[calc(100dvh-8rem)] gap-6 px-6 py-12 lg:min-h-[calc(100dvh-4rem)] lg:gap-10.75 [&_h1]:font-semibold lg:[&_h1]:text-[36px] lg:[&_h1]:tracking-[-0.9px] [&>div:first-child]:mb-0 [&>div:first-child]:size-48 lg:[&>div:first-child]:size-72 [&>div:nth-child(2)]:gap-4"
-      description="You don’t have any projects yet. Start by defining your first architectural workspace to begin tracking tasks and epics."
-      icon={<ProjectsEmptyIllustration />}
-      size="lg"
-      title="No Projects"
-      titleAs="h1"
-      variant="plain"
-    />
   );
 }
