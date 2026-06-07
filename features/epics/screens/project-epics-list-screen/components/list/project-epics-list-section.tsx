@@ -15,6 +15,7 @@ export function ProjectEpicsListSection({
   loadMoreRef,
   onPageChange,
   pageSize,
+  projectId,
   totalCount,
 }: ProjectEpicsListSectionProps): ReactElement {
   return (
@@ -24,6 +25,7 @@ export function ProjectEpicsListSection({
       ) : (
         <ProjectEpicsList
           epics={epics}
+          projectId={projectId}
           showAllOnMobile={isMobileViewport}
         />
       )}

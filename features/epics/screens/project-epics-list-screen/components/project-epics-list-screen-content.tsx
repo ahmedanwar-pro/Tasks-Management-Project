@@ -46,6 +46,7 @@ export function ProjectEpicsListScreenContent({
         loadMoreRef={loadMoreRef}
         onPageChange={onPageChange}
         pageSize={pageSize}
+        projectId={projectId}
         totalCount={totalCount}
       />
       <ProjectEpicsFloatingAddButton projectId={projectId} />

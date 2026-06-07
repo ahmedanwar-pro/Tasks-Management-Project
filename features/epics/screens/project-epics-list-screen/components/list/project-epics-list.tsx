@@ -4,11 +4,13 @@ import { ProjectEpicCard } from '../card/project-epic-card';
 
 type ProjectEpicsListProps = {
   epics: ProjectEpicListItem[];
+  projectId: string;
   showAllOnMobile?: boolean;
 };
 
 export function ProjectEpicsList({
   epics,
+  projectId,
   showAllOnMobile = false,
 }: ProjectEpicsListProps): ReactElement {
   return (
@@ -18,6 +20,7 @@ export function ProjectEpicsList({
           epic={epic}
           hideOnMobile={!showAllOnMobile && index > 3}
           key={epic.id}
+          projectId={projectId}
         />
       ))}
     </div>

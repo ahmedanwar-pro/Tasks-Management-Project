@@ -27,6 +27,7 @@ export type ProjectEpicsListSectionProps = {
   loadMoreRef: RefObject<HTMLDivElement | null>;
   onPageChange: (page: number) => void;
   pageSize: number;
+  projectId: string;
   totalCount: number;
 };
 
