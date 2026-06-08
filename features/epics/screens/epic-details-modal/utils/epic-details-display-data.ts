@@ -21,6 +21,19 @@ function mapPerson(person: {
   };
 }
 
+function getAssigneeId(epic: ProjectEpicResponse): string | null {
+  const assignee = typeof epic.assignee === 'object' ? epic.assignee : null;
+
+  return (
+    getText(epic.assignee_id) ||
+    getText(assignee?.id) ||
+    getText(assignee?.user_id) ||
+    getText(assignee?.member_id) ||
+    getText(assignee?.profile_id) ||
+    null
+  );
+}
+
 export function getEpicDetailsDisplayData(
   epic: ProjectEpicResponse,
 ): EpicDetailsDisplayData {
@@ -35,6 +48,7 @@ export function getEpicDetailsDisplayData(
           name: assigneeName,
         })
       : null,
+    assigneeId: getAssigneeId(epic),
     createdAt: formatDate(epic.created_at),
     createdBy: mapPerson({
       avatarUrl: getCreatedByAvatarUrl(epic) || undefined,

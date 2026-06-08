@@ -86,7 +86,18 @@ export function EpicDetailsModal({
               }).then(() => undefined)
             }
           />
-          <EpicDetailsMetaGrid epic={epic} />
+          <EpicDetailsMetaGrid
+            disabled={isSaving}
+            epic={epic}
+            onAssigneeSave={(assigneeId) =>
+              updateEpic({
+                assigneeId,
+                epicId,
+                projectId,
+              }).then(() => undefined)
+            }
+            projectId={projectId}
+          />
           <EpicDetailsTasksSection taskCount={epic.taskCount} />
         </div>
       </div>

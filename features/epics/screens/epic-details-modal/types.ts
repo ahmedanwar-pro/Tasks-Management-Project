@@ -6,6 +6,7 @@ export type EpicDetailsPerson = {
 
 export type EpicDetailsDisplayData = {
   assignee: EpicDetailsPerson | null;
+  assigneeId: string | null;
   createdAt: string;
   createdBy: EpicDetailsPerson;
   deadline: string;

@@ -1,3 +1,4 @@
+export { EditableEpicAssignee } from './assignee';
 export {
   EditableEpicDescription,
   EditableEpicDescriptionTextarea,

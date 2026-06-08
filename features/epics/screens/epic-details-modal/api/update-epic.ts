@@ -8,6 +8,7 @@ import type { ProjectEpicResponse } from '../../shared/types';
 import { getEpicDetails } from './get-epic-details';
 
 export type UpdateEpicRequest = {
+  assigneeId?: string | null;
   description?: string | null;
   epicId: string;
   projectId: string;
@@ -15,6 +16,7 @@ export type UpdateEpicRequest = {
 };
 
 export async function updateEpic({
+  assigneeId,
   description,
   epicId,
   projectId,
@@ -23,9 +25,14 @@ export async function updateEpic({
   await requireProjectSession();
 
   const updates: {
+    assignee_id?: string | null;
     description?: string | null;
     title?: string;
   } = {};
+
+  if (assigneeId !== undefined) {
+    updates.assignee_id = assigneeId;
+  }
 
   if (title !== undefined) {
     updates.title = title;

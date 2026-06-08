@@ -15,19 +15,19 @@ export function EpicDetailsPerson({
 }: EpicDetailsPersonProps): ReactElement {
   if (!person) {
     return (
-      <div className="flex min-w-0 items-center gap-2">
+      <span className="flex min-w-0 items-center gap-2">
         <span className="flex size-6 shrink-0 items-center justify-center rounded-[12px] border-2 border-border-inverse bg-surface-high p-0.5 text-text-tertiary md:size-7">
           <UnassignedIcon />
         </span>
         <span className="min-w-0 truncate text-body-sm font-medium leading-base text-text-tertiary">
           Unassigned
         </span>
-      </div>
+      </span>
     );
   }
 
   return (
-    <div className="flex min-w-0 items-center gap-2">
+    <span className="flex min-w-0 items-center gap-2">
       <Avatar
         className={joinClasses(
           'size-6 rounded-[12px] bg-[#dae2ff] text-[11px] leading-normal text-[#001848] shadow-none md:size-7 md:text-label-sm md:leading-compact',
@@ -43,6 +43,6 @@ export function EpicDetailsPerson({
       <span className="min-w-0 truncate text-body-sm font-medium leading-base text-text-primary">
         {person.name}
       </span>
-    </div>
+    </span>
   );
 }

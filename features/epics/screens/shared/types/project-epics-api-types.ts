@@ -1,4 +1,8 @@
 export type ProjectEpicPersonResponse = {
+  id?: string | null;
+  member_id?: string | null;
+  user_id?: string | null;
+  profile_id?: string | null;
   name?: string | null;
   full_name?: string | null;
   display_name?: string | null;
@@ -15,6 +19,7 @@ export type ProjectEpicResponse = {
   deadline?: string | null;
   created_at?: string | null;
   assignee?: ProjectEpicPersonResponse | string | null;
+  assignee_id?: string | null;
   assignee_name?: string | null;
   assignee_full_name?: string | null;
   assignee_display_name?: string | null;
