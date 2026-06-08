@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ReactElement } from 'react';
-import { PlusIcon } from '../icons/project-epics-icons';
+import { PlusIcon } from '../../../shared/icons';
 
 type ProjectEpicsFloatingAddButtonProps = {
   projectId: string;

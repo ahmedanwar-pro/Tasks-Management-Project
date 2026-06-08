@@ -6,7 +6,7 @@ import {
   initialProjectEpicsPage,
   mobileProjectEpicsViewportQuery,
   projectEpicsPerPage,
-} from '../../utils';
+} from '../utils';
 
 export function useProjectEpicsListScreenPagination() {
   const [currentPage, setCurrentPage] = useState(initialProjectEpicsPage);

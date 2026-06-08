@@ -1,5 +1,5 @@
-export { useProjectEpicsListScreenPagination } from './list-screen-data/use-project-epics-list-screen-pagination';
-export { useProjectEpicsProjectName } from './list-screen-data/use-project-epics-project-name';
+export { useProjectEpicsListScreenPagination } from './use-project-epics-list-screen-pagination';
+export { useProjectEpicsProjectName } from './use-project-epics-project-name';
 export { useProjectEpicsListScreenData } from './use-project-epics-list-screen-data';
 export {
   useMoreProjectEpicsQuery,

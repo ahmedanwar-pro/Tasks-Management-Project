@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { PlusIcon } from '@/features/epics/screens/project-epics-list-screen/components/icons/project-epics-icons';
+import { PlusIcon } from '../../../../shared/icons';
 
 export function EpicDetailsTasksAddButton(): ReactElement {
   return (

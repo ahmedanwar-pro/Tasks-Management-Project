@@ -11,8 +11,8 @@ import {
   mapProjectEpic,
   mobileProjectEpicsViewportQuery,
 } from '../utils';
-import { useProjectEpicsListScreenPagination } from './list-screen-data/use-project-epics-list-screen-pagination';
-import { useProjectEpicsProjectName } from './list-screen-data/use-project-epics-project-name';
+import { useProjectEpicsListScreenPagination } from './use-project-epics-list-screen-pagination';
+import { useProjectEpicsProjectName } from './use-project-epics-project-name';
 import {
   useMoreProjectEpicsQuery,
   useProjectEpicsQuery,

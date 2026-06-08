@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api';
 import { useEpicAuthRedirect } from '../shared/hooks';
@@ -32,24 +31,6 @@ export function EpicDetailsModal({
   const isUnauthorized = isProjectUnauthorizedError(error);
 
   useEpicAuthRedirect(isUnauthorized);
-
-  useEffect(() => {
-    if (error) {
-      console.error('Failed to load epic details.', {
-        epicId,
-        error,
-        projectId,
-      });
-      return;
-    }
-
-    if (!isPending && !epicResponse) {
-      console.error('Epic details response was empty.', {
-        epicId,
-        projectId,
-      });
-    }
-  }, [epicId, epicResponse, error, isPending, projectId]);
 
   if (isPending) {
     return (
