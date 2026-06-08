@@ -1,4 +1,3 @@
-export { useProjectEpicsAuthRedirect } from './list-screen-data/use-project-epics-auth-redirect';
 export { useProjectEpicsListScreenPagination } from './list-screen-data/use-project-epics-list-screen-pagination';
 export { useProjectEpicsProjectName } from './list-screen-data/use-project-epics-project-name';
 export { useProjectEpicsListScreenData } from './use-project-epics-list-screen-data';

@@ -1,7 +1,7 @@
 import type {
   GetProjectEpicsResponse,
-  ProjectEpicResponse,
 } from '../api';
+import type { ProjectEpicResponse } from '../../shared/types';
 
 type ProjectEpicsDisplayData = {
   displayedEpicResponses: ProjectEpicResponse[];

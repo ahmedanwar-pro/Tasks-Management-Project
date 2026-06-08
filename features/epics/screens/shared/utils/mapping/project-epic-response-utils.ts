@@ -1,4 +1,4 @@
-import type { ProjectEpicResponse } from '../../api';
+import type { ProjectEpicResponse } from '../../types';
 import {
   getPersonAvatarUrl,
   getPersonName,
@@ -46,5 +46,17 @@ export function getCreatedByName(epic: ProjectEpicResponse): string {
     getText(epic.creator_full_name) ||
     getText(epic.creator_display_name) ||
     getText(epic.creator_email)
+  );
+}
+
+export function getCreatedByAvatarUrl(epic: ProjectEpicResponse): string {
+  const createdBy = typeof epic.created_by === 'object' ? epic.created_by : null;
+  const creator = typeof epic.creator === 'object' ? epic.creator : null;
+
+  return (
+    getText(epic.created_by_avatar_url) ||
+    getPersonAvatarUrl(createdBy) ||
+    getText(epic.creator_avatar_url) ||
+    getPersonAvatarUrl(creator)
   );
 }

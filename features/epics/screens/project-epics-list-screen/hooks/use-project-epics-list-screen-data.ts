@@ -4,13 +4,13 @@ import { useCallback } from 'react';
 import { useMobileLoadMore } from '@/features/shared/hooks/use-mobile-load-more';
 import type { ProjectEpicsListScreenData } from '../types';
 import { getTotalPages } from '@/features/shared/utils/pagination';
+import { useEpicAuthRedirect } from '../../shared/hooks';
 import {
   getProjectEpicsDisplayData,
   getProjectEpicsErrorState,
   mapProjectEpic,
   mobileProjectEpicsViewportQuery,
 } from '../utils';
-import { useProjectEpicsAuthRedirect } from './list-screen-data/use-project-epics-auth-redirect';
 import { useProjectEpicsListScreenPagination } from './list-screen-data/use-project-epics-list-screen-pagination';
 import { useProjectEpicsProjectName } from './list-screen-data/use-project-epics-project-name';
 import {
@@ -61,7 +61,7 @@ export function useProjectEpicsListScreenData(
     visibleError,
   });
 
-  useProjectEpicsAuthRedirect(isUnauthorized);
+  useEpicAuthRedirect(isUnauthorized);
 
   return {
     currentPage,

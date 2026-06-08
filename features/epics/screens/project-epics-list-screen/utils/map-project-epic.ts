@@ -1,13 +1,14 @@
 import { getUserInitials } from '@/components/layout/utils/get-user-initials';
-import type { ProjectEpicResponse } from '../../api';
-import type { ProjectEpicListItem } from '../../types';
-import { formatDate, getDateTime } from './project-epic-date-utils';
+import type { ProjectEpicResponse } from '../../shared/types';
 import {
+  formatDate,
   getAssigneeAvatarUrl,
   getAssigneeName,
   getCreatedByName,
-} from './project-epic-response-utils';
-import { getText } from './project-epic-person-utils';
+  getDateTime,
+  getText,
+} from '../../shared/utils';
+import type { ProjectEpicListItem } from '../types';
 
 export function mapProjectEpic(epic: ProjectEpicResponse): ProjectEpicListItem {
   const assigneeName = getAssigneeName(epic) || 'Unassigned';

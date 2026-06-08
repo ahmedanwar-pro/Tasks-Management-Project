@@ -5,17 +5,9 @@ import {
   useInfiniteQuery,
   useQuery,
 } from '@tanstack/react-query';
-import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api';
 import { getPaginationOffset } from '@/features/shared/utils/pagination';
+import { shouldRetryEpicQuery } from '../../shared/hooks';
 import { getProjectEpics, type GetProjectEpicsResponse } from '../api';
-
-const defaultClientRetryCount = 3;
-
-function shouldRetryProjectEpicsQuery(failureCount: number, error: Error) {
-  return (
-    !isProjectUnauthorizedError(error) && failureCount < defaultClientRetryCount
-  );
-}
 
 export function useProjectEpicsQuery(
   projectId: string,
@@ -32,7 +24,7 @@ export function useProjectEpicsQuery(
         projectId,
       }),
     queryKey: ['project-epics', projectId, currentPage, limit] as const,
-    retry: shouldRetryProjectEpicsQuery,
+    retry: shouldRetryEpicQuery,
   });
 }
 
@@ -57,6 +49,6 @@ export function useMoreProjectEpicsQuery(projectId: string, limit: number) {
         projectId,
       }),
     queryKey: ['project-epics', projectId, 'mobile-infinite', limit] as const,
-    retry: shouldRetryProjectEpicsQuery,
+    retry: shouldRetryEpicQuery,
   });
 }

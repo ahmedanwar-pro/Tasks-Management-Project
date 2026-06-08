@@ -1,34 +1,14 @@
 import { getUserInitials } from '@/components/layout/utils/get-user-initials';
-import { formatDisplayDate } from '@/features/shared/utils/date-format';
+import type { ProjectEpicResponse } from '../../shared/types';
+import {
+  formatDate,
+  getAssigneeAvatarUrl,
+  getAssigneeName,
+  getCreatedByAvatarUrl,
+  getCreatedByName,
+  getText,
+} from '../../shared/utils';
 import type { EpicDetailsDisplayData, EpicDetailsPerson } from '../types';
-
-type EpicDetailsPreviewData = {
-  assignee?: {
-    avatarUrl?: string;
-    name?: string;
-  } | null;
-  createdAt: string;
-  createdBy: {
-    avatarUrl?: string;
-    name: string;
-  };
-  deadline: string;
-  description?: string | null;
-  epicKey: string;
-  title: string;
-};
-
-const previewEpicDetails: EpicDetailsPreviewData = {
-  assignee: null,
-  createdAt: '2025-12-01',
-  createdBy: {
-    name: 'Elena Lopez',
-  },
-  deadline: '2025-12-01',
-  description: '',
-  epicKey: 'EPIC-201',
-  title: 'Infrastructure epic',
-};
 
 function mapPerson(person: {
   avatarUrl?: string;
@@ -41,25 +21,28 @@ function mapPerson(person: {
   };
 }
 
-export function getEpicDetailsDisplayData(): EpicDetailsDisplayData {
-  const assigneeName = previewEpicDetails.assignee?.name?.trim();
+export function getEpicDetailsDisplayData(
+  epic: ProjectEpicResponse,
+): EpicDetailsDisplayData {
+  const assigneeName = getAssigneeName(epic);
+  const createdByName = getCreatedByName(epic) || 'Unknown';
 
   return {
     assignee: assigneeName
       ? mapPerson({
-          avatarUrl: previewEpicDetails.assignee?.avatarUrl,
+          avatarUrl: getAssigneeAvatarUrl(epic) || undefined,
           name: assigneeName,
         })
       : null,
-    createdAt: formatDisplayDate(
-      previewEpicDetails.createdAt,
-      previewEpicDetails.createdAt,
-    ),
-    createdBy: mapPerson(previewEpicDetails.createdBy),
-    deadline: formatDisplayDate(previewEpicDetails.deadline, previewEpicDetails.deadline),
-    description: previewEpicDetails.description?.trim() || 'No description provided',
-    epicKey: previewEpicDetails.epicKey,
+    createdAt: formatDate(epic.created_at),
+    createdBy: mapPerson({
+      avatarUrl: getCreatedByAvatarUrl(epic) || undefined,
+      name: createdByName,
+    }),
+    deadline: formatDate(epic.deadline),
+    description: getText(epic.description) || 'No description provided',
+    epicKey: getText(epic.epic_id) || 'EPIC',
     taskCount: 0,
-    title: previewEpicDetails.title,
+    title: getText(epic.title) || 'Untitled epic',
   };
 }

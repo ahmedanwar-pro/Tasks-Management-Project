@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export function useProjectEpicsAuthRedirect(isUnauthorized: boolean): void {
+export function useEpicAuthRedirect(isUnauthorized: boolean): void {
   const router = useRouter();
 
   useEffect(() => {

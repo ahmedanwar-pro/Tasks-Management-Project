@@ -6,24 +6,25 @@ import {
 import { requireProjectSession } from '@/features/projects/screens/edit-project-screen/api/require-project-session';
 import { projectEpicsViewName } from '../../shared/api';
 import type { ProjectEpicResponse } from '../../shared/types';
-import type {
-  GetProjectEpicsRequest,
-  GetProjectEpicsResponse,
-} from './project-epics-api-types';
 
-export async function getProjectEpics({
-  limit,
-  offset,
+export type GetEpicDetailsRequest = {
+  epicId: string;
+  projectId: string;
+};
+
+export async function getEpicDetails({
+  epicId,
   projectId,
-}: GetProjectEpicsRequest): Promise<GetProjectEpicsResponse> {
+}: GetEpicDetailsRequest): Promise<ProjectEpicResponse | null> {
   await requireProjectSession();
 
   // The configured Supabase client applies its active session token to this view request.
-  const { count, data, error } = await supabase
+  const { data, error } = await supabase
     .from(projectEpicsViewName)
-    .select('*', { count: 'exact' })
+    .select('*')
     .eq('project_id', projectId)
-    .range(offset, offset + limit - 1);
+    .eq('id', epicId)
+    .maybeSingle();
 
   if (error) {
     if (isProjectUnauthorizedResponse(error)) {
@@ -33,10 +34,5 @@ export async function getProjectEpics({
     throw error;
   }
 
-  const epics = (data ?? []) as ProjectEpicResponse[];
-
-  return {
-    epics,
-    totalCount: count ?? epics.length,
-  };
+  return (data as ProjectEpicResponse | null) ?? null;
 }
