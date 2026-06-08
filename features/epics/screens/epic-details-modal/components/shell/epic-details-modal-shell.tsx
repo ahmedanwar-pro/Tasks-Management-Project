@@ -8,11 +8,13 @@ import { joinClasses } from '@/components/ui/utils';
 import { closeEpicDetailsModal } from '../header/epic-details-modal-close';
 
 type EpicDetailsModalShellProps = {
+  label?: string;
   children: ReactNode;
   projectId: string;
 };
 
 export function EpicDetailsModalShell({
+  label,
   children,
   projectId,
 }: EpicDetailsModalShellProps): ReactElement {
@@ -32,7 +34,8 @@ export function EpicDetailsModalShell({
   return (
     <div className="bg-text-primary/40 md:bg-text-primary/20 fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-[2px] md:p-8">
       <div
-        aria-labelledby="epic-details-modal-title"
+        aria-label={label}
+        aria-labelledby={label ? undefined : 'epic-details-modal-title'}
         aria-modal="true"
         className={joinClasses(
           'bg-surface text-text-primary shadow-modal flex w-full max-w-md flex-col overflow-hidden rounded-md font-sans tracking-normal',

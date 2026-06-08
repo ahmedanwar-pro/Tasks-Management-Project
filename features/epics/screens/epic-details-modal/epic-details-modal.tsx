@@ -1,9 +1,12 @@
 'use client';
 
+import { useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api';
 import { useEpicAuthRedirect } from '../shared/hooks';
+import { EpicDetailsModalErrorState } from './components/error';
 import { EpicDetailsModalHeader } from './components/header/epic-details-modal-header';
+import { EpicDetailsModalLoadingState } from './components/loading';
 import { EpicDetailsDescription } from './components/meta/epic-details-description';
 import { EpicDetailsMetaGrid } from './components/meta/grid/epic-details-meta-grid';
 import { EpicDetailsModalShell } from './components/shell/epic-details-modal-shell';
@@ -20,18 +23,51 @@ export function EpicDetailsModal({
   epicId,
   projectId,
 }: EpicDetailsModalProps): ReactElement {
-  const { data: epicResponse, error, isPending } = useEpicDetailsQuery(
-    projectId,
-    epicId,
-  );
+  const {
+    data: epicResponse,
+    error,
+    isPending,
+    refetch,
+  } = useEpicDetailsQuery(projectId, epicId);
   const isUnauthorized = isProjectUnauthorizedError(error);
 
   useEpicAuthRedirect(isUnauthorized);
 
-  if (isPending || error || !epicResponse) {
+  useEffect(() => {
+    if (error) {
+      console.error('Failed to load epic details.', {
+        epicId,
+        error,
+        projectId,
+      });
+      return;
+    }
+
+    if (!isPending && !epicResponse) {
+      console.error('Epic details response was empty.', {
+        epicId,
+        projectId,
+      });
+    }
+  }, [epicId, epicResponse, error, isPending, projectId]);
+
+  if (isPending) {
     return (
-      <EpicDetailsModalShell projectId={projectId}>
-        {null}
+      <EpicDetailsModalShell label="Loading epic details" projectId={projectId}>
+        <EpicDetailsModalLoadingState />
+      </EpicDetailsModalShell>
+    );
+  }
+
+  if (error || !epicResponse) {
+    return (
+      <EpicDetailsModalShell label="Epic details unavailable" projectId={projectId}>
+        <EpicDetailsModalErrorState
+          onRetry={() => {
+            void refetch();
+          }}
+          projectId={projectId}
+        />
       </EpicDetailsModalShell>
     );
   }
