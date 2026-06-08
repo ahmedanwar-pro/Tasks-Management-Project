@@ -10,6 +10,7 @@ export type EpicDetailsDisplayData = {
   createdBy: EpicDetailsPerson;
   deadline: string;
   description: string;
+  descriptionValue: string;
   epicKey: string;
   taskCount: number;
   title: string;

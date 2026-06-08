@@ -26,6 +26,7 @@ export function getEpicDetailsDisplayData(
 ): EpicDetailsDisplayData {
   const assigneeName = getAssigneeName(epic);
   const createdByName = getCreatedByName(epic) || 'Unknown';
+  const description = getText(epic.description);
 
   return {
     assignee: assigneeName
@@ -40,7 +41,8 @@ export function getEpicDetailsDisplayData(
       name: createdByName,
     }),
     deadline: formatDate(epic.deadline),
-    description: getText(epic.description) || 'No description provided',
+    description: description || 'No description provided',
+    descriptionValue: description,
     epicKey: getText(epic.epic_id) || 'EPIC',
     taskCount: 0,
     title: getText(epic.title) || 'Untitled epic',
