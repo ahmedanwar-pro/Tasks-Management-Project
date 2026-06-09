@@ -1,8 +1,10 @@
 'use client';
 
+import { useId } from 'react';
 import type { ReactElement } from 'react';
 import { useEditableEpicDescription } from '../hooks';
 import type { EditableStringSaveHandler } from '../types';
+import { EditableValidationMessage } from '../editable-validation-message';
 import { EditableEpicDescriptionTextarea } from './editable-epic-description-textarea';
 import { EditableEpicDescriptionView } from './editable-epic-description-view';
 
@@ -19,23 +21,39 @@ export function EditableEpicDescription({
   disabled = false,
   onSave,
 }: EditableEpicDescriptionProps): ReactElement {
+  const validationMessageId = useId();
   const {
     draftDescription,
     handleBlur,
     handleChange,
     handleEdit,
     handleKeyDown,
+    handlePaste,
     isEditing,
+    limitMessage,
+    validationMessage,
   } = useEditableEpicDescription({ descriptionValue, onSave });
+  const feedbackMessage = validationMessage ?? limitMessage;
 
   return isEditing ? (
-    <EditableEpicDescriptionTextarea
-      disabled={disabled}
-      onBlur={handleBlur}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-      value={draftDescription}
-    />
+    <div className="flex min-w-0 flex-col gap-2">
+      <EditableEpicDescriptionTextarea
+        describedBy={feedbackMessage ? validationMessageId : undefined}
+        disabled={disabled}
+        invalid={Boolean(validationMessage)}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
+        value={draftDescription}
+      />
+      {feedbackMessage ? (
+        <EditableValidationMessage
+          id={validationMessageId}
+          message={feedbackMessage}
+        />
+      ) : null}
+    </div>
   ) : (
     <EditableEpicDescriptionView
       description={description}

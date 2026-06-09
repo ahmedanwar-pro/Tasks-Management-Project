@@ -3,6 +3,7 @@
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import { useState } from 'react';
 import type { EditableStringSaveHandler } from '../types';
+import { getEpicTitleValidationMessage } from '../utils';
 
 type UseEditableEpicTitleParams = {
   onSave: EditableStringSaveHandler;
@@ -14,15 +15,20 @@ export function useEditableEpicTitle({
   title,
 }: UseEditableEpicTitleParams) {
   const [draftTitle, setDraftTitle] = useState(title);
+  const [validationMessage, setValidationMessage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
   function handleEdit() {
     setDraftTitle(title);
+    setValidationMessage(null);
     setIsEditing(true);
   }
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    setDraftTitle(event.target.value);
+    const nextTitle = event.target.value;
+
+    setDraftTitle(nextTitle);
+    setValidationMessage(getEpicTitleValidationMessage(nextTitle.trim()));
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
@@ -32,6 +38,7 @@ export function useEditableEpicTitle({
 
     if (event.key === 'Escape') {
       setDraftTitle(title);
+      setValidationMessage(null);
       setIsEditing(false);
       event.currentTarget.blur();
     }
@@ -40,11 +47,14 @@ export function useEditableEpicTitle({
   function handleBlur() {
     const nextTitle = draftTitle.trim();
 
-    if (!nextTitle) {
-      setDraftTitle(title);
-      setIsEditing(false);
+    const nextValidationMessage = getEpicTitleValidationMessage(nextTitle);
+
+    if (nextValidationMessage) {
+      setValidationMessage(nextValidationMessage);
       return;
     }
+
+    setValidationMessage(null);
 
     if (nextTitle === title) {
       setDraftTitle(nextTitle);
@@ -66,5 +76,6 @@ export function useEditableEpicTitle({
     handleEdit,
     handleKeyDown,
     isEditing,
+    validationMessage,
   };
 }
