@@ -2,11 +2,12 @@
 
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import { useRef, useState } from 'react';
-import { isValidDateInputValue } from './deadline-date-utils';
+import type { EditableNullableStringSaveHandler } from '../types';
+import { isValidDateInputValue } from '../utils';
 
 type UseEditableEpicDeadlineParams = {
   deadlineValue: string;
-  onSave: (deadline: string | null) => Promise<void>;
+  onSave: EditableNullableStringSaveHandler;
 };
 
 export function useEditableEpicDeadline({

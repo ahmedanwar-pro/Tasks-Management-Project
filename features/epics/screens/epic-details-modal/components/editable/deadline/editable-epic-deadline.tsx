@@ -1,15 +1,16 @@
 'use client';
 
 import type { ReactElement } from 'react';
+import { useEditableEpicDeadline } from '../hooks';
+import type { EditableNullableStringSaveHandler } from '../types';
 import { EditableEpicDeadlineInput } from './editable-epic-deadline-input';
 import { EditableEpicDeadlineView } from './editable-epic-deadline-view';
-import { useEditableEpicDeadline } from './use-editable-epic-deadline';
 
 type EditableEpicDeadlineProps = {
   deadline: string;
   deadlineValue: string;
   disabled?: boolean;
-  onSave: (deadline: string | null) => Promise<void>;
+  onSave: EditableNullableStringSaveHandler;
 };
 
 export function EditableEpicDeadline({

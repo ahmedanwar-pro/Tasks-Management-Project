@@ -11,3 +11,7 @@ export {
   EditableEpicTitleInput,
   EditableEpicTitleView,
 } from './title';
+export type {
+  EditableNullableStringSaveHandler,
+  EditableStringSaveHandler,
+} from './types';

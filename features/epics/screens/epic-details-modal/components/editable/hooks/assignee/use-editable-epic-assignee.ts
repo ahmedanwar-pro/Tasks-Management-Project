@@ -2,17 +2,18 @@
 
 import { useRef, useState } from 'react';
 import type { EpicDetailsPerson as EpicDetailsPersonType } from '../../../../types';
+import type { EditableNullableStringSaveHandler } from '../../types';
 import {
   getInferredAssigneeId,
   getSelectValue,
   normalizeAssigneeId,
-} from '../utils';
+} from '../../utils';
 import { useAssigneeMemberOptions } from './use-assignee-member-options';
 import { useAssigneeSelectPicker } from './use-assignee-select-picker';
 
 type UseEditableEpicAssigneeParams = {
   assigneeId: string | null;
-  onSave: (assigneeId: string | null) => Promise<void>;
+  onSave: EditableNullableStringSaveHandler;
   person: EpicDetailsPersonType | null;
   projectId: string;
 };

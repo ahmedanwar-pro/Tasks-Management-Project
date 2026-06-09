@@ -1,7 +1,8 @@
 'use client';
 
-import type { KeyboardEvent, ReactElement } from 'react';
-import { useState } from 'react';
+import type { ReactElement } from 'react';
+import { useEditableEpicDescription } from '../hooks';
+import type { EditableStringSaveHandler } from '../types';
 import { EditableEpicDescriptionTextarea } from './editable-epic-description-textarea';
 import { EditableEpicDescriptionView } from './editable-epic-description-view';
 
@@ -9,7 +10,7 @@ type EditableEpicDescriptionProps = {
   description: string;
   descriptionValue: string;
   disabled?: boolean;
-  onSave: (description: string) => Promise<void>;
+  onSave: EditableStringSaveHandler;
 };
 
 export function EditableEpicDescription({
@@ -18,39 +19,20 @@ export function EditableEpicDescription({
   disabled = false,
   onSave,
 }: EditableEpicDescriptionProps): ReactElement {
-  const [draftDescription, setDraftDescription] = useState(descriptionValue);
-  const [isEditing, setIsEditing] = useState(false);
-
-  function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
-    if (event.key === 'Escape') {
-      setDraftDescription(descriptionValue);
-      setIsEditing(false);
-      event.currentTarget.blur();
-    }
-  }
-
-  function handleBlur() {
-    const nextDescription = draftDescription.trim();
-
-    setIsEditing(false);
-
-    if (nextDescription === descriptionValue) {
-      setDraftDescription(nextDescription);
-      return;
-    }
-
-    void onSave(nextDescription).catch(() => {
-      setDraftDescription(descriptionValue);
-    });
-  }
+  const {
+    draftDescription,
+    handleBlur,
+    handleChange,
+    handleEdit,
+    handleKeyDown,
+    isEditing,
+  } = useEditableEpicDescription({ descriptionValue, onSave });
 
   return isEditing ? (
     <EditableEpicDescriptionTextarea
       disabled={disabled}
       onBlur={handleBlur}
-      onChange={(event) => {
-        setDraftDescription(event.target.value);
-      }}
+      onChange={handleChange}
       onKeyDown={handleKeyDown}
       value={draftDescription}
     />
@@ -58,9 +40,7 @@ export function EditableEpicDescription({
     <EditableEpicDescriptionView
       description={description}
       disabled={disabled}
-      onEdit={() => {
-        setIsEditing(true);
-      }}
+      onEdit={handleEdit}
     />
   );
 }

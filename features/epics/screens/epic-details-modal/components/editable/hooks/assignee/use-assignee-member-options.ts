@@ -1,7 +1,7 @@
 'use client';
 
-import { useProjectMembersQuery } from '@/features/members/screens/project-members-list-screen/hooks';
 import { mapAssigneeOption } from '@/features/epics/screens/add-new-epic-screen/utils';
+import { useProjectMembersQuery } from '@/features/members/screens/project-members-list-screen/hooks';
 
 type UseAssigneeMemberOptionsParams = {
   isEditing: boolean;

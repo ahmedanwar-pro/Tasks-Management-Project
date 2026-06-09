@@ -2,14 +2,15 @@
 
 import type { ReactElement } from 'react';
 import type { EpicDetailsPerson as EpicDetailsPersonType } from '../../../types';
+import { useEditableEpicAssignee } from '../hooks';
+import type { EditableNullableStringSaveHandler } from '../types';
 import { EditableEpicAssigneeSelect } from './editable-epic-assignee-select';
 import { EditableEpicAssigneeView } from './editable-epic-assignee-view';
-import { useEditableEpicAssignee } from './hooks';
 
 type EditableEpicAssigneeProps = {
   assigneeId: string | null;
   disabled?: boolean;
-  onSave: (assigneeId: string | null) => Promise<void>;
+  onSave: EditableNullableStringSaveHandler;
   person: EpicDetailsPersonType | null;
   projectId: string;
 };
