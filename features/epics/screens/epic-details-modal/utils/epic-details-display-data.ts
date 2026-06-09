@@ -2,6 +2,7 @@ import { getUserInitials } from '@/components/layout/utils/get-user-initials';
 import type { ProjectEpicResponse } from '../../shared/types';
 import {
   formatDate,
+  getDateTime,
   getAssigneeAvatarUrl,
   getAssigneeName,
   getCreatedByAvatarUrl,
@@ -34,6 +35,32 @@ function getAssigneeId(epic: ProjectEpicResponse): string | null {
   );
 }
 
+function getDateInputValue(value?: string | null): string {
+  const text = getDateTime(value);
+
+  if (!text) {
+    return '';
+  }
+
+  const [datePart] = text.split('T');
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+    return datePart;
+  }
+
+  const date = new Date(text);
+
+  if (Number.isNaN(date.getTime())) {
+    return '';
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
 export function getEpicDetailsDisplayData(
   epic: ProjectEpicResponse,
 ): EpicDetailsDisplayData {
@@ -55,6 +82,7 @@ export function getEpicDetailsDisplayData(
       name: createdByName,
     }),
     deadline: formatDate(epic.deadline),
+    deadlineValue: getDateInputValue(epic.deadline),
     description: description || 'No description provided',
     descriptionValue: description,
     epicKey: getText(epic.epic_id) || 'EPIC',

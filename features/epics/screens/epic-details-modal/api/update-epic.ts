@@ -9,6 +9,7 @@ import { getEpicDetails } from './get-epic-details';
 
 export type UpdateEpicRequest = {
   assigneeId?: string | null;
+  deadline?: string | null;
   description?: string | null;
   epicId: string;
   projectId: string;
@@ -17,6 +18,7 @@ export type UpdateEpicRequest = {
 
 export async function updateEpic({
   assigneeId,
+  deadline,
   description,
   epicId,
   projectId,
@@ -26,6 +28,7 @@ export async function updateEpic({
 
   const updates: {
     assignee_id?: string | null;
+    deadline?: string | null;
     description?: string | null;
     title?: string;
   } = {};
@@ -40,6 +43,10 @@ export async function updateEpic({
 
   if (description !== undefined) {
     updates.description = description;
+  }
+
+  if (deadline !== undefined) {
+    updates.deadline = deadline;
   }
 
   const { error } = await supabase

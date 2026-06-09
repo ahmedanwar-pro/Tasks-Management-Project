@@ -10,6 +10,7 @@ export type EpicDetailsDisplayData = {
   createdAt: string;
   createdBy: EpicDetailsPerson;
   deadline: string;
+  deadlineValue: string;
   description: string;
   descriptionValue: string;
   epicKey: string;

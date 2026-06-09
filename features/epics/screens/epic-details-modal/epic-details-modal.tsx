@@ -96,6 +96,13 @@ export function EpicDetailsModal({
                 projectId,
               }).then(() => undefined)
             }
+            onDeadlineSave={(deadline) =>
+              updateEpic({
+                deadline,
+                epicId,
+                projectId,
+              }).then(() => undefined)
+            }
             projectId={projectId}
           />
           <EpicDetailsTasksSection taskCount={epic.taskCount} />

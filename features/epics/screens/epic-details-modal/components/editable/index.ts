@@ -4,6 +4,7 @@ export {
   EditableEpicDescriptionTextarea,
   EditableEpicDescriptionView,
 } from './description';
+export { EditableEpicDeadline, EditableEpicDeadlineInput } from './deadline';
 export { EditableEditButton } from './editable-edit-button';
 export {
   EditableEpicTitle,

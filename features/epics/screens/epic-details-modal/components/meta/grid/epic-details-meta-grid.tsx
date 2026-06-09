@@ -7,6 +7,7 @@ type EpicDetailsMetaGridProps = {
   disabled?: boolean;
   epic: EpicDetailsDisplayData;
   onAssigneeSave: (assigneeId: string | null) => Promise<void>;
+  onDeadlineSave: (deadline: string | null) => Promise<void>;
   projectId: string;
 };
 
@@ -14,6 +15,7 @@ export function EpicDetailsMetaGrid({
   disabled = false,
   epic,
   onAssigneeSave,
+  onDeadlineSave,
   projectId,
 }: EpicDetailsMetaGridProps): ReactElement {
   return (
@@ -24,7 +26,11 @@ export function EpicDetailsMetaGrid({
         onAssigneeSave={onAssigneeSave}
         projectId={projectId}
       />
-      <EpicDetailsMetaDatesRow epic={epic} />
+      <EpicDetailsMetaDatesRow
+        disabled={disabled}
+        epic={epic}
+        onDeadlineSave={onDeadlineSave}
+      />
     </div>
   );
 }
