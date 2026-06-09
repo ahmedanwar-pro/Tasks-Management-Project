@@ -3,13 +3,10 @@
 import type { ReactElement } from 'react';
 import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api';
 import { useEpicAuthRedirect } from '../shared/hooks';
-import { EpicDetailsModalErrorState } from './components/error';
-import { EpicDetailsModalHeader } from './components/header/epic-details-modal-header';
-import { EpicDetailsModalLoadingState } from './components/loading';
-import { EpicDetailsDescription } from './components/meta/epic-details-description';
-import { EpicDetailsMetaGrid } from './components/meta/grid/epic-details-meta-grid';
+import { EpicDetailsModalContent } from './components/epic-details-modal-content';
+import { EpicDetailsModalLoading } from './components/epic-details-modal-loading';
+import { EpicDetailsModalUnavailable } from './components/epic-details-modal-error';
 import { EpicDetailsModalShell } from './components/shell/epic-details-modal-shell';
-import { EpicDetailsTasksSection } from './components/tasks/epic-details-tasks-section';
 import { useEpicDetailsQuery, useUpdateEpicMutation } from './hooks';
 import { getEpicDetailsDisplayData } from './utils/epic-details-display-data';
 
@@ -35,23 +32,17 @@ export function EpicDetailsModal({
   useEpicAuthRedirect(isUnauthorized);
 
   if (isPending) {
-    return (
-      <EpicDetailsModalShell label="Loading epic details" projectId={projectId}>
-        <EpicDetailsModalLoadingState />
-      </EpicDetailsModalShell>
-    );
+    return <EpicDetailsModalLoading projectId={projectId} />;
   }
 
   if (error || !epicResponse) {
     return (
-      <EpicDetailsModalShell label="Epic details unavailable" projectId={projectId}>
-        <EpicDetailsModalErrorState
-          onRetry={() => {
-            void refetch();
-          }}
-          projectId={projectId}
-        />
-      </EpicDetailsModalShell>
+      <EpicDetailsModalUnavailable
+        onRetry={() => {
+          void refetch();
+        }}
+        projectId={projectId}
+      />
     );
   }
 
@@ -59,55 +50,13 @@ export function EpicDetailsModal({
 
   return (
     <EpicDetailsModalShell projectId={projectId}>
-      <EpicDetailsModalHeader
-        disabled={isSaving}
+      <EpicDetailsModalContent
         epic={epic}
-        onTitleSave={(title) =>
-          updateEpic({
-            epicId,
-            projectId,
-            title,
-          }).then(() => undefined)
-        }
+        epicId={epicId}
+        isSaving={isSaving}
         projectId={projectId}
+        updateEpic={updateEpic}
       />
-      <div className="min-h-0 w-full flex-1 overflow-y-auto px-6 py-2 md:p-8">
-        <div className="flex w-full flex-col gap-5 py-4 md:gap-8 md:py-0">
-          <EpicDetailsDescription
-            description={epic.description}
-            descriptionValue={epic.descriptionValue}
-            disabled={isSaving}
-            key={epic.descriptionValue}
-            onSave={(description) =>
-              updateEpic({
-                description: description || null,
-                epicId,
-                projectId,
-              }).then(() => undefined)
-            }
-          />
-          <EpicDetailsMetaGrid
-            disabled={isSaving}
-            epic={epic}
-            onAssigneeSave={(assigneeId) =>
-              updateEpic({
-                assigneeId,
-                epicId,
-                projectId,
-              }).then(() => undefined)
-            }
-            onDeadlineSave={(deadline) =>
-              updateEpic({
-                deadline,
-                epicId,
-                projectId,
-              }).then(() => undefined)
-            }
-            projectId={projectId}
-          />
-          <EpicDetailsTasksSection taskCount={epic.taskCount} />
-        </div>
-      </div>
     </EpicDetailsModalShell>
   );
 }
