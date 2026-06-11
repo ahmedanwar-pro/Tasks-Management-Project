@@ -16,10 +16,15 @@ export function useEditableEpicDeadline({
 }: UseEditableEpicDeadlineParams) {
   const [draftDeadline, setDraftDeadline] = useState(deadlineValue);
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const isManualTypingRef = useRef(false);
   const pendingDeadlineRef = useRef<string | null>(null);
 
   function handleEdit() {
+    if (isSaving) {
+      return;
+    }
+
     setDraftDeadline(deadlineValue);
     isManualTypingRef.current = false;
     setIsEditing(true);
@@ -43,6 +48,7 @@ export function useEditableEpicDeadline({
     }
 
     pendingDeadlineRef.current = nextDeadline;
+    setIsSaving(true);
 
     void onSave(nextDeadline || null)
       .then(() => {
@@ -54,6 +60,7 @@ export function useEditableEpicDeadline({
       })
       .finally(() => {
         pendingDeadlineRef.current = null;
+        setIsSaving(false);
       });
   }
 
@@ -97,5 +104,6 @@ export function useEditableEpicDeadline({
     handleEdit,
     handleKeyDown,
     isEditing,
+    isSaving,
   };
 }

@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import { Spinner } from '@/components/ui';
 
 export function SelectChevron(): ReactElement {
   return (
@@ -22,9 +23,9 @@ export function SelectChevron(): ReactElement {
 
 export function LoadingSpinner(): ReactElement {
   return (
-    <span
-      aria-hidden="true"
-      className="text-text-tertiary pointer-events-none absolute top-1/2 right-4 size-icon-md -translate-y-1/2 animate-spin rounded-full border-2 border-current border-r-transparent"
+    <Spinner
+      className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-text-tertiary"
+      size="md"
     />
   );
 }

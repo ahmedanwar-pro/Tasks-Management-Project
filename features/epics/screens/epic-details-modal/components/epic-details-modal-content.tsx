@@ -9,7 +9,6 @@ import { EpicDetailsTasksSection } from './tasks/epic-details-tasks-section';
 type EpicDetailsModalContentProps = {
   epic: EpicDetailsDisplayData;
   epicId: string;
-  isSaving: boolean;
   projectId: string;
   updateEpic: (request: UpdateEpicRequest) => Promise<unknown>;
 };
@@ -17,14 +16,12 @@ type EpicDetailsModalContentProps = {
 export function EpicDetailsModalContent({
   epic,
   epicId,
-  isSaving,
   projectId,
   updateEpic,
 }: EpicDetailsModalContentProps): ReactElement {
   return (
     <>
       <EpicDetailsModalHeader
-        disabled={isSaving}
         epic={epic}
         onTitleSave={(title) =>
           updateEpic({
@@ -40,7 +37,6 @@ export function EpicDetailsModalContent({
           <EpicDetailsDescription
             description={epic.description}
             descriptionValue={epic.descriptionValue}
-            disabled={isSaving}
             key={epic.descriptionValue}
             onSave={(description) =>
               updateEpic({
@@ -51,7 +47,6 @@ export function EpicDetailsModalContent({
             }
           />
           <EpicDetailsMetaGrid
-            disabled={isSaving}
             epic={epic}
             onAssigneeSave={(assigneeId) =>
               updateEpic({

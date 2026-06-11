@@ -29,6 +29,7 @@ export function useEditableEpicAssignee({
   const selectRef = useRef<HTMLSelectElement | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [draftAssigneeId, setDraftAssigneeId] = useState(currentSelectValue);
+  const [isSaving, setIsSaving] = useState(false);
   const { hasError, isLoading, members } = useAssigneeMemberOptions({
     isEditing,
     projectId,
@@ -48,6 +49,10 @@ export function useEditableEpicAssignee({
   });
 
   function handleEdit() {
+    if (isSaving) {
+      return;
+    }
+
     setDraftAssigneeId(currentSelectValue);
     setIsEditing(true);
   }
@@ -66,9 +71,15 @@ export function useEditableEpicAssignee({
       return;
     }
 
-    void onSave(nextNormalizedAssigneeId).catch(() => {
-      setDraftAssigneeId(effectiveCurrentSelectValue);
-    });
+    setIsSaving(true);
+
+    void onSave(nextNormalizedAssigneeId)
+      .catch(() => {
+        setDraftAssigneeId(effectiveCurrentSelectValue);
+      })
+      .finally(() => {
+        setIsSaving(false);
+      });
   }
 
   function handleSelectionSettled() {
@@ -85,6 +96,7 @@ export function useEditableEpicAssignee({
     hasError,
     isEditing,
     isLoading,
+    isSaving,
     members,
     selectRef,
     selectValue: getSelectValue({

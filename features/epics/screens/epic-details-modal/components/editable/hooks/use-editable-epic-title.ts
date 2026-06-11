@@ -17,8 +17,13 @@ export function useEditableEpicTitle({
   const [draftTitle, setDraftTitle] = useState(title);
   const [validationMessage, setValidationMessage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   function handleEdit() {
+    if (isSaving) {
+      return;
+    }
+
     setDraftTitle(title);
     setValidationMessage(null);
     setIsEditing(true);
@@ -64,9 +69,15 @@ export function useEditableEpicTitle({
 
     setIsEditing(false);
 
-    void onSave(nextTitle).catch(() => {
-      setDraftTitle(title);
-    });
+    setIsSaving(true);
+
+    void onSave(nextTitle)
+      .catch(() => {
+        setDraftTitle(title);
+      })
+      .finally(() => {
+        setIsSaving(false);
+      });
   }
 
   return {
@@ -76,6 +87,7 @@ export function useEditableEpicTitle({
     handleEdit,
     handleKeyDown,
     isEditing,
+    isSaving,
     validationMessage,
   };
 }

@@ -22,8 +22,13 @@ export function useEditableEpicDescription({
   const [limitMessage, setLimitMessage] = useState<string | null>(null);
   const [validationMessage, setValidationMessage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   function handleEdit() {
+    if (isSaving) {
+      return;
+    }
+
     setLimitMessage(null);
     setValidationMessage(null);
     setIsEditing(true);
@@ -108,9 +113,15 @@ export function useEditableEpicDescription({
       return;
     }
 
-    void onSave(nextDescription).catch(() => {
-      setDraftDescription(descriptionValue);
-    });
+    setIsSaving(true);
+
+    void onSave(nextDescription)
+      .catch(() => {
+        setDraftDescription(descriptionValue);
+      })
+      .finally(() => {
+        setIsSaving(false);
+      });
   }
 
   return {
@@ -121,6 +132,7 @@ export function useEditableEpicDescription({
     handleKeyDown,
     handlePaste,
     isEditing,
+    isSaving,
     limitMessage,
     validationMessage,
   };

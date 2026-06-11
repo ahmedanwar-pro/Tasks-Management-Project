@@ -25,8 +25,7 @@ export function EpicDetailsModal({
     isPending,
     refetch,
   } = useEpicDetailsQuery(projectId, epicId);
-  const { isPending: isSaving, mutateAsync: updateEpic } =
-    useUpdateEpicMutation(projectId, epicId);
+  const { mutateAsync: updateEpic } = useUpdateEpicMutation(projectId, epicId);
   const isUnauthorized = isProjectUnauthorizedError(error);
 
   useEpicAuthRedirect(isUnauthorized);
@@ -53,7 +52,6 @@ export function EpicDetailsModal({
       <EpicDetailsModalContent
         epic={epic}
         epicId={epicId}
-        isSaving={isSaving}
         projectId={projectId}
         updateEpic={updateEpic}
       />

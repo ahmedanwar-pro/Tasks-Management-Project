@@ -26,12 +26,14 @@ export function EditableEpicDeadline({
     handleEdit,
     handleKeyDown,
     isEditing,
+    isSaving,
   } = useEditableEpicDeadline({ deadlineValue, onSave });
 
   if (isEditing) {
     return (
       <EditableEpicDeadlineInput
-        disabled={disabled}
+        disabled={disabled || isSaving}
+        isSaving={isSaving}
         onBlur={handleBlur}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
@@ -43,7 +45,7 @@ export function EditableEpicDeadline({
   return (
     <EditableEpicDeadlineView
       deadline={deadline}
-      disabled={disabled}
+      disabled={disabled || isSaving}
       onEdit={handleEdit}
     />
   );

@@ -1,15 +1,18 @@
 import type { ReactElement } from 'react';
 import { EditableEditButton } from '../editable-edit-button';
+import { EditableFieldLoadingIndicator } from '../editable-field-loading-indicator';
 
 type EditableEpicDescriptionViewProps = {
   description: string;
   disabled: boolean;
+  isSaving: boolean;
   onEdit: () => void;
 };
 
 export function EditableEpicDescriptionView({
   description,
   disabled,
+  isSaving,
   onEdit,
 }: EditableEpicDescriptionViewProps): ReactElement {
   return (
@@ -23,11 +26,15 @@ export function EditableEpicDescriptionView({
       >
         {description}
       </button>
-      <EditableEditButton
-        aria-label="Edit epic description"
-        disabled={disabled}
-        onClick={onEdit}
-      />
+      {isSaving ? (
+        <EditableFieldLoadingIndicator className="h-5 w-4" label="Saving..." />
+      ) : (
+        <EditableEditButton
+          aria-label="Edit epic description"
+          disabled={disabled}
+          onClick={onEdit}
+        />
+      )}
     </div>
   );
 }

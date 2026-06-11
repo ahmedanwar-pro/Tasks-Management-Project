@@ -15,4 +15,5 @@ export { Logo } from './logo/logo';
 export { Modal } from './modal/modal';
 export { Skeleton } from './skeleton/skeleton';
 export { SignatureGradientCtaCard } from './signature-gradient-cta-card/signature-gradient-cta-card';
+export { Spinner } from './spinner/spinner';
 export { Textarea } from './textarea/textarea';

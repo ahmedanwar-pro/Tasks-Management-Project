@@ -2,15 +2,18 @@ import type { ReactElement } from 'react';
 import type { EpicDetailsPerson as EpicDetailsPersonType } from '../../../types';
 import { EpicDetailsPerson } from '../../meta/epic-details-person';
 import { EditableEditButton } from '../editable-edit-button';
+import { EditableFieldLoadingIndicator } from '../editable-field-loading-indicator';
 
 type EditableEpicAssigneeViewProps = {
   disabled: boolean;
+  isSaving: boolean;
   onEdit: () => void;
   person: EpicDetailsPersonType | null;
 };
 
 export function EditableEpicAssigneeView({
   disabled,
+  isSaving,
   onEdit,
   person,
 }: EditableEpicAssigneeViewProps): ReactElement {
@@ -25,11 +28,15 @@ export function EditableEpicAssigneeView({
       >
         <EpicDetailsPerson person={person} tone="assignee" />
       </button>
-      <EditableEditButton
-        aria-label="Edit epic assignee"
-        disabled={disabled}
-        onClick={onEdit}
-      />
+      {isSaving ? (
+        <EditableFieldLoadingIndicator className="h-5 w-4" label="Saving..." />
+      ) : (
+        <EditableEditButton
+          aria-label="Edit epic assignee"
+          disabled={disabled}
+          onClick={onEdit}
+        />
+      )}
     </div>
   );
 }

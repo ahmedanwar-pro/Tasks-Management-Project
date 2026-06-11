@@ -27,6 +27,7 @@ export function EditableEpicTitle({
     handleEdit,
     handleKeyDown,
     isEditing,
+    isSaving,
     validationMessage,
   } = useEditableEpicTitle({ onSave, title });
 
@@ -53,7 +54,8 @@ export function EditableEpicTitle({
         </span>
       ) : (
         <EditableEpicTitleView
-          disabled={disabled}
+          disabled={disabled || isSaving}
+          isSaving={isSaving}
           onEdit={handleEdit}
           title={title}
         />

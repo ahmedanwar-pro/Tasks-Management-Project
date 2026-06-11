@@ -26,6 +26,7 @@ export function EditableEpicAssignee({
     hasError,
     isEditing,
     isLoading,
+    isSaving,
     members,
     selectRef,
     selectValue,
@@ -65,7 +66,8 @@ export function EditableEpicAssignee({
 
   return (
     <EditableEpicAssigneeView
-      disabled={disabled}
+      disabled={disabled || isSaving}
+      isSaving={isSaving}
       onEdit={handleEdit}
       person={person}
     />

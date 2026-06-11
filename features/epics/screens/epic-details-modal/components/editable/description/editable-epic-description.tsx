@@ -30,6 +30,7 @@ export function EditableEpicDescription({
     handleKeyDown,
     handlePaste,
     isEditing,
+    isSaving,
     limitMessage,
     validationMessage,
   } = useEditableEpicDescription({ descriptionValue, onSave });
@@ -57,7 +58,8 @@ export function EditableEpicDescription({
   ) : (
     <EditableEpicDescriptionView
       description={description}
-      disabled={disabled}
+      disabled={disabled || isSaving}
+      isSaving={isSaving}
       onEdit={handleEdit}
     />
   );

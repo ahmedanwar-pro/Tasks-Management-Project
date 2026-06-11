@@ -8,6 +8,7 @@ import type {
 } from 'react';
 import { SelectChevron } from '@/features/epics/screens/add-new-epic-screen/components';
 import type { AssigneeOption } from '@/features/epics/screens/add-new-epic-screen/utils';
+import { EditableFieldLoadingIndicator } from '../editable-field-loading-indicator';
 import { EditableEpicAssigneeOptions } from './assignee-options';
 
 type EditableEpicAssigneeSelectProps = {
@@ -57,7 +58,14 @@ export function EditableEpicAssigneeSelect({
           value={value}
         />
       </select>
-      <SelectChevron />
+      {isLoading ? (
+        <EditableFieldLoadingIndicator
+          className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2"
+          label="Loading members..."
+        />
+      ) : (
+        <SelectChevron />
+      )}
     </div>
   );
 }

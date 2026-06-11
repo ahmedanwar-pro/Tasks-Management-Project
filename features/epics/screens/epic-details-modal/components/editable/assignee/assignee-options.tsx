@@ -21,6 +21,10 @@ export function EditableEpicAssigneeOptions({
   members,
   value,
 }: EditableEpicAssigneeOptionsProps): ReactElement {
+  if (!isLoading && hasError) {
+    return <EditableEpicAssigneeErrorOption value={value} />;
+  }
+
   const hasSelectedValue =
     value === '' || members.some((member) => member.id === value);
 
@@ -31,9 +35,6 @@ export function EditableEpicAssigneeOptions({
         <EditableEpicAssigneeCurrentOption value={value} />
       ) : null}
       {!isLoading ? <EditableEpicAssigneeUnassignedOption /> : null}
-      {!isLoading && hasError ? (
-        <EditableEpicAssigneeErrorOption value={value} />
-      ) : null}
       {!isLoading && !hasError
         ? members.map((member, index) => (
             <EditableEpicAssigneeMemberOption
