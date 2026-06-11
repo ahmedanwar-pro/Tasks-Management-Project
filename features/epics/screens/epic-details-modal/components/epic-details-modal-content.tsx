@@ -1,6 +1,12 @@
+import { useState } from 'react';
 import type { ReactElement } from 'react';
+import { EpicFormFeedback } from '../../shared/components';
 import type { UpdateEpicRequest } from '../api';
 import type { EpicDetailsDisplayData } from '../types';
+import {
+  epicUpdateErrorMessage,
+  epicUpdateSuccessMessage,
+} from '../utils/epic-update-feedback-messages';
 import { EpicDetailsModalHeader } from './header/epic-details-modal-header';
 import { EpicDetailsDescription } from './meta/epic-details-description';
 import { EpicDetailsMetaGrid } from './meta/grid/epic-details-meta-grid';
@@ -19,48 +25,71 @@ export function EpicDetailsModalContent({
   projectId,
   updateEpic,
 }: EpicDetailsModalContentProps): ReactElement {
+  const [feedback, setFeedback] = useState<{
+    error?: string;
+    success?: string;
+  } | null>(null);
+
+  async function handleUpdateEpic(request: UpdateEpicRequest): Promise<void> {
+    setFeedback(null);
+
+    try {
+      await updateEpic(request);
+      setFeedback({ success: epicUpdateSuccessMessage });
+    } catch (error) {
+      setFeedback({ error: epicUpdateErrorMessage });
+      throw error;
+    }
+  }
+
   return (
     <>
       <EpicDetailsModalHeader
         epic={epic}
         onTitleSave={(title) =>
-          updateEpic({
+          handleUpdateEpic({
             epicId,
             projectId,
             title,
-          }).then(() => undefined)
+          })
         }
         projectId={projectId}
       />
       <div className="min-h-0 w-full flex-1 overflow-y-auto px-6 py-2 md:p-8">
         <div className="flex w-full flex-col gap-5 py-4 md:gap-8 md:py-0">
+          {feedback ? (
+            <EpicFormFeedback
+              error={feedback.error}
+              success={feedback.success}
+            />
+          ) : null}
           <EpicDetailsDescription
             description={epic.description}
             descriptionValue={epic.descriptionValue}
             key={epic.descriptionValue}
             onSave={(description) =>
-              updateEpic({
+              handleUpdateEpic({
                 description: description || null,
                 epicId,
                 projectId,
-              }).then(() => undefined)
+              })
             }
           />
           <EpicDetailsMetaGrid
             epic={epic}
             onAssigneeSave={(assigneeId) =>
-              updateEpic({
+              handleUpdateEpic({
                 assigneeId,
                 epicId,
                 projectId,
-              }).then(() => undefined)
+              })
             }
             onDeadlineSave={(deadline) =>
-              updateEpic({
+              handleUpdateEpic({
                 deadline,
                 epicId,
                 projectId,
-              }).then(() => undefined)
+              })
             }
             projectId={projectId}
           />
