@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 import { FormField } from '@/components/forms';
+import { projectMembersFetchErrorMessage } from '../../shared/utils';
 import { useEpicAssigneeDropdown } from '../hooks';
 import { LoadingSpinner, SelectChevron } from './epic-assignee-field-icons';
 
@@ -30,7 +31,7 @@ export function EpicAssigneeField({
   return (
     <FormField
       className="gap-2 lg:gap-4"
-      error={hasError ? 'Could not load project members.' : undefined}
+      error={hasError ? projectMembersFetchErrorMessage : undefined}
       label="Assignee"
       labelClassName="text-[11px] leading-[16.5px] tracking-[1.1px]"
       messageClassName="text-[11px] leading-[16.5px] tracking-[0.55px]"

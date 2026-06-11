@@ -30,7 +30,12 @@ export function useEditableEpicAssignee({
   const [isEditing, setIsEditing] = useState(false);
   const [draftAssigneeId, setDraftAssigneeId] = useState(currentSelectValue);
   const [isSaving, setIsSaving] = useState(false);
-  const { hasError, isLoading, members } = useAssigneeMemberOptions({
+  const {
+    hasError,
+    isLoading,
+    members,
+    refetchMembers,
+  } = useAssigneeMemberOptions({
     isEditing,
     projectId,
   });
@@ -61,8 +66,17 @@ export function useEditableEpicAssignee({
     setIsEditing(false);
   }
 
+  function handleMembersRetry() {
+    if (!hasError) {
+      return;
+    }
+
+    void refetchMembers();
+  }
+
   function handleChange(nextAssigneeId: string) {
     const nextNormalizedAssigneeId = normalizeAssigneeId(nextAssigneeId);
+    const previousSelectValue = effectiveCurrentSelectValue;
 
     setDraftAssigneeId(nextAssigneeId);
     setIsEditing(false);
@@ -75,7 +89,7 @@ export function useEditableEpicAssignee({
 
     void onSave(nextNormalizedAssigneeId)
       .catch(() => {
-        setDraftAssigneeId(effectiveCurrentSelectValue);
+        setDraftAssigneeId(previousSelectValue);
       })
       .finally(() => {
         setIsSaving(false);
@@ -108,6 +122,7 @@ export function useEditableEpicAssignee({
     handleBlur,
     handleChange,
     handleEdit,
+    handleMembersRetry,
     handleSelectionSettled,
   };
 }

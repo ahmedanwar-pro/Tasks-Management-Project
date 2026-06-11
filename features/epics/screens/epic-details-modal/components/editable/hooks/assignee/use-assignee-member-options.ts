@@ -12,12 +12,18 @@ export function useAssigneeMemberOptions({
   isEditing,
   projectId,
 }: UseAssigneeMemberOptionsParams) {
-  const { data, error, isPending } = useProjectMembersQuery(projectId, isEditing);
+  const {
+    data,
+    error,
+    isPending,
+    refetch: refetchMembers,
+  } = useProjectMembersQuery(projectId, isEditing);
   const members = (data?.members ?? []).map(mapAssigneeOption);
 
   return {
     hasError: Boolean(error),
     isLoading: isEditing && isPending,
     members,
+    refetchMembers,
   };
 }

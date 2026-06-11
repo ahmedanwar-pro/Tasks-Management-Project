@@ -33,6 +33,7 @@ export function EditableEpicAssignee({
     handleBlur,
     handleChange,
     handleEdit,
+    handleMembersRetry,
     handleSelectionSettled,
   } = useEditableEpicAssignee({
     assigneeId,
@@ -45,6 +46,7 @@ export function EditableEpicAssignee({
     return (
       <EditableEpicAssigneeSelect
         disabled={disabled}
+        currentAssigneeLabel={person?.name}
         hasError={hasError}
         isLoading={isLoading}
         members={members}
@@ -58,6 +60,7 @@ export function EditableEpicAssignee({
           }
         }}
         onMouseUp={handleSelectionSettled}
+        onPointerDown={handleMembersRetry}
         ref={selectRef}
         value={selectValue}
       />

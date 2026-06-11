@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import { projectMembersFetchErrorMessage } from '@/features/epics/screens/shared/utils';
 
 type EditableEpicAssigneeErrorOptionProps = {
   value: string;
@@ -7,5 +8,5 @@ type EditableEpicAssigneeErrorOptionProps = {
 export function EditableEpicAssigneeErrorOption({
   value,
 }: EditableEpicAssigneeErrorOptionProps): ReactElement {
-  return <option value={value}>Could not load members</option>;
+  return <option value={value}>{projectMembersFetchErrorMessage}</option>;
 }

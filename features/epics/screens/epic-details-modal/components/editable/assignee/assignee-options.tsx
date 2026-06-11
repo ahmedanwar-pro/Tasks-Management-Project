@@ -2,13 +2,13 @@ import type { ReactElement } from 'react';
 import type { AssigneeOption } from '@/features/epics/screens/add-new-epic-screen/utils';
 import {
   EditableEpicAssigneeCurrentOption,
-  EditableEpicAssigneeErrorOption,
   EditableEpicAssigneeLoadingOption,
   EditableEpicAssigneeMemberOption,
   EditableEpicAssigneeUnassignedOption,
 } from './options';
 
 type EditableEpicAssigneeOptionsProps = {
+  currentAssigneeLabel?: string;
   hasError: boolean;
   isLoading: boolean;
   members: AssigneeOption[];
@@ -16,13 +16,23 @@ type EditableEpicAssigneeOptionsProps = {
 };
 
 export function EditableEpicAssigneeOptions({
+  currentAssigneeLabel,
   hasError,
   isLoading,
   members,
   value,
 }: EditableEpicAssigneeOptionsProps): ReactElement {
   if (!isLoading && hasError) {
-    return <EditableEpicAssigneeErrorOption value={value} />;
+    return currentAssigneeLabel ? (
+      <EditableEpicAssigneeCurrentOption
+        label={currentAssigneeLabel}
+        value={value}
+      />
+    ) : value === '' ? (
+      <EditableEpicAssigneeUnassignedOption />
+    ) : (
+      <EditableEpicAssigneeCurrentOption value={value} />
+    );
   }
 
   const hasSelectedValue =
