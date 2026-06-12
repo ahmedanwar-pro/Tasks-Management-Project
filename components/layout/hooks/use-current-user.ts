@@ -31,27 +31,51 @@ export function useCurrentUser() {
   const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
+    let isActive = true;
+
+    function applyCurrentUser(currentUser: AppUser | null): void {
+      if (currentUser) {
+        dispatch(setUser(currentUser));
+        return;
+      }
+
+      dispatch(clearUser());
+    }
+
+    async function hydrateCurrentUser(): Promise<void> {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (!isActive) {
+        return;
+      }
+
+      applyCurrentUser(error ? null : mapCurrentUser(data.session?.user ?? null));
+      setIsPending(false);
+    }
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!isActive) {
+        return;
+      }
+
       if (event === 'SIGNED_OUT') {
         dispatch(clearUser());
         setIsPending(false);
         return;
       }
 
-      const currentUser = mapCurrentUser(session?.user ?? null);
-
-      if (currentUser) {
-        dispatch(setUser(currentUser));
-      } else {
-        dispatch(clearUser());
-      }
-
+      applyCurrentUser(mapCurrentUser(session?.user ?? null));
       setIsPending(false);
     });
 
-    return () => subscription.unsubscribe();
+    void hydrateCurrentUser();
+
+    return () => {
+      isActive = false;
+      subscription.unsubscribe();
+    };
   }, [dispatch]);
 
   return { data: user, isPending };

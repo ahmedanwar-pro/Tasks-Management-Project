@@ -22,7 +22,7 @@ export function EpicDetailsModalShell({
   const router = useRouter();
 
   function handleClose(): void {
-    closeEpicDetailsModal(projectId, router.replace, router.back);
+    closeEpicDetailsModal(projectId, router.replace);
   }
 
   useFocusTrap({

@@ -9,22 +9,10 @@ type EpicDetailsModalCloseProps = {
   projectId: string;
 };
 
-type NextHistoryState = {
-  idx?: number;
-};
-
 export function closeEpicDetailsModal(
   projectId: string,
   replace: (href: string) => void,
-  back: () => void,
 ) {
-  const historyState = window.history.state as NextHistoryState | null;
-
-  if (typeof historyState?.idx === 'number' && historyState.idx > 0) {
-    back();
-    return;
-  }
-
   replace(`/projects/${projectId}/epics`);
 }
 
@@ -36,7 +24,7 @@ export function EpicDetailsModalClose({
 
   function handleClose(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    closeEpicDetailsModal(projectId, router.replace, router.back);
+    closeEpicDetailsModal(projectId, router.replace);
   }
 
   return (
