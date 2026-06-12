@@ -11,7 +11,6 @@ export function ProjectEpicsListSection({
   hasMoreMobileEpics,
   isFetchingNextPage,
   isLoading,
-  isMobileViewport,
   loadMoreRef,
   onPageChange,
   pageSize,
@@ -26,7 +25,6 @@ export function ProjectEpicsListSection({
         <ProjectEpicsList
           epics={epics}
           projectId={projectId}
-          showAllOnMobile={isMobileViewport}
         />
       )}
       {hasMoreMobileEpics && (

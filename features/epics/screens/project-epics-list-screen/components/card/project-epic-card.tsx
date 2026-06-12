@@ -24,7 +24,7 @@ export function ProjectEpicCard({
       aria-labelledby={`${epic.id}-title`}
       className={joinClasses(
         'xl:border-l-success-icon relative flex flex-col gap-[11.3px] border-0 p-5 shadow-none lg:min-h-[166px] lg:justify-between lg:gap-2.75 lg:px-5 lg:py-4 lg:shadow-sm xl:border-l-4',
-        hideOnMobile && 'hidden lg:flex',
+        hideOnMobile && 'hidden md:flex',
       )}
       padding="none"
     >
