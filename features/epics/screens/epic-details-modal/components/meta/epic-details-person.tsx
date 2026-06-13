@@ -19,7 +19,7 @@ export function EpicDetailsPerson({
         <span className="flex size-6 shrink-0 items-center justify-center rounded-[12px] border-2 border-border-inverse bg-surface-high p-0.5 text-text-tertiary md:size-7">
           <UnassignedIcon />
         </span>
-        <span className="min-w-0 truncate text-body-sm font-medium leading-base text-text-tertiary">
+        <span className="min-w-0 whitespace-normal break-words text-body-sm font-medium leading-base text-text-tertiary md:truncate">
           Unassigned
         </span>
       </span>
@@ -40,7 +40,7 @@ export function EpicDetailsPerson({
         size="sm"
         src={person.avatarUrl}
       />
-      <span className="min-w-0 truncate text-body-sm font-medium leading-base text-text-primary">
+      <span className="min-w-0 whitespace-normal break-words text-body-sm font-medium leading-base text-text-primary md:truncate">
         {person.name}
       </span>
     </span>

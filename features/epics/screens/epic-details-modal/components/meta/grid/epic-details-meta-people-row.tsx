@@ -22,15 +22,14 @@ export function EpicDetailsMetaPeopleRow({
       <EpicDetailsMetaItem label="Created By">
         <EpicDetailsPerson person={epic.createdBy} tone="createdBy" />
       </EpicDetailsMetaItem>
-      <EpicDetailsMetaItem label="Assignee">
-        <EditableEpicAssignee
-          assigneeId={epic.assigneeId}
-          disabled={disabled}
-          onSave={onAssigneeSave}
-          person={epic.assignee}
-          projectId={projectId}
-        />
-      </EpicDetailsMetaItem>
+      <EditableEpicAssignee
+        assigneeId={epic.assigneeId}
+        disabled={disabled}
+        label="Assignee"
+        onSave={onAssigneeSave}
+        person={epic.assignee}
+        projectId={projectId}
+      />
     </div>
   );
 }
