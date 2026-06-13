@@ -1,22 +1,14 @@
 import { z } from 'zod';
-
-function getTodayDateInputValue(): string {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-}
+import {
+  epicDeadlinePastDateMessage,
+  isEpicDeadlineTodayOrFuture,
+} from '../shared/utils';
 
 export const addNewEpicFormSchema = z.object({
   assigneeId: z.string(),
   deadline: z
     .string()
-    .refine(
-      (value) => !value || value >= getTodayDateInputValue(),
-      'Deadline must be today or a future date.',
-    ),
+    .refine(isEpicDeadlineTodayOrFuture, epicDeadlinePastDateMessage),
   description: z
     .string()
     .refine(

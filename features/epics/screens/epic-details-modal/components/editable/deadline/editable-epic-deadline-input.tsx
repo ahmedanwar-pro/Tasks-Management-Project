@@ -8,7 +8,9 @@ import { Input } from '@/components/ui';
 import { EditableFieldLoadingIndicator } from '../editable-field-loading-indicator';
 
 type EditableEpicDeadlineInputProps = {
+  describedBy?: string;
   disabled: boolean;
+  invalid: boolean;
   isSaving: boolean;
   onBlur: FocusEventHandler<HTMLInputElement>;
   onChange: ChangeEventHandler<HTMLInputElement>;
@@ -17,7 +19,9 @@ type EditableEpicDeadlineInputProps = {
 };
 
 export function EditableEpicDeadlineInput({
+  describedBy,
   disabled,
+  invalid,
   isSaving,
   onBlur,
   onChange,
@@ -27,10 +31,13 @@ export function EditableEpicDeadlineInput({
   return (
     <Input
       aria-label="Epic deadline"
+      aria-describedby={describedBy}
+      aria-invalid={invalid || undefined}
       autoFocus
-      className="h-(--control-height-xs) min-w-0 rounded-sm border-transparent bg-primary-container-muted px-3 max-sm:h-8 max-sm:max-w-[8.75rem] max-sm:px-1.5"
+      className="bg-primary-container-muted h-(--control-height-xs) min-w-0 rounded-sm border-transparent px-3 max-sm:h-8 max-sm:max-w-[8.75rem] max-sm:px-1.5"
       disabled={disabled}
       fullWidth
+      invalid={invalid}
       iconRight={
         isSaving ? <EditableFieldLoadingIndicator label="Saving..." /> : null
       }

@@ -2,6 +2,10 @@
 
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import { useRef, useState } from 'react';
+import {
+  epicDeadlinePastDateMessage,
+  isEpicDeadlineTodayOrFuture,
+} from '@/features/epics/screens/shared/utils';
 import type { EditableNullableStringSaveHandler } from '../types';
 import { isValidDateInputValue } from '../utils';
 
@@ -17,6 +21,9 @@ export function useEditableEpicDeadline({
   const [draftDeadline, setDraftDeadline] = useState(deadlineValue);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [validationMessage, setValidationMessage] = useState<string | null>(
+    null,
+  );
   const isManualTypingRef = useRef(false);
   const pendingDeadlineRef = useRef<string | null>(null);
 
@@ -26,6 +33,7 @@ export function useEditableEpicDeadline({
     }
 
     setDraftDeadline(deadlineValue);
+    setValidationMessage(null);
     isManualTypingRef.current = false;
     setIsEditing(true);
   }
@@ -33,6 +41,7 @@ export function useEditableEpicDeadline({
   function saveDeadline(nextDeadline: string) {
     if (nextDeadline === deadlineValue) {
       setIsEditing(false);
+      setValidationMessage(null);
       return;
     }
 
@@ -42,8 +51,14 @@ export function useEditableEpicDeadline({
 
     if (nextDeadline && !isValidDateInputValue(nextDeadline)) {
       setDraftDeadline(deadlineValue);
+      setValidationMessage(null);
       isManualTypingRef.current = false;
       setIsEditing(false);
+      return;
+    }
+
+    if (!isEpicDeadlineTodayOrFuture(nextDeadline)) {
+      setValidationMessage(epicDeadlinePastDateMessage);
       return;
     }
 
@@ -52,6 +67,7 @@ export function useEditableEpicDeadline({
 
     void onSave(nextDeadline || null)
       .then(() => {
+        setValidationMessage(null);
         isManualTypingRef.current = false;
         setIsEditing(false);
       })
@@ -73,6 +89,7 @@ export function useEditableEpicDeadline({
     if (event.key === 'Escape') {
       isManualTypingRef.current = false;
       setDraftDeadline(deadlineValue);
+      setValidationMessage(null);
       setIsEditing(false);
       event.currentTarget.blur();
       return;
@@ -85,12 +102,18 @@ export function useEditableEpicDeadline({
     const nextDeadline = event.target.value;
 
     setDraftDeadline(nextDeadline);
+    setValidationMessage(null);
 
     if (
       isManualTypingRef.current ||
       !nextDeadline ||
       !isValidDateInputValue(nextDeadline)
     ) {
+      return;
+    }
+
+    if (!isEpicDeadlineTodayOrFuture(nextDeadline)) {
+      setValidationMessage(epicDeadlinePastDateMessage);
       return;
     }
 
@@ -105,5 +128,6 @@ export function useEditableEpicDeadline({
     handleKeyDown,
     isEditing,
     isSaving,
+    validationMessage,
   };
 }

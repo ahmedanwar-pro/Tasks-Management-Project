@@ -1,9 +1,11 @@
 'use client';
 
+import { useId } from 'react';
 import type { ReactElement } from 'react';
 import { EpicDetailsMetaField } from '../../meta/epic-details-meta-field';
 import { EditableEditButton } from '../editable-edit-button';
 import { EditableFieldLoadingIndicator } from '../editable-field-loading-indicator';
+import { EditableValidationMessage } from '../editable-validation-message';
 import { useEditableEpicDeadline } from '../hooks';
 import type { EditableNullableStringSaveHandler } from '../types';
 import { EditableEpicDeadlineInput } from './editable-epic-deadline-input';
@@ -24,6 +26,7 @@ export function EditableEpicDeadline({
   label,
   onSave,
 }: EditableEpicDeadlineProps): ReactElement {
+  const validationMessageId = useId();
   const {
     draftDeadline,
     handleBlur,
@@ -32,6 +35,7 @@ export function EditableEpicDeadline({
     handleKeyDown,
     isEditing,
     isSaving,
+    validationMessage,
   } = useEditableEpicDeadline({ deadlineValue, onSave });
   const labelAction = isEditing ? null : isSaving ? (
     <EditableFieldLoadingIndicator className="h-5 w-4" label="Saving..." />
@@ -46,14 +50,24 @@ export function EditableEpicDeadline({
   return (
     <EpicDetailsMetaField action={labelAction} label={label}>
       {isEditing ? (
-        <EditableEpicDeadlineInput
-          disabled={disabled || isSaving}
-          isSaving={isSaving}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          value={draftDeadline}
-        />
+        <div className="flex min-w-0 flex-col gap-2">
+          <EditableEpicDeadlineInput
+            describedBy={validationMessage ? validationMessageId : undefined}
+            disabled={disabled || isSaving}
+            invalid={Boolean(validationMessage)}
+            isSaving={isSaving}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            value={draftDeadline}
+          />
+          {validationMessage ? (
+            <EditableValidationMessage
+              id={validationMessageId}
+              message={validationMessage}
+            />
+          ) : null}
+        </div>
       ) : (
         <EditableEpicDeadlineView
           deadline={deadline}

@@ -10,4 +10,8 @@ export {
   getCreatedByAvatarUrl,
   getCreatedByName,
 } from './mapping/project-epic-response-utils';
+export {
+  epicDeadlinePastDateMessage,
+  isEpicDeadlineTodayOrFuture,
+} from './epic-deadline-validation';
 export { projectMembersFetchErrorMessage } from './project-members-error-message';
