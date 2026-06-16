@@ -34,7 +34,7 @@ export function EditableEpicDeadlineInput({
       aria-describedby={describedBy}
       aria-invalid={invalid || undefined}
       autoFocus
-      className="bg-primary-container-muted h-(--control-height-xs) min-w-0 rounded-sm border-transparent px-3 max-sm:h-8 max-sm:max-w-[8.75rem] max-sm:px-1.5"
+      className="!border-primary !bg-primary-container-muted/60 focus-within:!border-primary focus-within:!bg-primary-container-muted/60 h-(--control-height-xs) min-w-0 rounded-sm border-2 px-3 focus-within:ring-0 focus-within:outline-none max-sm:h-8 max-sm:max-w-[8.75rem] max-sm:px-1.5"
       disabled={disabled}
       fullWidth
       invalid={invalid}

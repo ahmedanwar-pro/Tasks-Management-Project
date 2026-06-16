@@ -19,7 +19,7 @@ export function EditableEpicTitleView({
     <div className="flex min-w-0 items-start gap-2">
       <button
         aria-label="Edit epic title"
-        className="min-w-0 flex-1 rounded-sm text-left text-title-lg leading-6.25 font-bold tracking-normal text-text-primary outline-offset-4 transition-colors hover:bg-primary-container-muted/60 focus-visible:bg-primary-container-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary md:text-headline-md md:leading-section"
+        className="text-title-lg text-text-primary hover:bg-primary-container-muted/60 md:text-headline-md md:leading-section min-w-0 flex-1 rounded-sm text-left leading-6.25 font-bold tracking-normal transition-colors focus-visible:bg-transparent focus-visible:ring-0 focus-visible:outline-none"
         disabled={disabled}
         onClick={onEdit}
         type="button"

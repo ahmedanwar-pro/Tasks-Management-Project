@@ -67,6 +67,59 @@ export function ListIcon({ className, ...props }: IconProps): ReactElement {
   );
 }
 
+export function TaskCheckIcon({
+  className,
+  ...props
+}: IconProps): ReactElement {
+  return (
+    <svg
+      {...props}
+      aria-hidden="true"
+      className={joinClasses('size-5 shrink-0', className)}
+      fill="none"
+      focusable="false"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="10"
+        cy="10"
+        r="7.25"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="m6.75 10.2 2 2 4.5-4.5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
+}
+
+export function MoreVerticalIcon({
+  className,
+  ...props
+}: IconProps): ReactElement {
+  return (
+    <svg
+      {...props}
+      aria-hidden="true"
+      className={joinClasses('h-4 w-1 shrink-0', className)}
+      fill="none"
+      focusable="false"
+      viewBox="0 0 4 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="2" cy="3" fill="currentColor" r="1" />
+      <circle cx="2" cy="8" fill="currentColor" r="1" />
+      <circle cx="2" cy="13" fill="currentColor" r="1" />
+    </svg>
+  );
+}
+
 export function CalendarIcon({ className, ...props }: IconProps): ReactElement {
   return (
     <svg
@@ -88,6 +141,29 @@ export function CalendarIcon({ className, ...props }: IconProps): ReactElement {
         d="M1.5 15C1.0875 15 0.734375 14.8531 0.440625 14.5594C0.146875 14.2656 0 13.9125 0 13.5V3C0 2.5875 0.146875 2.23437 0.440625 1.94062C0.734375 1.64687 1.0875 1.5 1.5 1.5H2.25V0H3.75V1.5H9.75V0H11.25V1.5H12C12.4125 1.5 12.7656 1.64687 13.0594 1.94062C13.3531 2.23437 13.5 2.5875 13.5 3V13.5C13.5 13.9125 13.3531 14.2656 13.0594 14.5594C12.7656 14.8531 12.4125 15 12 15H1.5M1.5 13.5H12V6H1.5V13.5M1.5 4.5H12V3H1.5V4.5"
         fill="currentColor"
       />
+    </svg>
+  );
+}
+
+export function OverdueIcon({ className, ...props }: IconProps): ReactElement {
+  return (
+    <svg
+      {...props}
+      aria-hidden="true"
+      className={joinClasses('size-[11.667px] shrink-0', className)}
+      fill="none"
+      focusable="false"
+      viewBox="0 0 12 12"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M6 3.25v3.25"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.5"
+      />
+      <circle cx="6" cy="8.75" fill="currentColor" r="0.75" />
     </svg>
   );
 }

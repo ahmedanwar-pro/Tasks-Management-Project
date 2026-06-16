@@ -55,8 +55,8 @@ export function EpicDetailsModalContent({
         }
         projectId={projectId}
       />
-      <div className="min-h-0 min-w-0 w-full flex-1 overflow-y-auto px-6 py-2 md:p-8">
-        <div className="flex min-w-0 w-full flex-col gap-5 py-4 md:gap-8 md:py-0">
+      <div className="min-h-0 w-full min-w-0 flex-1 overflow-y-auto px-6 py-2 md:p-8">
+        <div className="flex w-full min-w-0 flex-col gap-5 py-4 md:gap-8 md:py-0">
           {feedback ? (
             <EpicFormFeedback
               error={feedback.error}
@@ -93,7 +93,7 @@ export function EpicDetailsModalContent({
             }
             projectId={projectId}
           />
-          <EpicDetailsTasksSection taskCount={epic.taskCount} />
+          <EpicDetailsTasksSection epicId={epicId} projectId={projectId} />
         </div>
       </div>
     </>
