@@ -14,6 +14,20 @@ export type EpicDetailsDisplayData = {
   description: string;
   descriptionValue: string;
   epicKey: string;
-  taskCount: number;
+  title: string;
+};
+
+export type EpicDetailsTaskAssignee = {
+  avatarUrl?: string;
+  initials: string;
+  name: string;
+};
+
+export type EpicDetailsTask = {
+  assignee: EpicDetailsTaskAssignee | null;
+  dueDate: string;
+  dueDateTime: string;
+  id: string;
+  isOverdue: boolean;
   title: string;
 };

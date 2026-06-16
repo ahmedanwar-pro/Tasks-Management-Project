@@ -86,7 +86,6 @@ export function getEpicDetailsDisplayData(
     description: description || 'No description provided',
     descriptionValue: description,
     epicKey: getText(epic.epic_id) || 'EPIC',
-    taskCount: 0,
     title: getText(epic.title) || 'Untitled epic',
   };
 }

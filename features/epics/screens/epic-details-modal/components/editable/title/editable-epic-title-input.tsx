@@ -4,7 +4,6 @@ import type {
   KeyboardEventHandler,
   ReactElement,
 } from 'react';
-import { Input } from '@/components/ui';
 import { epicTitleMaxLength, epicTitleMinLength } from '../utils';
 
 type EditableEpicTitleInputProps = {
@@ -27,16 +26,13 @@ export function EditableEpicTitleInput({
   value,
 }: EditableEpicTitleInputProps): ReactElement {
   return (
-    <Input
+    <input
       aria-label="Epic title"
       aria-describedby={describedBy}
       aria-invalid={invalid || undefined}
       autoFocus
-      className="h-auto min-w-0 border-transparent bg-transparent p-0 outline-offset-4 hover:bg-primary-container-muted/60 focus-within:bg-primary-container-muted"
+      className="border-primary bg-primary-container-muted/60 text-title-lg text-text-primary md:text-headline-md md:leading-section focus:border-primary focus:bg-primary-container-muted/60 h-auto w-full min-w-0 appearance-none rounded-sm border-2 px-2 py-0.5 font-sans leading-6.25 font-bold tracking-normal transition-colors outline-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60"
       disabled={disabled}
-      fullWidth
-      invalid={invalid}
-      inputClassName="text-title-lg text-text-primary md:text-headline-md md:leading-section leading-6.25 font-bold tracking-normal"
       maxLength={epicTitleMaxLength}
       minLength={epicTitleMinLength}
       onBlur={onBlur}

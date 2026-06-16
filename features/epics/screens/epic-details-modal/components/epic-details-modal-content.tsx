@@ -93,11 +93,7 @@ export function EpicDetailsModalContent({
             }
             projectId={projectId}
           />
-          <EpicDetailsTasksSection
-            epicId={epicId}
-            projectId={projectId}
-            taskCount={epic.taskCount}
-          />
+          <EpicDetailsTasksSection epicId={epicId} projectId={projectId} />
         </div>
       </div>
     </>

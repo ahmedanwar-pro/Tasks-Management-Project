@@ -35,7 +35,7 @@ export function EditableEpicDescriptionTextarea({
       aria-describedby={describedBy}
       aria-invalid={invalid || undefined}
       autoFocus
-      className="min-h-27 rounded-sm md:min-h-30"
+      className="!border-primary !bg-primary-container-muted/60 focus:!bg-primary-container-muted/60 min-h-27 rounded-sm border-2 focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none md:min-h-30"
       disabled={disabled}
       invalid={invalid}
       maxLength={epicDescriptionMaxLength}

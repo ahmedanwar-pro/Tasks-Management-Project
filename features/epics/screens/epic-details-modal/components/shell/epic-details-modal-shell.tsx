@@ -38,7 +38,7 @@ export function EpicDetailsModalShell({
         aria-labelledby={label ? undefined : 'epic-details-modal-title'}
         aria-modal="true"
         className={joinClasses(
-          'bg-surface text-text-primary shadow-modal flex w-full max-w-md flex-col overflow-hidden rounded-md font-sans tracking-normal',
+          'bg-surface text-text-primary shadow-modal flex w-full max-w-md flex-col overflow-hidden rounded-md font-sans tracking-normal outline-none',
           'max-h-[min(795px,calc(100dvh-32px))] md:max-h-[min(921px,calc(100dvh-64px))] md:max-w-2xl',
         )}
         ref={panelRef}
