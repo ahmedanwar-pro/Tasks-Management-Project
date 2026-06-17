@@ -62,7 +62,7 @@ export function useAddNewTaskScreenData(
     resetCreateTask();
     createTask(mapAddNewTaskFormToRequest(values, projectId), {
       onSuccess: () => {
-        router.push(`/projects/${projectId}/tasks`);
+        router.push(`/projects/${projectId}/tasks?view=board`);
       },
     });
   }

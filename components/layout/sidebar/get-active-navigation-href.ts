@@ -12,7 +12,7 @@ export function getActiveNavigationHref(pathname: string): string {
   }
 
   if (/^\/projects\/[^/]+\/tasks(?:\/|$)/.test(pathname)) {
-    return `/projects/${projectId}/tasks`;
+    return `/projects/${projectId}/tasks?view=board`;
   }
 
   if (/^\/projects\/[^/]+\/epics(?:\/|$)/.test(pathname)) {

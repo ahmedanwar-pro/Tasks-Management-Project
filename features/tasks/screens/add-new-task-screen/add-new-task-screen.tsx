@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactElement } from 'react';
+import type { TaskStatus } from './add-new-task-form-schema';
 import {
   AddNewTaskCard,
   AddNewTaskForm,
@@ -11,11 +12,13 @@ import { useAddNewTaskScreenData } from './hooks';
 type AddNewTaskScreenProps = {
   projectId: string;
   initialEpicId?: string;
+  initialStatus?: TaskStatus;
 };
 
 export function AddNewTaskScreen({
   projectId,
   initialEpicId,
+  initialStatus,
 }: AddNewTaskScreenProps): ReactElement {
   const {
     assigneeOptions,
@@ -52,6 +55,7 @@ export function AddNewTaskScreen({
           epicOptions={epicOptions}
           epicOptionsError={epicOptionsError}
           initialEpicId={initialEpicId}
+          initialStatus={initialStatus}
           onChange={resetCreateTask}
           onRetryAssigneeOptions={retryAssigneeOptions}
           onRetryEpicOptions={retryEpicOptions}

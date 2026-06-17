@@ -6,15 +6,21 @@ import type { CreateTaskRequest } from '../api';
 
 export const addNewTaskDefaultStatus: TaskStatus = 'TO_DO';
 
-export function getAddNewTaskDefaultValues(
-  initialEpicId?: string,
-): AddNewTaskFormValues {
+type AddNewTaskDefaultValuesOptions = {
+  initialEpicId?: string;
+  initialStatus?: TaskStatus;
+};
+
+export function getAddNewTaskDefaultValues({
+  initialEpicId,
+  initialStatus,
+}: AddNewTaskDefaultValuesOptions = {}): AddNewTaskFormValues {
   return {
     assigneeId: '',
     description: '',
     dueDate: '',
     epicId: initialEpicId ?? '',
-    status: addNewTaskDefaultStatus,
+    status: initialStatus ?? addNewTaskDefaultStatus,
     title: '',
   };
 }

@@ -1,4 +1,5 @@
 import type { AddNewTaskFormValues } from '../add-new-task-form-schema';
+import type { TaskStatus } from '../add-new-task-form-schema';
 import type { TaskAssigneeOption, TaskEpicSelectOption } from '../utils';
 
 export type AddNewTaskFormProps = {
@@ -8,6 +9,7 @@ export type AddNewTaskFormProps = {
   epicOptions?: TaskEpicSelectOption[];
   epicOptionsError?: Error | null;
   initialEpicId?: string;
+  initialStatus?: TaskStatus;
   isAssigneeOptionsLoading?: boolean;
   isCreating?: boolean;
   isEpicOptionsLoading?: boolean;

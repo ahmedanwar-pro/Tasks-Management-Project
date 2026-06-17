@@ -38,7 +38,7 @@ export function getNavigationItems(projectId?: string): AppNavigationItem[] {
     {
       label: 'Project Tasks',
       shortLabel: 'Tasks',
-      href: `${projectBaseHref}/tasks`,
+      href: `${projectBaseHref}/tasks?view=board`,
       icon: 'tasks',
     },
     {

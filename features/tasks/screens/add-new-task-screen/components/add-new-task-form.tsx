@@ -26,6 +26,7 @@ export function AddNewTaskForm({
   epicOptions = [],
   epicOptionsError,
   initialEpicId,
+  initialStatus,
   isAssigneeOptionsLoading = false,
   isCreating = false,
   isEpicOptionsLoading = false,
@@ -42,7 +43,10 @@ export function AddNewTaskForm({
     register,
     setValue,
   } = useForm<AddNewTaskFormValues>({
-    defaultValues: getAddNewTaskDefaultValues(),
+    defaultValues: getAddNewTaskDefaultValues({
+      initialEpicId,
+      initialStatus,
+    }),
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     resolver: zodResolver(addNewTaskFormSchema),
@@ -59,6 +63,14 @@ export function AddNewTaskForm({
 
     setValue('epicId', hasInitialEpic ? initialEpicId : '');
   }, [epicOptions, initialEpicId, setValue]);
+
+  useEffect(() => {
+    if (!initialStatus) {
+      return;
+    }
+
+    setValue('status', initialStatus);
+  }, [initialStatus, setValue]);
 
   function handleCreateTask(values: AddNewTaskFormValues): void {
     onSubmit?.(values);
