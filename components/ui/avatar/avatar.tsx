@@ -5,6 +5,7 @@ import { joinClasses } from '../utils';
 
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type AvatarStatus = 'online' | 'offline' | 'busy';
+type AvatarTone = 'default' | 'custom';
 
 type AvatarProps = {
   src?: string;
@@ -12,11 +13,17 @@ type AvatarProps = {
   name?: string;
   size?: AvatarSize;
   status?: AvatarStatus;
+  tone?: AvatarTone;
   className?: string;
 } & Omit<HTMLAttributes<HTMLSpanElement>, 'children' | 'className'>;
 
 const baseClasses =
-  'relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-high font-sans font-bold tracking-normal text-text-primary shadow-sm';
+  'relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-lg font-sans font-bold tracking-normal shadow-sm';
+
+const toneClasses: Record<AvatarTone, string> = {
+  default: 'bg-surface-high text-text-primary',
+  custom: '',
+};
 
 const sizeClasses: Record<AvatarSize, string> = {
   xs: 'size-5 text-label-sm leading-compact',
@@ -48,6 +55,7 @@ export function Avatar({
   name,
   size = 'xl',
   status,
+  tone = 'default',
   className,
   ...props
 }: AvatarProps): ReactElement {
@@ -60,7 +68,12 @@ export function Avatar({
       {...props}
       aria-hidden={ariaLabel ? undefined : true}
       aria-label={ariaLabel || undefined}
-      className={joinClasses(baseClasses, sizeClasses[size], className)}
+      className={joinClasses(
+        baseClasses,
+        toneClasses[tone],
+        sizeClasses[size],
+        className,
+      )}
       role={ariaLabel ? 'img' : undefined}
     >
       {src ? (
@@ -72,7 +85,7 @@ export function Avatar({
         <span
           aria-hidden="true"
           className={joinClasses(
-            'absolute bottom-0 right-0 rounded-lg ring-2 ring-surface',
+            'ring-surface absolute right-0 bottom-0 rounded-lg ring-2',
             statusClasses[status],
             statusSizeClasses[size],
           )}

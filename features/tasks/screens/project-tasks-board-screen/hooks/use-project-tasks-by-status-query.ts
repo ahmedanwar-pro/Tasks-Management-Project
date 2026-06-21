@@ -7,7 +7,10 @@ import { getProjectTasksByStatus } from '../api';
 
 const defaultClientRetryCount = 3;
 
-function shouldRetryProjectTasksQuery(failureCount: number, error: Error) {
+export function shouldRetryProjectTasksQuery(
+  failureCount: number,
+  error: Error,
+) {
   return (
     !isProjectUnauthorizedError(error) && failureCount < defaultClientRetryCount
   );

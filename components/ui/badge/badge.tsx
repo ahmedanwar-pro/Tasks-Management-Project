@@ -7,7 +7,8 @@ type BadgeVariant =
   | 'neutral'
   | 'success'
   | 'danger'
-  | 'outline';
+  | 'outline'
+  | 'custom';
 type BadgeSize = 'sm' | 'md';
 type BadgeShape = 'rounded' | 'pill';
 
@@ -29,6 +30,7 @@ const variantClasses: Record<BadgeVariant, string> = {
   success: 'bg-success text-success-text',
   danger: 'bg-danger-container text-danger-text',
   outline: 'border-primary bg-surface text-primary',
+  custom: '',
 };
 
 const sizeClasses: Record<BadgeSize, string> = {

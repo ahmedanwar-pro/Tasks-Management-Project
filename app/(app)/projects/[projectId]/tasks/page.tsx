@@ -21,7 +21,7 @@ export default async function ProjectTasksPage({
   const currentView = Array.isArray(view) ? view[0] : view;
 
   if (currentView === 'list') {
-    return <ProjectTasksListScreen />;
+    return <ProjectTasksListScreen projectId={projectId} />;
   }
 
   return <ProjectTasksBoardScreen projectId={projectId} />;

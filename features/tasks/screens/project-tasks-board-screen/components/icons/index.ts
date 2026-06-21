@@ -7,6 +7,8 @@ export {
   ChevronDownIcon,
   CompactAddTaskIcon,
   FilterIcon,
+  ListIcon,
+  MoreHorizontalIcon,
   SearchIcon,
   WarningIcon,
 } from './project-tasks-board-icons';
