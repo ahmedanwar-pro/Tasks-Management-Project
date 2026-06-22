@@ -10,10 +10,12 @@ import { ProjectTasksListTableHead } from './table/project-tasks-list-table-head
 import { ProjectTasksListTableMeasurements } from './table/project-tasks-list-table-measurements';
 
 type ProjectTasksListTableProps = {
+  projectId: string;
   tasks: ProjectTasksListItem[];
 };
 
 export function ProjectTasksListTable({
+  projectId,
   tasks,
 }: ProjectTasksListTableProps): ReactElement {
   const tableContainerRef = useRef<HTMLDivElement>(null);
@@ -48,6 +50,7 @@ export function ProjectTasksListTable({
           <caption className="sr-only">Project tasks</caption>
           <ProjectTasksListTableHead />
           <ProjectTasksListTableBody
+            projectId={projectId}
             shouldShortenCompleted={layout.shouldShortenCompleted}
             shouldShortenInProgress={layout.shouldShortenInProgress}
             shouldSplitTaskIds={layout.shouldSplitTaskIds}

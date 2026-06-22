@@ -3,6 +3,7 @@ import type { ProjectTasksListItem } from '../../../types';
 import { ProjectTasksListTableRow } from './project-tasks-list-table-row';
 
 type ProjectTasksListTableBodyProps = {
+  projectId: string;
   shouldShortenCompleted: boolean;
   shouldShortenInProgress: boolean;
   shouldSplitTaskIds: boolean;
@@ -11,6 +12,7 @@ type ProjectTasksListTableBodyProps = {
 };
 
 export function ProjectTasksListTableBody({
+  projectId,
   shouldShortenCompleted,
   shouldShortenInProgress,
   shouldSplitTaskIds,
@@ -22,6 +24,7 @@ export function ProjectTasksListTableBody({
       {tasks.map((task) => (
         <ProjectTasksListTableRow
           key={task.id}
+          projectId={projectId}
           shouldShortenCompleted={shouldShortenCompleted}
           shouldShortenInProgress={shouldShortenInProgress}
           shouldSplitTaskIds={shouldSplitTaskIds}

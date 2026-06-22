@@ -41,7 +41,7 @@ export function ProjectTasksBoardColumnContent({
       {!isPending && !error && tasks.length > 0 ? (
         <>
           <AddTaskButton projectId={projectId} status={status} />
-          <ProjectTasksBoardTaskList tasks={tasks} />
+          <ProjectTasksBoardTaskList projectId={projectId} tasks={tasks} />
         </>
       ) : null}
     </div>

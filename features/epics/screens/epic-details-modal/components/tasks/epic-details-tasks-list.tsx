@@ -21,13 +21,23 @@ export function EpicDetailsTasksList({
     <>
       <div className="flex w-full flex-col gap-3 lg:hidden">
         {tasks.map((task) => (
-          <EpicDetailsTaskCard key={task.id} task={task} />
+          <EpicDetailsTaskCard
+            epicId={epicId}
+            key={task.id}
+            projectId={projectId}
+            task={task}
+          />
         ))}
         <EpicDetailsTasksMobileAddLink epicId={epicId} projectId={projectId} />
       </div>
       <ul className="border-border-subtle bg-surface hidden w-full overflow-hidden rounded-md border lg:block">
         {tasks.map((task) => (
-          <EpicDetailsTaskRow key={task.id} task={task} />
+          <EpicDetailsTaskRow
+            epicId={epicId}
+            key={task.id}
+            projectId={projectId}
+            task={task}
+          />
         ))}
       </ul>
     </>

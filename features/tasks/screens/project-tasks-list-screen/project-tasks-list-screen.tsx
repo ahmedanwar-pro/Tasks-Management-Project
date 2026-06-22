@@ -55,7 +55,7 @@ export function ProjectTasksListScreen({
           {hasPartialError ? (
             <ProjectTasksListError isPartial onRetry={onRetry} />
           ) : null}
-          <ProjectTasksList tasks={tasks} />
+          <ProjectTasksList projectId={projectId} tasks={tasks} />
         </>
       ) : null}
     </section>
