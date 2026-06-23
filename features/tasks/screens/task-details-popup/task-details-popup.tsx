@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import type { JSX } from 'react';
-import { Button, Modal } from '@/components/ui';
+import { TaskDetailsPopupContent } from './components/popup';
+import { copyCurrentUrl } from './utils/copy-current-url';
 
 type TaskDetailsPopupProps = {
   closeHref: string;
@@ -11,7 +12,6 @@ type TaskDetailsPopupProps = {
 
 export function TaskDetailsPopup({
   closeHref,
-  taskId,
 }: TaskDetailsPopupProps): JSX.Element {
   const router = useRouter();
 
@@ -19,23 +19,14 @@ export function TaskDetailsPopup({
     router.replace(closeHref);
   }
 
+  function handleCopyLink(): void {
+    void copyCurrentUrl();
+  }
+
   return (
-    <Modal
-      bodyClassName="flex flex-col gap-3"
-      footer={
-        <Button onClick={handleClose} variant="secondary">
-          Close
-        </Button>
-      }
+    <TaskDetailsPopupContent
       onClose={handleClose}
-      open
-      size="md"
-      title="Task details"
-    >
-      <p className="text-body-sm leading-base text-text-secondary">Task ID</p>
-      <p className="text-body-md text-text-primary font-semibold break-all">
-        {taskId}
-      </p>
-    </Modal>
+      onCopyLink={handleCopyLink}
+    />
   );
 }
