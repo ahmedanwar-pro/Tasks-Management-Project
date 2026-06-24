@@ -10,29 +10,51 @@ import { closeEpicDetailsModal } from '../header/epic-details-modal-close';
 type EpicDetailsModalShellProps = {
   label?: string;
   children: ReactNode;
-  projectId: string;
+  closeOnOutsideClick?: boolean;
+  initialFocus?: 'container' | 'first-focusable' | 'none';
+  onClose?: () => void;
+  projectId?: string;
 };
 
 export function EpicDetailsModalShell({
   label,
   children,
+  closeOnOutsideClick = false,
+  initialFocus = 'first-focusable',
+  onClose,
   projectId,
 }: EpicDetailsModalShellProps): ReactElement {
   const panelRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   function handleClose(): void {
-    closeEpicDetailsModal(projectId, router.replace);
+    if (onClose) {
+      onClose();
+      return;
+    }
+
+    if (projectId) {
+      closeEpicDetailsModal(projectId, router.replace);
+    }
   }
 
   useFocusTrap({
     active: true,
     containerRef: panelRef,
+    initialFocus,
     onEscape: handleClose,
   });
 
   return (
     <div className="bg-text-primary/40 md:bg-text-primary/20 fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-[2px] md:p-8">
+      {closeOnOutsideClick ? (
+        <button
+          aria-label="Close modal"
+          className="absolute inset-0"
+          onClick={handleClose}
+          type="button"
+        />
+      ) : null}
       <div
         aria-label={label}
         aria-labelledby={label ? undefined : 'epic-details-modal-title'}

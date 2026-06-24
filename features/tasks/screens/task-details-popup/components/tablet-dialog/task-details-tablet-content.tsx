@@ -1,11 +1,11 @@
 import type { ReactElement } from 'react';
-import type { TaskDetailsPopupMock } from '../../task-details-popup.types';
+import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
 import { TaskDetailsTabletDescription } from './task-details-tablet-description';
 import { TaskDetailsTabletMetaGrid } from './task-details-tablet-meta-grid';
 import { TaskDetailsTabletStatusRow } from './task-details-tablet-status-row';
 
 type TaskDetailsTabletContentProps = {
-  details: TaskDetailsPopupMock;
+  details: TaskDetailsPopupDetails;
 };
 
 export function TaskDetailsTabletContent({

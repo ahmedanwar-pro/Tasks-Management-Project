@@ -1,8 +1,10 @@
 import type { ReactElement, ReactNode } from 'react';
+import { joinClasses } from '@/components/ui/utils';
 
 type TaskDetailsChipVariant = 'mobile' | 'tablet';
 
 type TaskDetailsChipProps = {
+  className?: string;
   icon: ReactNode;
   label: string;
   variant: TaskDetailsChipVariant;
@@ -31,14 +33,19 @@ const chipToneClassNames: Record<
 };
 
 export function TaskDetailsChip({
+  className,
   icon,
   label,
   variant,
-  tone = 'success',
+  tone,
 }: TaskDetailsChipProps): ReactElement {
   return (
     <span
-      className={`${chipToneClassNames[variant][tone]} ${chipVariantClassNames[variant]}`}
+      className={joinClasses(
+        tone ? chipToneClassNames[variant][tone] : undefined,
+        chipVariantClassNames[variant],
+        className,
+      )}
     >
       {icon}
       <span className="truncate">{label}</span>

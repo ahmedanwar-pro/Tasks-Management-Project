@@ -13,19 +13,24 @@ const focusableSelector = [
 ].join(',');
 
 function getFocusableElements(container: HTMLElement): HTMLElement[] {
-  return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector))
-    .filter((element) => !element.hasAttribute('disabled') && element.tabIndex >= 0);
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(focusableSelector),
+  ).filter(
+    (element) => !element.hasAttribute('disabled') && element.tabIndex >= 0,
+  );
 }
 
 type UseFocusTrapOptions = {
   active: boolean;
   containerRef: RefObject<HTMLElement | null>;
+  initialFocus?: 'container' | 'first-focusable' | 'none';
   onEscape?: () => void;
 };
 
 export function useFocusTrap({
   active,
   containerRef,
+  initialFocus = 'first-focusable',
   onEscape,
 }: UseFocusTrapOptions): void {
   useEffect(() => {
@@ -42,14 +47,30 @@ export function useFocusTrap({
     const trapContainer = container;
     const previouslyFocused = document.activeElement;
     const focusContainer = window.requestAnimationFrame(() => {
+      if (initialFocus === 'none') {
+        return;
+      }
+
+      if (initialFocus === 'container') {
+        trapContainer.focus({ preventScroll: true });
+        return;
+      }
+
       const focusableElements = getFocusableElements(trapContainer);
       const firstElement = focusableElements[0] ?? trapContainer;
 
-      firstElement.focus();
+      firstElement.focus({ preventScroll: true });
     });
 
     function handleKeyDown(event: KeyboardEvent): void {
       if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
+
         onEscape?.();
         return;
       }
@@ -91,5 +112,5 @@ export function useFocusTrap({
         previouslyFocused.focus();
       }
     };
-  }, [active, containerRef, onEscape]);
+  }, [active, containerRef, initialFocus, onEscape]);
 }

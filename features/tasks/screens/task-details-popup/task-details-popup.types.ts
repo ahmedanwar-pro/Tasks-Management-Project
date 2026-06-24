@@ -4,7 +4,12 @@ export type TaskDetailsPersonInfo = {
   role: string;
 };
 
-export type TaskDetailsPopupMock = {
+export type TaskDetailsCopyFeedback = {
+  error?: string;
+  success?: string;
+};
+
+export type TaskDetailsPopupDetails = {
   assignee: TaskDetailsPersonInfo;
   createdAt: string;
   description: string;

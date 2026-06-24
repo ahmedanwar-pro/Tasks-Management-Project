@@ -1,9 +1,9 @@
 import type { ReactElement } from 'react';
 import { TaskDetailsCloseIcon } from '../shared/task-details-icons';
-import type { TaskDetailsPopupMock } from '../../task-details-popup.types';
+import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
 
 type TaskDetailsTabletHeaderProps = {
-  details: TaskDetailsPopupMock;
+  details: TaskDetailsPopupDetails;
   onClose: () => void;
 };
 

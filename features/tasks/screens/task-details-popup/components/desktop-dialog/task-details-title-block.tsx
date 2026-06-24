@@ -1,9 +1,9 @@
 import type { ReactElement } from 'react';
 import { TaskDetailsEpicIcon } from '../shared/task-details-icons';
-import type { TaskDetailsPopupMock } from '../../task-details-popup.types';
+import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
 
 type TaskDetailsTitleBlockProps = {
-  details: TaskDetailsPopupMock;
+  details: TaskDetailsPopupDetails;
 };
 
 export function TaskDetailsTitleBlock({

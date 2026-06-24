@@ -3,6 +3,10 @@ import {
   TaskDetailsCheckIcon,
   TaskDetailsEpicIcon,
 } from '../shared/task-details-icons';
+import {
+  getTaskDetailsStatusClassName,
+  getTaskDetailsStatusLabel,
+} from '../../utils';
 import { TaskDetailsChip } from '../shared/task-details-chip';
 
 type TaskDetailsMobileTitleSectionProps = {
@@ -16,6 +20,9 @@ export function TaskDetailsMobileTitleSection({
   status,
   epicLabel,
 }: TaskDetailsMobileTitleSectionProps): ReactElement {
+  const statusClassName = getTaskDetailsStatusClassName(status);
+  const statusLabel = getTaskDetailsStatusLabel(status);
+
   return (
     <section className="flex flex-col gap-4">
       <h1
@@ -26,9 +33,9 @@ export function TaskDetailsMobileTitleSection({
       </h1>
       <div className="flex min-w-0 flex-wrap items-start gap-2">
         <TaskDetailsChip
+          className={statusClassName}
           icon={<TaskDetailsCheckIcon />}
-          label={status}
-          tone="success"
+          label={statusLabel}
           variant="mobile"
         />
         <TaskDetailsChip

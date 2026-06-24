@@ -1,19 +1,32 @@
+import { useRef } from 'react';
 import type { ReactElement } from 'react';
-import type { TaskDetailsPopupMock } from '../../task-details-popup.types';
+import { useFocusTrap } from '@/components/ui/use-focus-trap';
+import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
 import { TaskDetailsMobileDescription } from './task-details-mobile-description';
 import { TaskDetailsMobileHeader } from './task-details-mobile-header';
 import { TaskDetailsMobileMetaGrid } from './task-details-mobile-meta-grid';
 import { TaskDetailsMobileTitleSection } from './task-details-mobile-title-section';
 
 type TaskDetailsMobileSheetProps = {
-  details: TaskDetailsPopupMock;
+  details: TaskDetailsPopupDetails;
+  isFocusTrapActive?: boolean;
   onClose: () => void;
 };
 
 export function TaskDetailsMobileSheet({
   details,
+  isFocusTrapActive = true,
   onClose,
 }: TaskDetailsMobileSheetProps): ReactElement {
+  const panelRef = useRef<HTMLElement>(null);
+
+  useFocusTrap({
+    active: isFocusTrapActive,
+    containerRef: panelRef,
+    initialFocus: 'none',
+    onEscape: onClose,
+  });
+
   return (
     <div className="fixed inset-0 z-50 md:hidden">
       <button
@@ -26,6 +39,7 @@ export function TaskDetailsMobileSheet({
         aria-labelledby="task-details-mobile-title"
         aria-modal="true"
         className="border-border-inverse/40 bg-surface/70 shadow-modal fixed inset-x-0 bottom-0 flex h-[min(660px,calc(100dvh-24px))] flex-col overflow-hidden rounded-t-[24px] border-t pt-px backdrop-blur-[10px]"
+        ref={panelRef}
         role="dialog"
         tabIndex={-1}
       >

@@ -49,7 +49,7 @@ export default async function TaskDetailsPage({
   const currentView = getFirstSearchParam(view);
   const sourceEpicId = getFirstSearchParam(fromEpic);
 
-  if (!uuidPattern.test(taskId)) {
+  if (!uuidPattern.test(projectId) || !uuidPattern.test(taskId)) {
     notFound();
   }
 
@@ -60,6 +60,7 @@ export default async function TaskDetailsPage({
         projectId,
         view: currentView,
       })}
+      projectId={projectId}
       taskId={taskId}
     />
   );

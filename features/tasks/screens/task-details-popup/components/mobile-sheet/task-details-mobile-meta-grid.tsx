@@ -2,11 +2,11 @@ import type { ReactElement } from 'react';
 import { CalendarIcon as EpicDetailsCalendarIcon } from '@/features/epics/screens/epic-details-modal/components/icons/epic-details-modal-icons';
 import { TaskDetailsInfoCard } from '../shared/task-details-info-card';
 import { TaskDetailsCreatedAtIcon } from '../shared/task-details-icons';
-import type { TaskDetailsPopupMock } from '../../task-details-popup.types';
+import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
 import { TaskDetailsMobilePersonCard } from './task-details-mobile-person-card';
 
 type TaskDetailsMobileMetaGridProps = {
-  details: TaskDetailsPopupMock;
+  details: TaskDetailsPopupDetails;
 };
 
 export function TaskDetailsMobileMetaGrid({

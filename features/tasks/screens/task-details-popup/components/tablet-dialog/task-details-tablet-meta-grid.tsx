@@ -1,11 +1,11 @@
 import type { ReactElement } from 'react';
 import { TaskDetailsInfoCard } from '../shared/task-details-info-card';
 import { TaskDetailsCalendarIcon } from '../shared/task-details-icons';
-import type { TaskDetailsPopupMock } from '../../task-details-popup.types';
+import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
 import { TaskDetailsTabletPersonCard } from './task-details-tablet-person-card';
 
 type TaskDetailsTabletMetaGridProps = {
-  details: TaskDetailsPopupMock;
+  details: TaskDetailsPopupDetails;
 };
 
 export function TaskDetailsTabletMetaGrid({

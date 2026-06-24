@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import type { TaskDetailsPopupMock } from '../../task-details-popup.types';
+import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
 import {
   TaskDetailsDatesSection,
   TaskDetailsPeopleSection,
@@ -7,7 +7,7 @@ import {
 } from './meta-panel';
 
 type TaskDetailsMetaPanelProps = {
-  details: TaskDetailsPopupMock;
+  details: TaskDetailsPopupDetails;
 };
 
 export function TaskDetailsMetaPanel({

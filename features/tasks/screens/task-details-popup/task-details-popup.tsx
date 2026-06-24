@@ -1,32 +1,41 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import type { JSX } from 'react';
-import { TaskDetailsPopupContent } from './components/popup';
-import { copyCurrentUrl } from './utils/copy-current-url';
+import { TaskDetailsPopupResult } from './components/popup/task-details-popup-result';
+import { useTaskDetailsPopupActions, useTaskDetailsPopupData } from './hooks';
 
 type TaskDetailsPopupProps = {
   closeHref: string;
+  projectId: string;
   taskId: string;
 };
 
 export function TaskDetailsPopup({
   closeHref,
+  projectId,
+  taskId,
 }: TaskDetailsPopupProps): JSX.Element {
-  const router = useRouter();
+  const { copyFeedback, handleClose, handleCopyLink } =
+    useTaskDetailsPopupActions(closeHref);
+  const { data, error, isPending, isUnauthorized, refetch } =
+    useTaskDetailsPopupData(projectId, taskId);
 
-  function handleClose(): void {
-    router.replace(closeHref);
-  }
-
-  function handleCopyLink(): void {
-    void copyCurrentUrl();
+  function handleRetry(): void {
+    void refetch();
   }
 
   return (
-    <TaskDetailsPopupContent
+    <TaskDetailsPopupResult
+      copyFeedback={copyFeedback}
+      data={data}
+      error={error}
+      isPending={isPending}
+      isUnauthorized={isUnauthorized}
       onClose={handleClose}
       onCopyLink={handleCopyLink}
+      onRetry={handleRetry}
+      projectId={projectId}
+      taskId={taskId}
     />
   );
 }

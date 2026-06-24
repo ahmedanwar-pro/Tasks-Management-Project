@@ -4,23 +4,31 @@ import {
   TaskDetailsEpicIcon,
 } from '../shared/task-details-icons';
 import { TaskDetailsChip } from '../shared/task-details-chip';
-import type { TaskDetailsPopupMock } from '../../task-details-popup.types';
+import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
+import {
+  getTaskDetailsStatusClassName,
+  getTaskDetailsStatusLabel,
+} from '../../utils';
 
 type TaskDetailsTabletStatusRowProps = {
-  details: TaskDetailsPopupMock;
+  details: TaskDetailsPopupDetails;
 };
 
 export function TaskDetailsTabletStatusRow({
   details,
 }: TaskDetailsTabletStatusRowProps): ReactElement {
+  const statusClassName = getTaskDetailsStatusClassName(details.status);
+  const statusLabel = getTaskDetailsStatusLabel(details.status);
+
   return (
     <section
       aria-label="Task status"
       className="flex flex-wrap items-center gap-3"
     >
       <TaskDetailsChip
+        className={statusClassName}
         icon={<TaskDetailsCheckIcon />}
-        label={details.status}
+        label={statusLabel}
         variant="tablet"
       />
       <TaskDetailsChip
