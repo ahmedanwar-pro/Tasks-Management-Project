@@ -20,12 +20,20 @@ export function ProjectTasksListScreen({
 }: ProjectTasksListScreenProps): JSX.Element {
   const router = useRouter();
   const {
+    currentPage,
+    hasMoreMobileTasks,
     hasPartialError,
     isError,
+    isFetchingNextPage,
     isLoading,
+    isRetrying,
     isUnauthorized,
+    loadMoreRef,
+    onPageChange,
     onRetry,
+    pageSize,
     tasks,
+    totalCount,
   } = useProjectTasksListScreenData(projectId);
 
   useEffect(() => {
@@ -34,7 +42,7 @@ export function ProjectTasksListScreen({
     }
   }, [isUnauthorized, router]);
 
-  const isEmpty = !isLoading && !isError && tasks.length === 0;
+  const isEmpty = !isLoading && !isError && totalCount === 0;
 
   return (
     <section
@@ -47,15 +55,29 @@ export function ProjectTasksListScreen({
       />
       {isLoading ? <ProjectTasksListLoading /> : null}
       {!isLoading && isError ? (
-        <ProjectTasksListError onRetry={onRetry} />
+        <ProjectTasksListError isRetrying={isRetrying} onRetry={onRetry} />
       ) : null}
       {isEmpty ? <ProjectTasksListEmpty projectId={projectId} /> : null}
       {!isLoading && !isError && tasks.length > 0 ? (
         <>
           {hasPartialError ? (
-            <ProjectTasksListError isPartial onRetry={onRetry} />
+            <ProjectTasksListError
+              isPartial
+              isRetrying={isRetrying}
+              onRetry={onRetry}
+            />
           ) : null}
-          <ProjectTasksList projectId={projectId} tasks={tasks} />
+          <ProjectTasksList
+            currentPage={currentPage}
+            hasMoreMobileTasks={hasMoreMobileTasks}
+            isFetchingNextPage={isFetchingNextPage}
+            loadMoreRef={loadMoreRef}
+            onPageChange={onPageChange}
+            pageSize={pageSize}
+            projectId={projectId}
+            tasks={tasks}
+            totalCount={totalCount}
+          />
         </>
       ) : null}
     </section>

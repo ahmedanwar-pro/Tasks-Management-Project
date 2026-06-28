@@ -1,57 +1,146 @@
 'use client';
 
-import { useQueries } from '@tanstack/react-query';
-import { useCallback } from 'react';
-import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api';
-import { getProjectTasksByStatus } from '../../project-tasks-board-screen/api';
-import { shouldRetryProjectTasksQuery } from '../../project-tasks-board-screen/hooks';
-import { projectTasksBoardStatuses } from '../../project-tasks-board-screen/utils';
+import { useCallback, useEffect, useRef } from 'react';
+import { useMobileLoadMore } from '@/features/shared/hooks/use-mobile-load-more';
+import { getTotalPages } from '@/features/shared/utils/pagination';
 import type { ProjectTasksListScreenData } from '../types';
-import { mapProjectTaskListItem } from '../utils';
+import {
+  getProjectTasksListDisplayData,
+  getProjectTasksListErrorState,
+  initialProjectTasksListPage,
+  mapProjectTaskListItem,
+  mobileProjectTasksListViewportQuery,
+} from '../utils';
+import { useProjectTasksListPagination } from './use-project-tasks-list-pagination';
+import {
+  useMoreProjectTasksListQuery,
+  useProjectTasksListQuery,
+} from './use-project-tasks-list-query';
 
 export function useProjectTasksListScreenData(
   projectId: string,
 ): ProjectTasksListScreenData {
-  const queryResults = useQueries({
-    queries: projectTasksBoardStatuses.map((config) => ({
-      queryFn: () =>
-        getProjectTasksByStatus({ projectId, status: config.status }),
-      queryKey: ['project-tasks', projectId, config.status] as const,
-      retry: shouldRetryProjectTasksQuery,
-    })),
-  });
-  const tasks = queryResults.flatMap((result, index) => {
-    const config = projectTasksBoardStatuses[index];
-
-    return (result.data ?? []).map((task) =>
-      mapProjectTaskListItem(task, config),
-    );
-  });
-  const isUnauthorized = queryResults.some((result) =>
-    isProjectUnauthorizedError(result.error),
+  const {
+    currentPage,
+    isMobileViewport,
+    isViewportResolved,
+    limit,
+    setCurrentPage,
+  } = useProjectTasksListPagination(projectId);
+  const {
+    data: tasksData,
+    error: tasksError,
+    isFetching: areTasksFetching,
+    isPending: areTasksPending,
+    refetch: refetchTasks,
+  } = useProjectTasksListQuery(
+    projectId,
+    currentPage,
+    limit,
+    isViewportResolved && !isMobileViewport,
   );
-  const hasLoadedTasks = tasks.length > 0;
-  const hasPendingQueries = queryResults.some((result) => result.isPending);
-  const hasNonUnauthorizedError =
-    !isUnauthorized && queryResults.some((result) => Boolean(result.error));
-  const isLoading =
-    isUnauthorized || (hasPendingQueries && !hasLoadedTasks);
-  const isError = hasNonUnauthorizedError && !hasLoadedTasks;
-  const hasPartialError = hasNonUnauthorizedError && hasLoadedTasks;
-  const onRetry = useCallback(() => {
-    queryResults.forEach((result) => {
-      if (result.error) {
-        void result.refetch();
-      }
+  const {
+    data: moreTasksData,
+    error: moreTasksError,
+    fetchNextPage,
+    isFetchNextPageError,
+    isFetching: areMoreTasksFetching,
+    isFetchingNextPage,
+    isPending: areMoreTasksPending,
+    refetch: refetchMoreTasks,
+  } = useMoreProjectTasksListQuery(
+    projectId,
+    limit,
+    isViewportResolved && isMobileViewport,
+  );
+  const { displayedTaskResponses, hasMoreMobileTasks, totalCount } =
+    getProjectTasksListDisplayData({
+      isMobileViewport,
+      moreTasksData,
+      tasksData,
     });
-  }, [queryResults]);
+  const { hasPartialError, isError, isUnauthorized, visibleError } =
+    getProjectTasksListErrorState({
+      hasMobileTasks: displayedTaskResponses.length > 0,
+      isMobileViewport,
+      moreTasksError,
+      tasksError,
+    });
+  const tasks = displayedTaskResponses.map(mapProjectTaskListItem);
+  const isRetrying = isMobileViewport
+    ? Boolean(moreTasksError) && areMoreTasksFetching
+    : Boolean(tasksError) && areTasksFetching;
+  const totalPages = getTotalPages(totalCount, limit);
+  const isPageOutOfRange =
+    isViewportResolved &&
+    !isMobileViewport &&
+    totalCount > 0 &&
+    currentPage > totalPages;
+  const retryInFlightRef = useRef(false);
+  const fetchMoreTasks = useCallback(() => {
+    void fetchNextPage();
+  }, [fetchNextPage]);
+  const loadMoreRef = useMobileLoadMore({
+    hasMore: hasMoreMobileTasks,
+    isFetchingNextPage,
+    mediaQuery: mobileProjectTasksListViewportQuery,
+    onLoadMore: fetchMoreTasks,
+    visibleError,
+  });
+
+  useEffect(() => {
+    if (!isPageOutOfRange) {
+      return;
+    }
+
+    const animationFrame = window.requestAnimationFrame(() => {
+      setCurrentPage(Math.max(initialProjectTasksListPage, totalPages));
+    });
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+    };
+  }, [isPageOutOfRange, setCurrentPage, totalPages]);
 
   return {
+    currentPage,
+    hasMoreMobileTasks,
     hasPartialError,
     isError,
-    isLoading,
+    isFetchingNextPage,
+    isLoading:
+      !isViewportResolved ||
+      (isMobileViewport ? areMoreTasksPending : areTasksPending) ||
+      isPageOutOfRange ||
+      isUnauthorized,
+    isRetrying,
     isUnauthorized,
-    onRetry,
+    loadMoreRef,
+    onPageChange: setCurrentPage,
+    onRetry: () => {
+      if (retryInFlightRef.current || isRetrying) {
+        return;
+      }
+
+      retryInFlightRef.current = true;
+
+      if (isMobileViewport) {
+        const retryRequest = isFetchNextPageError
+          ? fetchNextPage()
+          : refetchMoreTasks();
+
+        void retryRequest.finally(() => {
+          retryInFlightRef.current = false;
+        });
+        return;
+      }
+
+      void refetchTasks().finally(() => {
+        retryInFlightRef.current = false;
+      });
+    },
+    pageSize: limit,
     tasks,
+    totalCount,
   };
 }

@@ -10,13 +10,21 @@ import { ProjectTasksListTableHead } from './table/project-tasks-list-table-head
 import { ProjectTasksListTableMeasurements } from './table/project-tasks-list-table-measurements';
 
 type ProjectTasksListTableProps = {
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  pageSize: number;
   projectId: string;
   tasks: ProjectTasksListItem[];
+  totalCount: number;
 };
 
 export function ProjectTasksListTable({
+  currentPage,
+  onPageChange,
+  pageSize,
   projectId,
   tasks,
+  totalCount,
 }: ProjectTasksListTableProps): ReactElement {
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const completedMeasureRef = useRef<HTMLSpanElement>(null);
@@ -59,7 +67,13 @@ export function ProjectTasksListTable({
           />
         </table>
 
-        <ProjectTasksListPagination totalCount={tasks.length} />
+        <ProjectTasksListPagination
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+          pageSize={pageSize}
+          totalCount={totalCount}
+          visibleCount={tasks.length}
+        />
       </div>
     </div>
   );
