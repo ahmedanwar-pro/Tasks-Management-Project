@@ -11,6 +11,17 @@ export type GetProjectTasksByStatusRequest = {
   status: TaskStatus;
 };
 
+export type GetProjectTasksByStatusPageRequest =
+  GetProjectTasksByStatusRequest & {
+    limit: number;
+    offset: number;
+  };
+
+export type GetProjectTasksByStatusPageResponse = {
+  tasks: ProjectTaskResponse[];
+  totalCount: number;
+};
+
 export type ProjectTaskPersonResponse = {
   id?: string | null;
   member_id?: string | null;
@@ -41,19 +52,38 @@ export type ProjectTaskResponse = {
   assignee_avatar_url?: string | null;
 };
 
-export async function getProjectTasksByStatus({
-  projectId,
-  status,
-}: GetProjectTasksByStatusRequest): Promise<ProjectTaskResponse[]> {
+export function getProjectTasksByStatus(
+  request: GetProjectTasksByStatusPageRequest,
+): Promise<GetProjectTasksByStatusPageResponse>;
+export function getProjectTasksByStatus(
+  request: GetProjectTasksByStatusRequest,
+): Promise<ProjectTaskResponse[]>;
+export async function getProjectTasksByStatus(
+  request: GetProjectTasksByStatusRequest | GetProjectTasksByStatusPageRequest,
+): Promise<ProjectTaskResponse[] | GetProjectTasksByStatusPageResponse> {
+  const { projectId, status } = request;
+  const isPaginatedRequest = 'limit' in request;
+
   await requireProjectSession();
 
   // The configured Supabase client applies its active session token to this view request.
-  const { data, error } = await supabase
-    .from('project_tasks')
-    .select('*')
+  const projectTasksQuery = supabase.from('project_tasks');
+  let query = (
+    isPaginatedRequest
+      ? projectTasksQuery.select('*', { count: 'exact' })
+      : projectTasksQuery.select('*')
+  )
     .eq('project_id', projectId)
     .eq('status', status)
     .order('due_date', { ascending: true, nullsFirst: false });
+
+  if (isPaginatedRequest) {
+    query = query
+      .order('id', { ascending: true })
+      .range(request.offset, request.offset + request.limit - 1);
+  }
+
+  const { count, data, error } = await query;
 
   if (error) {
     if (isProjectUnauthorizedResponse(error)) {
@@ -63,5 +93,14 @@ export async function getProjectTasksByStatus({
     throw error;
   }
 
-  return (data ?? []) as ProjectTaskResponse[];
+  const tasks = (data ?? []) as ProjectTaskResponse[];
+
+  if (isPaginatedRequest) {
+    return {
+      tasks,
+      totalCount: count ?? tasks.length,
+    };
+  }
+
+  return tasks;
 }

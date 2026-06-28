@@ -1,5 +1,7 @@
 export {
   getProjectTasksByStatus,
+  type GetProjectTasksByStatusPageRequest,
+  type GetProjectTasksByStatusPageResponse,
   type GetProjectTasksByStatusRequest,
   type ProjectTaskPersonResponse,
   type ProjectTaskResponse,

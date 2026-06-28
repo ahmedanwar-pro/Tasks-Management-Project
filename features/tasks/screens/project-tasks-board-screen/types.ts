@@ -23,3 +23,27 @@ export type BoardStatusConfig = {
   label: string;
   status: TaskStatus;
 };
+
+export type ProjectTasksBoardColumnData = {
+  config: BoardStatusConfig;
+  error: Error | null;
+  isPending: boolean;
+  onRetry: () => void;
+  tasks: ProjectTasksBoardTask[];
+  totalCount: number;
+};
+
+export type ProjectTasksBoardQueryDefinition = {
+  enabled: boolean;
+  page: number;
+  status: TaskStatus;
+};
+
+export type ProjectTasksBoardData = {
+  columns: ProjectTasksBoardColumnData[];
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  loadMoreError: Error | null;
+  loadNextPage: () => void;
+  retryNextPage: () => void;
+};
