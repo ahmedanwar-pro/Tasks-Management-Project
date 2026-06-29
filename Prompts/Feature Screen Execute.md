@@ -8,7 +8,6 @@ Execute the approved staged plan from this thread.
 
 - Follow the approved plan exactly.
 - Work stage by stage.
-- Use a dedicated Codex worktree before modifying code.
 - Do not create commits.
 - Do not implement unrelated changes.
 - Do not change the plan or add scope without asking me first.
