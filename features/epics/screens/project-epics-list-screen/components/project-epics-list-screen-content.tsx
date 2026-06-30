@@ -13,20 +13,23 @@ export function ProjectEpicsListScreenContent({
   isFetchingNextPage,
   isError,
   isLoading,
-  isMobileViewport,
+  isRetrying,
+  isSearchActive,
   loadMoreRef,
   onPageChange,
   onRetry,
+  onSearchTermChange,
   pageSize,
   projectId,
   projectName,
+  searchTerm,
   totalCount,
 }: ProjectEpicsListScreenContentProps): ReactElement {
-  if (isError) {
-    return <ProjectEpicsErrorState onRetry={onRetry} />;
-  }
+  const errorTitle = isSearchActive
+    ? 'Failed to search epics'
+    : 'Failed to load epics';
 
-  if (!isLoading && totalCount === 0) {
+  if (!isError && !isLoading && totalCount === 0 && !isSearchActive) {
     return <ProjectEpicsEmptyState projectId={projectId} />;
   }
 
@@ -35,21 +38,36 @@ export function ProjectEpicsListScreenContent({
       aria-labelledby="project-epics-title"
       className="relative mx-auto flex w-full max-w-7xl flex-col px-6 pt-6 pb-32 md:px-8 lg:min-h-[calc(100dvh-4rem)] lg:px-8 lg:pt-8 lg:pb-8"
     >
-      <ProjectEpicsHeader projectId={projectId} projectName={projectName} />
-      <ProjectEpicsListSection
-        currentPage={currentPage}
-        epics={epics}
-        hasMoreMobileEpics={hasMoreMobileEpics}
-        isFetchingNextPage={isFetchingNextPage}
-        isLoading={isLoading}
-        isMobileViewport={isMobileViewport}
-        loadMoreRef={loadMoreRef}
-        onPageChange={onPageChange}
-        pageSize={pageSize}
+      <ProjectEpicsHeader
+        onSearchTermChange={onSearchTermChange}
         projectId={projectId}
-        totalCount={totalCount}
+        projectName={projectName}
+        searchTerm={searchTerm}
       />
-      <ProjectEpicsFloatingAddButton projectId={projectId} />
+      {isError ? (
+        <ProjectEpicsErrorState
+          isRetrying={isRetrying}
+          onRetry={onRetry}
+          title={errorTitle}
+        />
+      ) : (
+        <ProjectEpicsListSection
+          currentPage={currentPage}
+          epics={epics}
+          hasMoreMobileEpics={hasMoreMobileEpics}
+          isFetchingNextPage={isFetchingNextPage}
+          isLoading={isLoading}
+          isSearchActive={isSearchActive}
+          loadMoreRef={loadMoreRef}
+          onPageChange={onPageChange}
+          pageSize={pageSize}
+          projectId={projectId}
+          totalCount={totalCount}
+        />
+      )}
+      {!isError ? (
+        <ProjectEpicsFloatingAddButton projectId={projectId} />
+      ) : null}
     </section>
   );
 }

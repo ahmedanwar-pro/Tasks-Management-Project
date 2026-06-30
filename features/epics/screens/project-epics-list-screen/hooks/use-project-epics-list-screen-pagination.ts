@@ -23,6 +23,7 @@ export function useProjectEpicsListScreenPagination() {
     currentPage,
     isMobileViewport,
     limit,
+    resetToFirstPage,
     setCurrentPage,
   };
 }

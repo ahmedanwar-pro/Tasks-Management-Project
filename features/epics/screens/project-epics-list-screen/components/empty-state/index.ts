@@ -14,3 +14,4 @@ export {
 } from './empty-state-icons';
 export { EmptyStateIllustration } from './empty-state-illustration';
 export { ProjectEpicsEmptyState } from './project-epics-empty-state';
+export { ProjectEpicsSearchEmptyState } from './project-epics-search-empty-state';

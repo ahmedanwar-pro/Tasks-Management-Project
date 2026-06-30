@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 import type { ProjectEpicsListSectionProps } from '../../types';
+import { ProjectEpicsSearchEmptyState } from '../empty-state';
 import { ProjectEpicsLoadingList } from '../loading';
 import { ProjectEpicsPagination } from '../pagination/project-epics-pagination';
 import { ProjectEpicsMobileLoadMore } from './project-epics-mobile-load-more';
@@ -11,6 +12,7 @@ export function ProjectEpicsListSection({
   hasMoreMobileEpics,
   isFetchingNextPage,
   isLoading,
+  isSearchActive,
   loadMoreRef,
   onPageChange,
   pageSize,
@@ -21,11 +23,10 @@ export function ProjectEpicsListSection({
     <>
       {isLoading ? (
         <ProjectEpicsLoadingList />
+      ) : isSearchActive && totalCount === 0 ? (
+        <ProjectEpicsSearchEmptyState />
       ) : (
-        <ProjectEpicsList
-          epics={epics}
-          projectId={projectId}
-        />
+        <ProjectEpicsList epics={epics} projectId={projectId} />
       )}
       {hasMoreMobileEpics && (
         <ProjectEpicsMobileLoadMore

@@ -18,12 +18,15 @@ export function ProjectEpicsListScreen({
     isFetchingNextPage,
     isError,
     isLoading,
-    isMobileViewport,
+    isRetrying,
+    isSearchActive,
     loadMoreRef,
     onPageChange,
     onRetry,
+    onSearchTermChange,
     pageSize,
     projectName,
+    searchTerm,
     totalCount,
   } = useProjectEpicsListScreenData(projectId);
 
@@ -35,13 +38,16 @@ export function ProjectEpicsListScreen({
       isFetchingNextPage={isFetchingNextPage}
       isError={isError}
       isLoading={isLoading}
-      isMobileViewport={isMobileViewport}
+      isRetrying={isRetrying}
+      isSearchActive={isSearchActive}
       loadMoreRef={loadMoreRef}
       onPageChange={onPageChange}
       onRetry={onRetry}
+      onSearchTermChange={onSearchTermChange}
       pageSize={pageSize}
       projectId={projectId}
       projectName={projectName}
+      searchTerm={searchTerm}
       totalCount={totalCount}
     />
   );

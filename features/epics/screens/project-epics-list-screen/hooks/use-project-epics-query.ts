@@ -13,6 +13,7 @@ export function useProjectEpicsQuery(
   projectId: string,
   currentPage: number,
   limit: number,
+  searchTerm: string,
 ) {
   const offset = getPaginationOffset(currentPage, limit);
 
@@ -22,18 +23,31 @@ export function useProjectEpicsQuery(
         limit,
         offset,
         projectId,
+        searchTerm,
       }),
-    queryKey: ['project-epics', projectId, currentPage, limit] as const,
+    queryKey: [
+      'project-epics',
+      projectId,
+      'page',
+      currentPage,
+      offset,
+      limit,
+      searchTerm,
+    ] as const,
     retry: shouldRetryEpicQuery,
   });
 }
 
-export function useMoreProjectEpicsQuery(projectId: string, limit: number) {
+export function useMoreProjectEpicsQuery(
+  projectId: string,
+  limit: number,
+  searchTerm: string,
+) {
   return useInfiniteQuery<
     GetProjectEpicsResponse,
     Error,
     InfiniteData<GetProjectEpicsResponse, number>,
-    readonly ['project-epics', string, 'mobile-infinite', number],
+    readonly ['project-epics', string, 'mobile-infinite', number, string],
     number
   >({
     enabled: false,
@@ -47,8 +61,15 @@ export function useMoreProjectEpicsQuery(projectId: string, limit: number) {
         limit,
         offset: getPaginationOffset(pageParam, limit),
         projectId,
+        searchTerm,
       }),
-    queryKey: ['project-epics', projectId, 'mobile-infinite', limit] as const,
+    queryKey: [
+      'project-epics',
+      projectId,
+      'mobile-infinite',
+      limit,
+      searchTerm,
+    ] as const,
     retry: shouldRetryEpicQuery,
   });
 }

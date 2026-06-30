@@ -4,6 +4,7 @@ export type GetProjectEpicsRequest = {
   limit: number;
   offset: number;
   projectId: string;
+  searchTerm?: string;
 };
 
 export type GetProjectEpicsResponse = {

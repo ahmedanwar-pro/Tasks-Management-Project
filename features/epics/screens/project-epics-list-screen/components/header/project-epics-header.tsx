@@ -5,13 +5,17 @@ import { ProjectEpicsPageTitle } from './project-epics-page-title';
 import { ProjectEpicsSearchInput } from './project-epics-search-input';
 
 type ProjectEpicsHeaderProps = {
+  onSearchTermChange: (value: string) => void;
   projectId: string;
   projectName?: string | null;
+  searchTerm: string;
 };
 
 export function ProjectEpicsHeader({
+  onSearchTermChange,
   projectId,
   projectName,
+  searchTerm,
 }: ProjectEpicsHeaderProps): ReactElement {
   return (
     <header className="flex w-full shrink-0 flex-col lg:flex-row lg:items-end lg:justify-between lg:gap-6 xl:gap-8">
@@ -21,7 +25,10 @@ export function ProjectEpicsHeader({
       </div>
 
       <div className="flex w-full flex-col gap-4 lg:w-auto lg:shrink-0 lg:flex-row lg:items-start lg:gap-8">
-        <ProjectEpicsSearchInput />
+        <ProjectEpicsSearchInput
+          onChange={onSearchTermChange}
+          value={searchTerm}
+        />
         <ProjectEpicsDesktopNewButton projectId={projectId} />
       </div>
     </header>

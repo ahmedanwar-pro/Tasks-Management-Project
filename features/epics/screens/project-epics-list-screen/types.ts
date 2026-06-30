@@ -23,7 +23,7 @@ export type ProjectEpicsListSectionProps = {
   hasMoreMobileEpics: boolean;
   isFetchingNextPage: boolean;
   isLoading: boolean;
-  isMobileViewport: boolean;
+  isSearchActive: boolean;
   loadMoreRef: RefObject<HTMLDivElement | null>;
   onPageChange: (page: number) => void;
   pageSize: number;
@@ -31,16 +31,18 @@ export type ProjectEpicsListSectionProps = {
   totalCount: number;
 };
 
-export type ProjectEpicsListScreenContentProps = ProjectEpicsListSectionProps & {
-  isError: boolean;
-  onRetry: () => void;
-  projectId: string;
-  projectName: string;
-};
+export type ProjectEpicsListScreenContentProps =
+  ProjectEpicsListSectionProps & {
+    isError: boolean;
+    isRetrying: boolean;
+    onRetry: () => void;
+    onSearchTermChange: (value: string) => void;
+    projectId: string;
+    projectName: string;
+    searchTerm: string;
+  };
 
 export type ProjectEpicsListScreenData = Omit<
   ProjectEpicsListScreenContentProps,
   'projectId'
-> & {
-  totalPages: number;
-};
+>;
