@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { BoardHeader, ProjectTasksBoard } from './components';
+import { useProjectTasksBoardSearch } from './hooks';
 
 type ProjectTasksBoardScreenProps = {
   projectId: string;
@@ -13,6 +14,12 @@ export function ProjectTasksBoardScreen({
   projectId,
 }: ProjectTasksBoardScreenProps): ReactElement {
   const router = useRouter();
+  const {
+    debouncedSearchTerm,
+    isSearchPending,
+    onSearchTermChange,
+    searchTerm,
+  } = useProjectTasksBoardSearch();
 
   useEffect(() => {
     const mobileQuery = window.matchMedia('(max-width: 767px)');
@@ -35,8 +42,16 @@ export function ProjectTasksBoardScreen({
       aria-labelledby="project-tasks-board-title"
       className="hidden h-[calc(100dvh-4rem)] min-h-[calc(100dvh-4rem)] w-full flex-col gap-6 overflow-hidden px-6 pt-8 pb-6 md:flex md:min-h-[720px] md:px-8"
     >
-      <BoardHeader projectId={projectId} />
-      <ProjectTasksBoard projectId={projectId} />
+      <BoardHeader
+        onSearchTermChange={onSearchTermChange}
+        projectId={projectId}
+        searchTerm={searchTerm}
+      />
+      <ProjectTasksBoard
+        isSearchPending={isSearchPending}
+        projectId={projectId}
+        searchTerm={debouncedSearchTerm}
+      />
     </section>
   );
 }

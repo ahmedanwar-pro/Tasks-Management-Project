@@ -5,14 +5,23 @@ import { ProjectTasksBoardColumnHeader } from './project-tasks-board-column-head
 
 type ProjectTasksBoardColumnProps = {
   column: ProjectTasksBoardColumnData;
+  hasBoardError: boolean;
+  isBoardEmpty: boolean;
+  isSearchActive: boolean;
+  isSearchPending: boolean;
   projectId: string;
 };
 
 export function ProjectTasksBoardColumn({
   column,
+  hasBoardError,
+  isBoardEmpty,
+  isSearchActive,
+  isSearchPending,
   projectId,
 }: ProjectTasksBoardColumnProps): ReactElement {
   const { config, error, isPending, onRetry, tasks, totalCount } = column;
+  const isColumnPending = isPending || isSearchPending;
 
   return (
     <section
@@ -22,14 +31,17 @@ export function ProjectTasksBoardColumn({
       <ProjectTasksBoardColumnHeader
         config={config}
         error={error}
-        isPending={isPending}
+        isPending={isColumnPending}
         projectId={projectId}
         taskCount={totalCount}
       />
 
       <ProjectTasksBoardColumnContent
         error={error}
-        isPending={isPending}
+        hasBoardError={hasBoardError}
+        isBoardEmpty={isBoardEmpty}
+        isPending={isColumnPending}
+        isSearchActive={isSearchActive}
         onRetry={onRetry}
         projectId={projectId}
         status={config.status}

@@ -25,9 +25,12 @@ type ProjectTasksBoardQueryData = {
   columns: ProjectTasksBoardColumnData[];
   currentPageResults: ProjectTasksBoardQueryResult[];
   hasNextPage: boolean;
+  hasBoardError: boolean;
   initialError: Error | null;
+  isBoardEmpty: boolean;
   isFetchingNextPage: boolean;
   loadMoreError: Error | null;
+  retryBoard: () => void;
 };
 
 export function getProjectTasksBoardQueryData(
@@ -75,6 +78,9 @@ export function getProjectTasksBoardQueryData(
       : null;
   const initialError =
     firstPageResults.find((result) => result.error)?.error ?? null;
+  const hasBoardError =
+    firstPageResults.length > 0 &&
+    firstPageResults.every((result) => Boolean(result.error));
   const nextPageOffset = getPaginationOffset(
     currentPage + 1,
     projectTasksBoardPageSize,
@@ -105,13 +111,29 @@ export function getProjectTasksBoardQueryData(
       totalCount: totalCountByStatus[config.status],
     };
   });
+  const isBoardEmpty =
+    firstPageResults.length > 0 &&
+    firstPageResults.every(
+      (result) => !result.isPending && !result.error && Boolean(result.data),
+    ) &&
+    columns.every((column) => column.totalCount === 0);
+  const retryBoard = (): void => {
+    firstPageResults.forEach((result) => {
+      if (result.error) {
+        void result.refetch();
+      }
+    });
+  };
 
   return {
     columns,
     currentPageResults,
     hasNextPage,
+    hasBoardError,
     initialError,
+    isBoardEmpty,
     isFetchingNextPage,
     loadMoreError,
+    retryBoard,
   };
 }

@@ -8,6 +8,7 @@ import type { TaskStatus } from '../../add-new-task-screen/add-new-task-form-sch
 
 export type GetProjectTasksByStatusRequest = {
   projectId: string;
+  searchTerm?: string;
   status: TaskStatus;
 };
 
@@ -63,6 +64,7 @@ export async function getProjectTasksByStatus(
 ): Promise<ProjectTaskResponse[] | GetProjectTasksByStatusPageResponse> {
   const { projectId, status } = request;
   const isPaginatedRequest = 'limit' in request;
+  const normalizedSearchTerm = request.searchTerm?.trim() ?? '';
 
   await requireProjectSession();
 
@@ -75,7 +77,12 @@ export async function getProjectTasksByStatus(
   )
     .eq('project_id', projectId)
     .eq('status', status)
+    .setHeader('Content-Type', 'application/json')
     .order('due_date', { ascending: true, nullsFirst: false });
+
+  if (normalizedSearchTerm) {
+    query = query.ilike('title', `%${normalizedSearchTerm}%`);
+  }
 
   if (isPaginatedRequest) {
     query = query
@@ -96,9 +103,13 @@ export async function getProjectTasksByStatus(
   const tasks = (data ?? []) as ProjectTaskResponse[];
 
   if (isPaginatedRequest) {
+    if (count === null) {
+      throw new Error('Project tasks response is missing an exact count');
+    }
+
     return {
       tasks,
-      totalCount: count ?? tasks.length,
+      totalCount: count,
     };
   }
 

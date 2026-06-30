@@ -11,7 +11,10 @@ import { ProjectTasksBoardTaskList } from './project-tasks-board-task-list';
 
 type ProjectTasksBoardColumnContentProps = {
   error: Error | null;
+  hasBoardError: boolean;
+  isBoardEmpty: boolean;
   isPending: boolean;
+  isSearchActive: boolean;
   onRetry: () => void;
   projectId: string;
   status: TaskStatus;
@@ -20,22 +23,36 @@ type ProjectTasksBoardColumnContentProps = {
 
 export function ProjectTasksBoardColumnContent({
   error,
+  hasBoardError,
+  isBoardEmpty,
   isPending,
+  isSearchActive,
   onRetry,
   projectId,
   status,
   tasks,
 }: ProjectTasksBoardColumnContentProps): ReactElement {
+  if (hasBoardError) {
+    return (
+      <div className="flex flex-col gap-3">
+        <AddTaskButton projectId={projectId} status={status} />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-3">
       {isPending ? <ProjectTasksBoardLoading /> : null}
       {!isPending && error ? (
-        <ProjectTasksBoardError onRetry={onRetry} />
+        <ProjectTasksBoardError
+          message={isSearchActive ? 'Failed to search tasks' : undefined}
+          onRetry={onRetry}
+        />
       ) : null}
       {!isPending && !error && tasks.length === 0 ? (
         <>
           <AddTaskButton projectId={projectId} status={status} />
-          <ProjectTasksBoardEmptyState />
+          {!isBoardEmpty ? <ProjectTasksBoardEmptyState /> : null}
         </>
       ) : null}
       {!isPending && !error && tasks.length > 0 ? (

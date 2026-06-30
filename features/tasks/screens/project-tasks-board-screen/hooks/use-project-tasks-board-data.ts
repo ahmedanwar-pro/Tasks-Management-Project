@@ -12,27 +12,37 @@ import { useProjectTasksBoardQueries } from './board-data/use-project-tasks-boar
 type UseProjectTasksBoardDataOptions = {
   projectId: string;
   queryScopeKey?: string;
+  searchTerm?: string;
 };
 
 export function useProjectTasksBoardData({
   projectId,
   queryScopeKey = 'default',
+  searchTerm = '',
 }: UseProjectTasksBoardDataOptions): ProjectTasksBoardData {
-  const scopeKey = getProjectTasksBoardScopeKey(projectId, queryScopeKey);
+  const scopeKey = getProjectTasksBoardScopeKey(
+    projectId,
+    queryScopeKey,
+    searchTerm,
+  );
   const { advancePage, beginRequest, currentPage, finishRequest } =
     useProjectTasksBoardPaginationState(scopeKey);
   const { queryDefinitions, queryResults } = useProjectTasksBoardQueries({
     currentPage,
     projectId,
     queryScopeKey,
+    searchTerm,
   });
   const {
     columns,
     currentPageResults,
     hasNextPage,
+    hasBoardError,
     initialError,
+    isBoardEmpty,
     isFetchingNextPage,
     loadMoreError,
+    retryBoard,
   } = getProjectTasksBoardQueryData(
     currentPage,
     queryDefinitions,
@@ -52,9 +62,13 @@ export function useProjectTasksBoardData({
   return {
     columns,
     hasNextPage,
+    hasBoardError,
+    isBoardEmpty,
     isFetchingNextPage,
+    isSearchActive: searchTerm.length > 0,
     loadMoreError,
     loadNextPage,
+    retryBoard,
     retryNextPage,
   };
 }

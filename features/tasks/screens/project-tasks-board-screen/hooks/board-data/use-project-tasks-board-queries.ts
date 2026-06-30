@@ -18,12 +18,14 @@ type UseProjectTasksBoardQueriesOptions = {
   currentPage: number;
   projectId: string;
   queryScopeKey: string;
+  searchTerm: string;
 };
 
 export function getProjectTasksBoardQueryKey(
   projectId: string,
   status: TaskStatus,
   queryScopeKey: string,
+  searchTerm: string,
   page: number,
 ) {
   return [
@@ -32,6 +34,7 @@ export function getProjectTasksBoardQueryKey(
     status,
     'board-infinite',
     queryScopeKey,
+    searchTerm,
     page,
     projectTasksBoardPageSize,
   ] as const;
@@ -41,6 +44,7 @@ export function useProjectTasksBoardQueries({
   currentPage,
   projectId,
   queryScopeKey,
+  searchTerm,
 }: UseProjectTasksBoardQueriesOptions) {
   const queryClient = useQueryClient();
   const queryDefinitions: ProjectTasksBoardQueryDefinition[] = [];
@@ -53,7 +57,13 @@ export function useProjectTasksBoardQueries({
         page === 1 || offset < (latestTotalCountByStatus.get(status) ?? 0);
       const pageData =
         queryClient.getQueryData<GetProjectTasksByStatusPageResponse>(
-          getProjectTasksBoardQueryKey(projectId, status, queryScopeKey, page),
+          getProjectTasksBoardQueryKey(
+            projectId,
+            status,
+            queryScopeKey,
+            searchTerm,
+            page,
+          ),
         );
 
       queryDefinitions.push({ enabled, page, status });
@@ -72,12 +82,14 @@ export function useProjectTasksBoardQueries({
           limit: projectTasksBoardPageSize,
           offset: getPaginationOffset(page, projectTasksBoardPageSize),
           projectId,
+          searchTerm,
           status,
         }),
       queryKey: getProjectTasksBoardQueryKey(
         projectId,
         status,
         queryScopeKey,
+        searchTerm,
         page,
       ),
       retry: shouldRetryProjectTasksQuery,

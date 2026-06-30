@@ -42,8 +42,12 @@ export type ProjectTasksBoardQueryDefinition = {
 export type ProjectTasksBoardData = {
   columns: ProjectTasksBoardColumnData[];
   hasNextPage: boolean;
+  hasBoardError: boolean;
+  isBoardEmpty: boolean;
   isFetchingNextPage: boolean;
+  isSearchActive: boolean;
   loadMoreError: Error | null;
   loadNextPage: () => void;
+  retryBoard: () => void;
   retryNextPage: () => void;
 };

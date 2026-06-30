@@ -5,10 +5,16 @@ import { ProjectTasksBoardControls } from './project-tasks-board-controls';
 import { ProjectTasksBoardTitle } from './project-tasks-board-title';
 
 type BoardHeaderProps = {
+  onSearchTermChange: (value: string) => void;
   projectId: string;
+  searchTerm: string;
 };
 
-export function BoardHeader({ projectId }: BoardHeaderProps): ReactElement {
+export function BoardHeader({
+  onSearchTermChange,
+  projectId,
+  searchTerm,
+}: BoardHeaderProps): ReactElement {
   const { data: project } = useProjectNameQuery(projectId);
   const projectName = project?.name ?? 'Project';
 
@@ -18,7 +24,11 @@ export function BoardHeader({ projectId }: BoardHeaderProps): ReactElement {
 
       <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
         <ProjectTasksBoardTitle projectName={projectName} />
-        <ProjectTasksBoardControls projectId={projectId} />
+        <ProjectTasksBoardControls
+          onSearchTermChange={onSearchTermChange}
+          projectId={projectId}
+          searchTerm={searchTerm}
+        />
       </div>
     </header>
   );
