@@ -8,16 +8,23 @@ import { ProjectTasksListSearchInput } from './project-tasks-list-search-input';
 
 type ProjectTasksListControlsProps = {
   isAddTaskVisible: boolean;
+  onSearchTermChange: (value: string) => void;
   projectId: string;
+  searchTerm: string;
 };
 
 export function ProjectTasksListControls({
   isAddTaskVisible,
+  onSearchTermChange,
   projectId,
+  searchTerm,
 }: ProjectTasksListControlsProps): ReactElement {
   return (
     <div className="flex w-full flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-3 xl:w-auto xl:flex-nowrap xl:items-center">
-      <ProjectTasksListSearchInput />
+      <ProjectTasksListSearchInput
+        onSearchTermChange={onSearchTermChange}
+        searchTerm={searchTerm}
+      />
       <ViewSwitcher
         className="hidden h-[38px] min-w-[157px] sm:flex"
         currentView="list"

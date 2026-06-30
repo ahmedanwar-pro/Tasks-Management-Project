@@ -75,6 +75,7 @@ export function useProjectTasksListPagination(projectId: string) {
     isMobileViewport,
     isViewportResolved,
     limit: projectTasksListPageSize,
+    resetToFirstPage,
     setCurrentPage,
   };
 }

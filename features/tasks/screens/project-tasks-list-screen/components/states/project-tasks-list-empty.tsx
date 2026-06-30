@@ -7,10 +7,12 @@ import {
 } from '../../../project-tasks-board-screen/components/icons';
 
 type ProjectTasksListEmptyProps = {
+  isSearchActive?: boolean;
   projectId: string;
 };
 
 export function ProjectTasksListEmpty({
+  isSearchActive = false,
   projectId,
 }: ProjectTasksListEmptyProps): ReactElement {
   return (
@@ -19,26 +21,32 @@ export function ProjectTasksListEmpty({
         <ListIcon />
       </div>
       <p className="text-text-subtle text-center text-[11px] leading-[16.5px] font-bold tracking-[1.1px] uppercase">
-        No Items
+        {isSearchActive ? 'No Results' : 'No Items'}
       </p>
       <div className="flex max-w-full flex-col items-center gap-2">
         <h2 className="text-text-primary text-[18px] leading-[24px] font-medium md:text-[20px] md:leading-[28px]">
-          No tasks yet
+          {isSearchActive
+            ? 'No tasks found matching your search'
+            : 'No tasks yet'}
         </h2>
         <p className="text-text-secondary max-w-[448px] text-[14px] leading-[22px] md:text-[16px] md:leading-[26px]">
-          Create a task to start filling this project list.
+          {isSearchActive
+            ? 'Try a different task title.'
+            : 'Create a task to start filling this project list.'}
         </p>
       </div>
-      <div className="pt-1 md:pt-2">
-        <Link
-          className="bg-primary-container text-text-inverse hover:bg-primary-container/90 focus-visible:outline-primary inline-flex h-9 items-center justify-center gap-2 rounded-sm px-5 text-[13px] leading-5 font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 md:h-10 md:px-7 md:text-[14px] lg:h-11 lg:px-8"
-          href={`/projects/${projectId}/tasks/new`}
-        >
-          <CompactAddTaskIcon className="size-[10px] sm:hidden" />
-          <AddTaskIcon className="hidden size-[14px] sm:block md:size-[15px]" />
-          Add task
-        </Link>
-      </div>
+      {!isSearchActive ? (
+        <div className="pt-1 md:pt-2">
+          <Link
+            className="bg-primary-container text-text-inverse hover:bg-primary-container/90 focus-visible:outline-primary inline-flex h-9 items-center justify-center gap-2 rounded-sm px-5 text-[13px] leading-5 font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 md:h-10 md:px-7 md:text-[14px] lg:h-11 lg:px-8"
+            href={`/projects/${projectId}/tasks/new`}
+          >
+            <CompactAddTaskIcon className="size-[10px] sm:hidden" />
+            <AddTaskIcon className="hidden size-[14px] sm:block md:size-[15px]" />
+            Add task
+          </Link>
+        </div>
+      ) : null}
     </section>
   );
 }

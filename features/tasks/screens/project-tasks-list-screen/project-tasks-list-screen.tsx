@@ -27,11 +27,14 @@ export function ProjectTasksListScreen({
     isFetchingNextPage,
     isLoading,
     isRetrying,
+    isSearchActive,
     isUnauthorized,
     loadMoreRef,
     onPageChange,
     onRetry,
+    onSearchTermChange,
     pageSize,
+    searchTerm,
     tasks,
     totalCount,
   } = useProjectTasksListScreenData(projectId);
@@ -51,34 +54,40 @@ export function ProjectTasksListScreen({
     >
       <ProjectTasksListHeader
         isAddTaskVisible={!isEmpty}
+        onSearchTermChange={onSearchTermChange}
         projectId={projectId}
+        searchTerm={searchTerm}
       />
       {isLoading ? <ProjectTasksListLoading /> : null}
       {!isLoading && isError ? (
-        <ProjectTasksListError isRetrying={isRetrying} onRetry={onRetry} />
+        <ProjectTasksListError
+          isRetrying={isRetrying}
+          isSearchError={isSearchActive}
+          onRetry={onRetry}
+        />
       ) : null}
-      {isEmpty ? <ProjectTasksListEmpty projectId={projectId} /> : null}
+      {isEmpty ? (
+        <ProjectTasksListEmpty
+          isSearchActive={isSearchActive}
+          projectId={projectId}
+        />
+      ) : null}
       {!isLoading && !isError && tasks.length > 0 ? (
-        <>
-          {hasPartialError ? (
-            <ProjectTasksListError
-              isPartial
-              isRetrying={isRetrying}
-              onRetry={onRetry}
-            />
-          ) : null}
-          <ProjectTasksList
-            currentPage={currentPage}
-            hasMoreMobileTasks={hasMoreMobileTasks}
-            isFetchingNextPage={isFetchingNextPage}
-            loadMoreRef={loadMoreRef}
-            onPageChange={onPageChange}
-            pageSize={pageSize}
-            projectId={projectId}
-            tasks={tasks}
-            totalCount={totalCount}
-          />
-        </>
+        <ProjectTasksList
+          currentPage={currentPage}
+          hasMoreMobileTasks={hasMoreMobileTasks}
+          hasPartialError={hasPartialError}
+          isFetchingNextPage={isFetchingNextPage}
+          isRetrying={isRetrying}
+          isSearchActive={isSearchActive}
+          loadMoreRef={loadMoreRef}
+          onPageChange={onPageChange}
+          onRetry={onRetry}
+          pageSize={pageSize}
+          projectId={projectId}
+          tasks={tasks}
+          totalCount={totalCount}
+        />
       ) : null}
     </section>
   );

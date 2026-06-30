@@ -3,17 +3,21 @@ import type { ReactElement } from 'react';
 type ProjectTasksListErrorProps = {
   isPartial?: boolean;
   isRetrying: boolean;
+  isSearchError?: boolean;
   onRetry: () => void;
 };
 
 export function ProjectTasksListError({
   isPartial = false,
   isRetrying,
+  isSearchError = false,
   onRetry,
 }: ProjectTasksListErrorProps): ReactElement {
-  const title = isPartial
-    ? 'Some tasks could not load'
-    : 'Failed to load tasks';
+  const title = isSearchError
+    ? 'Failed to search tasks'
+    : isPartial
+      ? 'Some tasks could not load'
+      : 'Failed to load tasks';
 
   return (
     <section

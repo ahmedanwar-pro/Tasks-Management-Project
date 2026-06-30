@@ -6,12 +6,16 @@ import { ProjectTasksListTitle } from './project-tasks-list-title';
 
 type ProjectTasksListHeaderProps = {
   isAddTaskVisible: boolean;
+  onSearchTermChange: (value: string) => void;
   projectId: string;
+  searchTerm: string;
 };
 
 export function ProjectTasksListHeader({
   isAddTaskVisible,
+  onSearchTermChange,
   projectId,
+  searchTerm,
 }: ProjectTasksListHeaderProps): ReactElement {
   const { data: project } = useProjectNameQuery(projectId);
   const projectName = project?.name ?? 'Project';
@@ -26,7 +30,9 @@ export function ProjectTasksListHeader({
         <ProjectTasksListTitle projectName={projectName} />
         <ProjectTasksListControls
           isAddTaskVisible={isAddTaskVisible}
+          onSearchTermChange={onSearchTermChange}
           projectId={projectId}
+          searchTerm={searchTerm}
         />
       </div>
     </header>

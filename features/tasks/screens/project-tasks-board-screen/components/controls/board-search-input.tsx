@@ -6,12 +6,16 @@ type BoardSearchInputProps = {
   className?: string;
   inputClassName?: string;
   iconClassName?: string;
+  onValueChange?: (value: string) => void;
+  value?: string;
 };
 
 export function BoardSearchInput({
   className,
   inputClassName,
   iconClassName,
+  onValueChange,
+  value,
 }: BoardSearchInputProps): ReactElement {
   return (
     <div
@@ -29,9 +33,11 @@ export function BoardSearchInput({
           inputClassName,
         )}
         id="project-task-search"
+        onChange={(event) => onValueChange?.(event.target.value)}
         placeholder="Search tasks..."
-        readOnly
+        readOnly={onValueChange === undefined}
         type="search"
+        value={value}
       />
       <span
         className={joinClasses(

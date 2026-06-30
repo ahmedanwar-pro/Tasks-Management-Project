@@ -13,6 +13,7 @@ export function useProjectTasksListQuery(
   projectId: string,
   currentPage: number,
   limit: number,
+  searchTerm: string,
   enabled = true,
 ) {
   return useQuery({
@@ -22,8 +23,16 @@ export function useProjectTasksListQuery(
         limit,
         offset: getPaginationOffset(currentPage, limit),
         projectId,
+        searchTerm,
       }),
-    queryKey: ['project-tasks', projectId, 'list', currentPage, limit] as const,
+    queryKey: [
+      'project-tasks',
+      projectId,
+      'list',
+      searchTerm,
+      currentPage,
+      limit,
+    ] as const,
     retry: shouldRetryProjectTasksQuery,
   });
 }
@@ -31,13 +40,21 @@ export function useProjectTasksListQuery(
 export function useMoreProjectTasksListQuery(
   projectId: string,
   limit: number,
+  searchTerm: string,
   enabled: boolean,
 ) {
   return useInfiniteQuery<
     GetProjectTasksResponse,
     Error,
     InfiniteData<GetProjectTasksResponse, number>,
-    readonly ['project-tasks', string, 'list', 'mobile-infinite', number],
+    readonly [
+      'project-tasks',
+      string,
+      'list',
+      'mobile-infinite',
+      string,
+      number,
+    ],
     number
   >({
     enabled,
@@ -51,12 +68,14 @@ export function useMoreProjectTasksListQuery(
         limit,
         offset: getPaginationOffset(pageParam, limit),
         projectId,
+        searchTerm,
       }),
     queryKey: [
       'project-tasks',
       projectId,
       'list',
       'mobile-infinite',
+      searchTerm,
       limit,
     ] as const,
     retry: shouldRetryProjectTasksQuery,

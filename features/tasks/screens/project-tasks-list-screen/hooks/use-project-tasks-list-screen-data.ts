@@ -12,6 +12,7 @@ import {
   mobileProjectTasksListViewportQuery,
 } from '../utils';
 import { useProjectTasksListPagination } from './use-project-tasks-list-pagination';
+import { useProjectTasksListSearch } from './use-project-tasks-list-search';
 import {
   useMoreProjectTasksListQuery,
   useProjectTasksListQuery,
@@ -25,18 +26,21 @@ export function useProjectTasksListScreenData(
     isMobileViewport,
     isViewportResolved,
     limit,
+    resetToFirstPage,
     setCurrentPage,
   } = useProjectTasksListPagination(projectId);
+  const { debouncedSearchTerm, onSearchTermChange, searchTerm } =
+    useProjectTasksListSearch(resetToFirstPage);
   const {
     data: tasksData,
     error: tasksError,
     isFetching: areTasksFetching,
-    isPending: areTasksPending,
     refetch: refetchTasks,
   } = useProjectTasksListQuery(
     projectId,
     currentPage,
     limit,
+    debouncedSearchTerm,
     isViewportResolved && !isMobileViewport,
   );
   const {
@@ -51,6 +55,7 @@ export function useProjectTasksListScreenData(
   } = useMoreProjectTasksListQuery(
     projectId,
     limit,
+    debouncedSearchTerm,
     isViewportResolved && isMobileViewport,
   );
   const { displayedTaskResponses, hasMoreMobileTasks, totalCount } =
@@ -110,13 +115,15 @@ export function useProjectTasksListScreenData(
     isFetchingNextPage,
     isLoading:
       !isViewportResolved ||
-      (isMobileViewport ? areMoreTasksPending : areTasksPending) ||
+      (isMobileViewport ? areMoreTasksPending : areTasksFetching) ||
       isPageOutOfRange ||
       isUnauthorized,
     isRetrying,
+    isSearchActive: debouncedSearchTerm.length > 0,
     isUnauthorized,
     loadMoreRef,
     onPageChange: setCurrentPage,
+    onSearchTermChange,
     onRetry: () => {
       if (retryInFlightRef.current || isRetrying) {
         return;
@@ -140,6 +147,7 @@ export function useProjectTasksListScreenData(
       });
     },
     pageSize: limit,
+    searchTerm,
     tasks,
     totalCount,
   };

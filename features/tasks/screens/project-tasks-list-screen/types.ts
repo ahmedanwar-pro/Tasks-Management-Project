@@ -18,11 +18,14 @@ export type ProjectTasksListScreenData = {
   isFetchingNextPage: boolean;
   isLoading: boolean;
   isRetrying: boolean;
+  isSearchActive: boolean;
   isUnauthorized: boolean;
   loadMoreRef: RefObject<HTMLDivElement | null>;
   onPageChange: (page: number) => void;
+  onSearchTermChange: (value: string) => void;
   onRetry: () => void;
   pageSize: number;
+  searchTerm: string;
   tasks: ProjectTasksListItem[];
   totalCount: number;
 };
