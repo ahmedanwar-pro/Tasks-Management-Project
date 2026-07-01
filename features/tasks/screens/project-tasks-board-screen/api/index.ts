@@ -6,3 +6,8 @@ export {
   type ProjectTaskPersonResponse,
   type ProjectTaskResponse,
 } from './get-project-tasks-by-status';
+export {
+  updateTaskStatus,
+  type UpdateTaskStatusRequest,
+  type UpdateTaskStatusResponse,
+} from './update-task-status';

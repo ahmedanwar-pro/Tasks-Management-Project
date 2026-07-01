@@ -2,8 +2,8 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api/project-api-errors';
-import type { TaskStatus } from '../../add-new-task-screen/add-new-task-form-schema';
-import { getProjectTasksByStatus } from '../api';
+import type { TaskStatus } from '../../../add-new-task-screen/add-new-task-form-schema';
+import { getProjectTasksByStatus } from '../../api';
 
 const defaultClientRetryCount = 3;
 

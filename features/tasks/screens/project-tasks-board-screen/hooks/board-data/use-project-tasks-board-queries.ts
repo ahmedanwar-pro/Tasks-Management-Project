@@ -12,7 +12,7 @@ import {
   projectTasksBoardPageSize,
   projectTasksBoardStatuses,
 } from '../../utils';
-import { shouldRetryProjectTasksQuery } from '../use-project-tasks-by-status-query';
+import { shouldRetryProjectTasksQuery } from './use-project-tasks-by-status-query';
 
 type UseProjectTasksBoardQueriesOptions = {
   currentPage: number;

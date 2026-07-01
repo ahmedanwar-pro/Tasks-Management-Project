@@ -1,4 +1,4 @@
-import type { ProjectTaskResponse } from '../api';
+import type { ProjectTaskResponse } from '../../api';
 
 export function mergeProjectTaskResponses(
   existingTasks: ProjectTaskResponse[],

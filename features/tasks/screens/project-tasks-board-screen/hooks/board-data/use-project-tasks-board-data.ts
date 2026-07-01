@@ -1,13 +1,13 @@
 'use client';
 
-import type { ProjectTasksBoardData } from '../types';
+import type { ProjectTasksBoardData } from '../../types';
 import {
   getProjectTasksBoardScopeKey,
   getProjectTasksBoardQueryData,
-} from '../utils';
-import { useProjectTasksBoardPageActions } from './board-data/use-project-tasks-board-page-actions';
-import { useProjectTasksBoardPaginationState } from './board-data/use-project-tasks-board-pagination-state';
-import { useProjectTasksBoardQueries } from './board-data/use-project-tasks-board-queries';
+} from '../../utils';
+import { useProjectTasksBoardPageActions } from './use-project-tasks-board-page-actions';
+import { useProjectTasksBoardPaginationState } from './use-project-tasks-board-pagination-state';
+import { useProjectTasksBoardQueries } from './use-project-tasks-board-queries';
 
 type UseProjectTasksBoardDataOptions = {
   projectId: string;

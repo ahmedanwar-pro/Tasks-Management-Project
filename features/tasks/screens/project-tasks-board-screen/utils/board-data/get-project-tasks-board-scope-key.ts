@@ -1,4 +1,4 @@
-import { projectTasksBoardStatuses } from './project-tasks-board-config';
+import { projectTasksBoardStatuses } from '../project-tasks-board-config';
 
 export function getProjectTasksBoardScopeKey(
   projectId: string,

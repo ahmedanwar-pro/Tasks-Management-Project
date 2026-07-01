@@ -1,5 +1,5 @@
-import type { TaskStatus } from '../../add-new-task-screen/add-new-task-form-schema';
-import { projectTasksBoardStatuses } from './project-tasks-board-config';
+import type { TaskStatus } from '../../../add-new-task-screen/add-new-task-form-schema';
+import { projectTasksBoardStatuses } from '../project-tasks-board-config';
 
 export const projectTasksBoardPageSize = 5;
 

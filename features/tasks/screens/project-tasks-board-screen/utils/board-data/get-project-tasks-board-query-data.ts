@@ -2,19 +2,19 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import type {
   GetProjectTasksByStatusPageResponse,
   ProjectTaskResponse,
-} from '../api';
+} from '../../api';
 import type {
   ProjectTasksBoardColumnData,
   ProjectTasksBoardQueryDefinition,
-} from '../types';
+} from '../../types';
 import { getPaginationOffset } from '@/features/shared/utils/pagination';
-import { mapProjectTask } from './map-project-task';
+import { mapProjectTask } from '../map-project-task';
 import { mergeProjectTaskResponses } from './merge-project-task-responses';
 import {
   createProjectTasksStatusRecord,
   projectTasksBoardPageSize,
 } from './project-tasks-board-pagination';
-import { projectTasksBoardStatuses } from './project-tasks-board-config';
+import { projectTasksBoardStatuses } from '../project-tasks-board-config';
 
 type ProjectTasksBoardQueryResult = UseQueryResult<
   GetProjectTasksByStatusPageResponse,

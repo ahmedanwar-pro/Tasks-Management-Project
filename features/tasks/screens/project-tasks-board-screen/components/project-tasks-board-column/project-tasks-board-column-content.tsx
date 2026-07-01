@@ -13,9 +13,11 @@ type ProjectTasksBoardColumnContentProps = {
   error: Error | null;
   hasBoardError: boolean;
   isBoardEmpty: boolean;
+  isDragDisabled: boolean;
   isPending: boolean;
   isSearchActive: boolean;
   onRetry: () => void;
+  pendingTaskId: string | null;
   projectId: string;
   status: TaskStatus;
   tasks: ProjectTasksBoardTask[];
@@ -25,9 +27,11 @@ export function ProjectTasksBoardColumnContent({
   error,
   hasBoardError,
   isBoardEmpty,
+  isDragDisabled,
   isPending,
   isSearchActive,
   onRetry,
+  pendingTaskId,
   projectId,
   status,
   tasks,
@@ -58,7 +62,12 @@ export function ProjectTasksBoardColumnContent({
       {!isPending && !error && tasks.length > 0 ? (
         <>
           <AddTaskButton projectId={projectId} status={status} />
-          <ProjectTasksBoardTaskList projectId={projectId} tasks={tasks} />
+          <ProjectTasksBoardTaskList
+            isDragDisabled={isDragDisabled}
+            pendingTaskId={pendingTaskId}
+            projectId={projectId}
+            tasks={tasks}
+          />
         </>
       ) : null}
     </div>
