@@ -58,8 +58,8 @@ export function ProjectTasksBoardContent({
           columnState={columnState}
           projectId={projectId}
         />
-        <ProjectTasksBoardLoadMore {...loadMoreState} />
       </div>
+      <ProjectTasksBoardLoadMore {...loadMoreState} />
     </DndContext>
   );
 }

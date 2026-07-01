@@ -1,4 +1,5 @@
 import type { ReactElement, RefObject } from 'react';
+import { Spinner } from '@/components/ui';
 
 type ProjectTasksBoardLoadMoreProps = {
   error: Error | null;
@@ -14,12 +15,17 @@ export function ProjectTasksBoardLoadMore({
   onRetry,
 }: ProjectTasksBoardLoadMoreProps): ReactElement {
   return (
-    <div aria-live="polite" className="min-h-1 w-full" ref={loadMoreRef}>
+    <div
+      aria-live="polite"
+      className="sticky left-0 min-h-10 w-full"
+      ref={loadMoreRef}
+    >
       {isFetchingNextPage ? (
         <div
-          className="text-text-secondary sticky left-0 flex h-10 w-72 items-center justify-center text-[12px] font-medium"
+          className="text-text-secondary flex h-10 w-full items-center justify-center gap-2 text-[12px] font-medium"
           role="status"
         >
+          <Spinner className="text-primary" size="sm" />
           Loading more tasks...
         </div>
       ) : null}
