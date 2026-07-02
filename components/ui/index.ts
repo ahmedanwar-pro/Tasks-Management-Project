@@ -1,6 +1,6 @@
 export { Avatar } from './avatar/avatar';
 export { Badge } from './badge/badge';
-export { Button } from './button/button';
+export { Button, ButtonLink } from './button/button';
 export { Card } from './card/card';
 export { Drawer } from './drawer/drawer';
 export { DropdownMenu } from './dropdown-menu/dropdown-menu';

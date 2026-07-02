@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import type {
+  AnchorHTMLAttributes,
   ButtonHTMLAttributes,
   MouseEventHandler,
   ReactElement,
@@ -25,6 +27,20 @@ type ButtonProps = {
 } & Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'children' | 'className' | 'disabled' | 'onClick' | 'type'
+>;
+
+type ButtonLinkProps = {
+  href: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  fullWidth?: boolean;
+  iconLeft?: ReactNode;
+  iconRight?: ReactNode;
+  className?: string;
+  children: ReactNode;
+} & Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  'children' | 'className' | 'href'
 >;
 
 const baseClasses =
@@ -58,6 +74,21 @@ function LoadingIndicator(): ReactElement {
   );
 }
 
+function getButtonClasses(
+  variant: ButtonVariant,
+  size: ButtonSize,
+  fullWidth: boolean,
+  className?: string,
+): string {
+  return joinClasses(
+    baseClasses,
+    variantClasses[variant],
+    sizeClasses[size],
+    fullWidth && 'w-full',
+    className,
+  );
+}
+
 export function Button({
   variant = 'primary',
   size = 'md',
@@ -81,13 +112,7 @@ export function Button({
       {...props}
       aria-busy={isLoading || undefined}
       aria-disabled={isDisabled || undefined}
-      className={joinClasses(
-        baseClasses,
-        variantClasses[variant],
-        sizeClasses[size],
-        fullWidth && 'w-full',
-        className,
-      )}
+      className={getButtonClasses(variant, size, fullWidth, className)}
       disabled={isDisabled}
       onClick={onClick}
       suppressHydrationWarning
@@ -97,5 +122,29 @@ export function Button({
       <span>{label}</span>
       {!isLoading ? iconRight : null}
     </button>
+  );
+}
+
+export function ButtonLink({
+  href,
+  variant = 'primary',
+  size = 'md',
+  fullWidth = false,
+  iconLeft,
+  iconRight,
+  className,
+  children,
+  ...props
+}: ButtonLinkProps): ReactElement {
+  return (
+    <Link
+      {...props}
+      className={getButtonClasses(variant, size, fullWidth, className)}
+      href={href}
+    >
+      {iconLeft}
+      <span>{children}</span>
+      {iconRight}
+    </Link>
   );
 }

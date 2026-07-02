@@ -1,13 +1,15 @@
 import type { ReactElement } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui';
+import { ButtonLink } from '@/components/ui';
 import { InviteMemberIcon } from './project-members-icons';
 
 type ProjectMembersHeaderProps = {
+  projectId: string;
   projectName?: string | null;
 };
 
 export function ProjectMembersHeader({
+  projectId,
   projectName,
 }: ProjectMembersHeaderProps): ReactElement {
   const breadcrumbProjectName = projectName?.trim() || 'Project';
@@ -28,7 +30,9 @@ export function ProjectMembersHeader({
           <span aria-hidden="true" className="text-text-secondary/60">
             &gt;
           </span>
-          <span className="text-text-secondary/60">{breadcrumbProjectName}</span>
+          <span className="text-text-secondary/60">
+            {breadcrumbProjectName}
+          </span>
           <span aria-hidden="true" className="text-text-secondary/60">
             &gt;
           </span>
@@ -45,16 +49,14 @@ export function ProjectMembersHeader({
       </div>
 
       <div className="hidden md:block">
-        <Button
+        <ButtonLink
           aria-label="Invite member"
-          className="h-12 rounded-xs px-6 shadow-[0px_10px_15px_-3px_rgba(0,61,155,0.2),0px_4px_6px_-4px_rgba(0,61,155,0.2)]"
-          iconLeft={
-            <InviteMemberIcon className="h-[13.333px] w-[18.333px]" />
-          }
-          type="button"
+          className="h-12 rounded-xs shadow-[0px_10px_15px_-3px_rgba(0,61,155,0.2),0px_4px_6px_-4px_rgba(0,61,155,0.2)]"
+          href={`/projects/${projectId}/members/invite`}
+          iconLeft={<InviteMemberIcon className="h-[13.333px] w-[18.333px]" />}
         >
           Invite Member
-        </Button>
+        </ButtonLink>
       </div>
     </header>
   );

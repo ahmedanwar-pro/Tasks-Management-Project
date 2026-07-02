@@ -16,7 +16,13 @@ const mobileLoadingRows = [
   { nameWidth: 'w-24', emailWidth: 'w-[136px]' },
 ] as const;
 
-export function ProjectMembersLoadingState(): ReactElement {
+type ProjectMembersLoadingStateProps = {
+  projectId: string;
+};
+
+export function ProjectMembersLoadingState({
+  projectId,
+}: ProjectMembersLoadingStateProps): ReactElement {
   return (
     <section
       aria-busy="true"
@@ -165,7 +171,7 @@ export function ProjectMembersLoadingState(): ReactElement {
         </div>
       </div>
 
-      <ProjectMembersFloatingInviteButton />
+      <ProjectMembersFloatingInviteButton projectId={projectId} />
     </section>
   );
 }

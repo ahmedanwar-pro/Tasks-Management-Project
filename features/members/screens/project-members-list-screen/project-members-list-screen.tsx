@@ -65,7 +65,7 @@ export function ProjectMembersListScreen({
   }
 
   if (isMembersPending || isUnauthorized) {
-    return <ProjectMembersLoadingState />;
+    return <ProjectMembersLoadingState projectId={projectId} />;
   }
 
   if (membersError) {
@@ -77,14 +77,14 @@ export function ProjectMembersListScreen({
       aria-labelledby="project-members-title"
       className="relative mx-auto flex w-full max-w-7xl flex-col px-4 py-8 md:px-8 lg:min-h-[calc(100dvh-4rem)] lg:pt-8"
     >
-      <ProjectMembersHeader projectName={projectName} />
+      <ProjectMembersHeader projectId={projectId} projectName={projectName} />
 
       <div className="mt-5 lg:mt-16.75 lg:flex lg:justify-center">
         <ProjectMembersMobileList members={members} />
         <ProjectMembersTable members={members} />
       </div>
 
-      <ProjectMembersFloatingInviteButton />
+      <ProjectMembersFloatingInviteButton projectId={projectId} />
     </section>
   );
 }
