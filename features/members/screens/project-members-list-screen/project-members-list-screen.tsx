@@ -18,7 +18,6 @@ import {
   useProjectNameQuery,
 } from './hooks';
 import { mapProjectMember } from './utils';
-import { useCurrentUser } from '@/components/layout/hooks/use-current-user';
 import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api';
 
 type ProjectMembersListScreenProps = {
@@ -29,7 +28,6 @@ export function ProjectMembersListScreen({
   projectId,
 }: ProjectMembersListScreenProps): ReactElement {
   const router = useRouter();
-  const { data: currentUser } = useCurrentUser();
   const isBreadcrumbVisible = useProjectMembersBreadcrumbVisibility();
   const {
     data: membersData,
@@ -45,9 +43,7 @@ export function ProjectMembersListScreen({
   const isUnauthorized =
     isProjectMembersUnauthorizedError(membersError) ||
     isProjectUnauthorizedError(projectError);
-  const members = (membersData?.members ?? []).map((member, index) =>
-    mapProjectMember(member, index, currentUser?.name),
-  );
+  const members = (membersData?.members ?? []).map(mapProjectMember);
   const projectName = project?.name ?? 'Project';
 
   useEffect(() => {

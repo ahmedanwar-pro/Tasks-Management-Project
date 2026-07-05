@@ -13,7 +13,13 @@ import { useLoginMutation } from '../hooks/use-login-mutation';
 import { loginSchema } from '../utils';
 import type { LoginFormValues } from '../utils';
 
-export function LoginForm(): ReactElement {
+type LoginFormProps = {
+  returnTo?: string;
+};
+
+export function LoginForm({
+  returnTo = '/projects',
+}: LoginFormProps): ReactElement {
   const router = useRouter();
   const {
     error: loginError,
@@ -49,7 +55,7 @@ export function LoginForm(): ReactElement {
     login(
       { email, password, rememberMe },
       {
-        onSuccess: () => router.push('/projects'),
+        onSuccess: () => router.replace(returnTo),
       },
     );
   }

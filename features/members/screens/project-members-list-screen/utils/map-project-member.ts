@@ -41,6 +41,7 @@ function getMemberFullName(member: ProjectMemberResponse): string {
     member.member_full_name ??
     member.profile_name ??
     member.user_name ??
+    member.metadata?.name ??
     ''
   ).trim();
 }
@@ -48,13 +49,11 @@ function getMemberFullName(member: ProjectMemberResponse): string {
 export function mapProjectMember(
   member: ProjectMemberResponse,
   index: number,
-  currentUserName?: string,
 ): ProjectMember {
-  const email = member.email ?? member.user_email ?? '';
+  const email =
+    member.email ?? member.user_email ?? member.metadata?.email ?? '';
   const role = normalizeRole(member.role);
-  const fullName =
-    getMemberFullName(member) ||
-    (role === 'Owner' ? (currentUserName?.trim() ?? '') : '');
+  const fullName = getMemberFullName(member);
   const name = fullName || 'Project Member';
 
   return {

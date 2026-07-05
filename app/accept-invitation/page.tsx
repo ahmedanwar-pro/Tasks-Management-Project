@@ -15,9 +15,7 @@ export default async function AcceptInvitationPage({
   searchParams,
 }: AcceptInvitationPageProps): Promise<React.JSX.Element> {
   const { token } = await searchParams;
-  const invitationToken = Array.isArray(token) ? token[0] : token;
+  const invitationToken = (Array.isArray(token) ? token[0] : token)?.trim();
 
-  void invitationToken;
-
-  return <AcceptInvitationScreen />;
+  return <AcceptInvitationScreen invitationToken={invitationToken} />;
 }
