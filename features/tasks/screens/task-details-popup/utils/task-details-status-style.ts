@@ -16,7 +16,3 @@ export function getTaskDetailsStatusClassName(status: string): string {
     config?.badgeClassName ?? 'bg-primary-container-muted text-text-secondary'
   );
 }
-
-export function getTaskDetailsStatusLabel(status: string): string {
-  return normalizeStatus(status) === 'DONE' ? 'COMPLETED' : status;
-}

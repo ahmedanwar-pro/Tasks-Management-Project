@@ -1,4 +1,4 @@
-﻿# Feature Screen Review Request
+# Feature Screen Review Request
 
 Review the implemented feature screen against the approved staged plan from this thread.
 

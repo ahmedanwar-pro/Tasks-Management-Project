@@ -39,11 +39,15 @@ export function MoreIcon(): ReactElement {
   );
 }
 
-export function EditIcon(): ReactElement {
+export function EditIcon({
+  className = 'h-4 w-4',
+}: {
+  className?: string;
+}): ReactElement {
   return (
     <svg
       aria-hidden="true"
-      className="h-4 w-4"
+      className={className}
       fill="none"
       viewBox="0 0 16 16"
       xmlns="http://www.w3.org/2000/svg"

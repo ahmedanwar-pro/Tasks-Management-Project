@@ -47,14 +47,13 @@ export function TaskDetailsMobileSheet({
 
         <div className="min-h-0 flex-1 overflow-hidden">
           <div className="flex h-full flex-col gap-8 overflow-y-auto px-4 pt-2 pb-[119px] min-[375px]:px-6">
-            <TaskDetailsMobileTitleSection
-              epicLabel={details.epicLabel}
-              status={details.status}
-              title={details.title}
-            />
+            <TaskDetailsMobileTitleSection details={details} />
 
             <TaskDetailsMobileMetaGrid details={details} />
-            <TaskDetailsMobileDescription description={details.description} />
+            <TaskDetailsMobileDescription
+              description={details.description}
+              descriptionValue={details.descriptionValue}
+            />
           </div>
         </div>
       </section>

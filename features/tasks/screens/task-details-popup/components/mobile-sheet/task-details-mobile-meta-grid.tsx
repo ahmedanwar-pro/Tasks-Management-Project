@@ -1,8 +1,9 @@
 import type { ReactElement } from 'react';
-import { CalendarIcon as EpicDetailsCalendarIcon } from '@/features/epics/screens/epic-details-modal/components/icons/epic-details-modal-icons';
 import { TaskDetailsInfoCard } from '../shared/task-details-info-card';
 import { TaskDetailsCreatedAtIcon } from '../shared/task-details-icons';
 import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
+import { TaskDetailsMobileAssigneeCard } from './task-details-mobile-assignee-card';
+import { TaskDetailsMobileDueDateCard } from './task-details-mobile-due-date-card';
 import { TaskDetailsMobilePersonCard } from './task-details-mobile-person-card';
 
 type TaskDetailsMobileMetaGridProps = {
@@ -15,21 +16,15 @@ export function TaskDetailsMobileMetaGrid({
   return (
     <section
       aria-label="Task metadata"
-      className="grid grid-cols-1 gap-3 min-[340px]:grid-cols-2"
+      className="grid grid-cols-1 gap-3 min-[400px]:grid-cols-2"
     >
-      <TaskDetailsMobilePersonCard
-        label="Assignee"
+      <TaskDetailsMobileAssigneeCard
+        assigneeId={details.assigneeId}
         person={details.assignee}
-        tone="primary"
       />
-      <TaskDetailsInfoCard
-        icon={
-          <EpicDetailsCalendarIcon className="text-primary !h-[11.667px] !w-[10.5px]" />
-        }
-        label="Due Date"
-        visuallyHideLabel
-        value={details.dueDate}
-        variant="mobile"
+      <TaskDetailsMobileDueDateCard
+        dueDate={details.dueDate}
+        dueDateValue={details.dueDateValue}
       />
       <TaskDetailsMobilePersonCard
         label="Created By"

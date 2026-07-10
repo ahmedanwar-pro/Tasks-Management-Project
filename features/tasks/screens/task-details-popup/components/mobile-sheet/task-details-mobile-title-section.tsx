@@ -3,48 +3,60 @@ import {
   TaskDetailsCheckIcon,
   TaskDetailsEpicIcon,
 } from '../shared/task-details-icons';
+import { getTaskDetailsStatusClassName } from '../../utils';
+import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
 import {
-  getTaskDetailsStatusClassName,
-  getTaskDetailsStatusLabel,
-} from '../../utils';
-import { TaskDetailsChip } from '../shared/task-details-chip';
+  EditableTaskEpic,
+  EditableTaskStatus,
+  EditableTaskTitle,
+  useTaskDetailsEditing,
+} from '../editable';
 
 type TaskDetailsMobileTitleSectionProps = {
-  title: string;
-  status: string;
-  epicLabel: string;
+  details: TaskDetailsPopupDetails;
 };
 
 export function TaskDetailsMobileTitleSection({
-  title,
-  status,
-  epicLabel,
+  details,
 }: TaskDetailsMobileTitleSectionProps): ReactElement {
-  const statusClassName = getTaskDetailsStatusClassName(status);
-  const statusLabel = getTaskDetailsStatusLabel(status);
+  const {
+    clearStaleEpic,
+    isFieldPending,
+    projectId,
+    reportInvalid,
+    saveField,
+  } = useTaskDetailsEditing();
 
   return (
     <section className="flex flex-col gap-4">
-      <h1
+      <EditableTaskTitle
         className="text-headline-md text-text-primary leading-[30px] font-semibold tracking-normal"
-        id="task-details-mobile-title"
-      >
-        {title}
-      </h1>
+        headingId="task-details-mobile-title"
+        isSaving={isFieldPending('title')}
+        onInvalid={reportInvalid}
+        onSave={(title) => saveField({ title })}
+        title={details.title}
+      />
       <div className="flex min-w-0 flex-wrap items-start gap-2">
-        <TaskDetailsChip
-          className={statusClassName}
-          icon={<TaskDetailsCheckIcon />}
-          label={statusLabel}
-          variant="mobile"
+        <EditableTaskStatus
+          className={`${getTaskDetailsStatusClassName(details.status ?? details.statusLabel)} text-label-sm rounded-full px-2.5 py-1 font-semibold`}
+          isSaving={isFieldPending('status')}
+          leadingIcon={<TaskDetailsCheckIcon />}
+          onSave={(status) => saveField({ status })}
+          status={details.status}
+          statusLabel={details.statusLabel}
         />
-        <TaskDetailsChip
-          icon={
+        <EditableTaskEpic
+          className="bg-primary-container-muted text-label-sm text-text-primary rounded-full px-2.5 py-1 font-semibold"
+          currentLabel={details.epicLabel}
+          epicId={details.epicId}
+          isSaving={isFieldPending('epic_id')}
+          leadingIcon={
             <TaskDetailsEpicIcon className="h-[11.113px] w-[10.5px] mix-blend-multiply" />
           }
-          label={epicLabel}
-          tone="epic"
-          variant="mobile"
+          onSave={(epicId) => saveField({ epic_id: epicId })}
+          onStaleEpic={clearStaleEpic}
+          projectId={projectId}
         />
       </div>
     </section>

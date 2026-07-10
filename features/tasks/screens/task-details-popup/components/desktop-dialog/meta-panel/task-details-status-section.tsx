@@ -1,20 +1,20 @@
 import type { ReactElement } from 'react';
 import { joinClasses } from '@/components/ui/utils';
-import {
-  getTaskDetailsStatusClassName,
-  getTaskDetailsStatusLabel,
-} from '../../../utils';
-import { TaskDetailsChevronDownIcon } from '../../shared/task-details-icons';
+import { getTaskDetailsStatusClassName } from '../../../utils';
+import type { TaskStatus } from '@/features/tasks/screens/add-new-task-screen/add-new-task-form-schema';
+import { EditableTaskStatus, useTaskDetailsEditing } from '../../editable';
 
 type TaskDetailsStatusSectionProps = {
-  status: string;
+  status: TaskStatus | null;
+  statusLabel: string;
 };
 
 export function TaskDetailsStatusSection({
   status,
+  statusLabel,
 }: TaskDetailsStatusSectionProps): ReactElement {
-  const statusClassName = getTaskDetailsStatusClassName(status);
-  const statusLabel = getTaskDetailsStatusLabel(status);
+  const { isFieldPending, saveField } = useTaskDetailsEditing();
+  const statusClassName = getTaskDetailsStatusClassName(status ?? statusLabel);
 
   return (
     <section
@@ -27,17 +27,16 @@ export function TaskDetailsStatusSection({
       >
         Status
       </h3>
-      <button
-        aria-label={`Task status: ${statusLabel}`}
+      <EditableTaskStatus
         className={joinClasses(
           statusClassName,
           'text-label-md focus-visible:outline-primary flex h-[var(--control-height-sm)] w-full items-center justify-between rounded-sm px-4 py-2.5 leading-tight font-bold focus-visible:outline-2 focus-visible:outline-offset-2',
         )}
-        type="button"
-      >
-        <span>{statusLabel}</span>
-        <TaskDetailsChevronDownIcon />
-      </button>
+        isSaving={isFieldPending('status')}
+        onSave={(value) => saveField({ status: value })}
+        status={status}
+        statusLabel={statusLabel}
+      />
     </section>
   );
 }

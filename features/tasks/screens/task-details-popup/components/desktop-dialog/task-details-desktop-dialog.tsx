@@ -1,11 +1,13 @@
 import { useRef } from 'react';
 import type { ReactElement } from 'react';
 import { useFocusTrap } from '@/components/ui/use-focus-trap';
+import { EpicFormFeedback } from '@/features/epics/screens/shared/components';
 import { TaskDetailsActions } from './task-details-actions';
 import { TaskDetailsDescription } from './task-details-description';
 import { TaskDetailsMetaPanel } from './task-details-meta-panel';
 import { TaskDetailsTitleBlock } from './task-details-title-block';
 import { TaskDetailsCloseIcon } from '../shared/task-details-icons';
+import { useTaskDetailsEditing } from '../editable';
 import type {
   TaskDetailsCopyFeedback,
   TaskDetailsPopupDetails,
@@ -18,6 +20,23 @@ type TaskDetailsDesktopDialogProps = {
   onCopyLink: () => void;
   onClose: () => void;
 };
+
+function TaskDetailsDesktopUpdateFeedback(): ReactElement | null {
+  const { error, success } = useTaskDetailsEditing();
+
+  if (!error && !success) return null;
+
+  return (
+    <div className="px-8 pt-4">
+      <div className="max-w-[512px]">
+        <EpicFormFeedback
+          error={error ?? undefined}
+          success={success ?? undefined}
+        />
+      </div>
+    </div>
+  );
+}
 
 export function TaskDetailsDesktopDialog({
   copyFeedback,
@@ -62,8 +81,12 @@ export function TaskDetailsDesktopDialog({
           </button>
           <div className="flex min-w-0 flex-1 flex-col">
             <TaskDetailsTitleBlock details={details} />
+            <TaskDetailsDesktopUpdateFeedback />
             <div className="min-h-0 flex-1 overflow-hidden p-8">
-              <TaskDetailsDescription description={details.description} />
+              <TaskDetailsDescription
+                description={details.description}
+                descriptionValue={details.descriptionValue}
+              />
             </div>
             <TaskDetailsActions
               copyFeedback={copyFeedback}

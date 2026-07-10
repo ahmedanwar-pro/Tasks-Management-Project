@@ -6,8 +6,8 @@ import type {
 } from '@tanstack/react-query';
 import { isProjectUnauthorizedError } from '@/features/projects/screens/edit-project-screen/api';
 import { useEpicAuthRedirect } from '@/features/epics/screens/shared/hooks';
-import type { TaskDetailsResponse } from '../api';
-import { useTaskDetailsQuery } from './use-task-details-query';
+import type { TaskDetailsResponse } from '../../api';
+import { useTaskDetailsQuery } from '../queries/use-task-details-query';
 
 type UseTaskDetailsPopupDataResult = {
   data: TaskDetailsResponse[] | undefined;

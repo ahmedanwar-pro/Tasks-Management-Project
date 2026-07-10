@@ -1,8 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getTaskDetails } from '../api';
-import { shouldRetryProjectTasksQuery } from '../../project-tasks-board-screen/hooks';
+import { getTaskDetails } from '../../api';
+import { shouldRetryProjectTasksQuery } from '../../../project-tasks-board-screen/hooks';
 
 export function useTaskDetailsQuery(projectId: string, taskId: string) {
   return useQuery({

@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import type { TaskDetailsCopyFeedback } from '../task-details-popup.types';
-import { copyCurrentUrl } from '../utils/copy-current-url';
+import type { TaskDetailsCopyFeedback } from '../../task-details-popup.types';
+import { copyCurrentUrl } from '../../utils/copy-current-url';
 
 type UseTaskDetailsPopupActionsResult = {
   copyFeedback: TaskDetailsCopyFeedback | null;

@@ -24,6 +24,7 @@ type TaskDetailsEpicResponse = {
 export type TaskDetailsResponse = {
   id: string;
   task_id?: TaskDetailsTextValue;
+  assignee_id?: TaskDetailsTextValue;
   epic_id?: TaskDetailsTextValue;
   epic?: TaskDetailsEpicResponse | string | null;
   epic_key?: TaskDetailsTextValue;
@@ -39,16 +40,28 @@ export type TaskDetailsResponse = {
   assignee_full_name?: TaskDetailsTextValue;
   assignee_display_name?: TaskDetailsTextValue;
   assignee_email?: TaskDetailsTextValue;
+  assignee_department?: TaskDetailsTextValue;
+  assignee_job_title?: TaskDetailsTextValue;
+  assignee_jobTitle?: TaskDetailsTextValue;
+  assignee_position?: TaskDetailsTextValue;
   reporter?: ProjectTaskPersonResponse | string | null;
   reporter_name?: TaskDetailsTextValue;
   reporter_full_name?: TaskDetailsTextValue;
   reporter_display_name?: TaskDetailsTextValue;
   reporter_email?: TaskDetailsTextValue;
+  reporter_department?: TaskDetailsTextValue;
+  reporter_job_title?: TaskDetailsTextValue;
+  reporter_jobTitle?: TaskDetailsTextValue;
+  reporter_position?: TaskDetailsTextValue;
   created_by?: ProjectTaskPersonResponse | string | null;
   created_by_name?: TaskDetailsTextValue;
   created_by_full_name?: TaskDetailsTextValue;
   created_by_display_name?: TaskDetailsTextValue;
   created_by_email?: TaskDetailsTextValue;
+  created_by_department?: TaskDetailsTextValue;
+  created_by_job_title?: TaskDetailsTextValue;
+  created_by_jobTitle?: TaskDetailsTextValue;
+  created_by_position?: TaskDetailsTextValue;
 };
 
 export async function getTaskDetails({

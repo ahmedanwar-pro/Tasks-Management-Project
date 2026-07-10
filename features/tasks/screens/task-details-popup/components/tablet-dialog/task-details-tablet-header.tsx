@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import { TaskDetailsCloseIcon } from '../shared/task-details-icons';
 import type { TaskDetailsPopupDetails } from '../../task-details-popup.types';
+import { EditableTaskTitle, useTaskDetailsEditing } from '../editable';
 
 type TaskDetailsTabletHeaderProps = {
   details: TaskDetailsPopupDetails;
@@ -11,6 +12,7 @@ export function TaskDetailsTabletHeader({
   details,
   onClose,
 }: TaskDetailsTabletHeaderProps): ReactElement {
+  const { isFieldPending, reportInvalid, saveField } = useTaskDetailsEditing();
   return (
     <header className="border-surface-muted flex shrink-0 flex-col gap-4 border-b px-8 py-6">
       <div className="flex items-start justify-between gap-6">
@@ -28,12 +30,14 @@ export function TaskDetailsTabletHeader({
           <TaskDetailsCloseIcon />
         </button>
       </div>
-      <h2
+      <EditableTaskTitle
         className="text-headline-md leading-section text-text-primary max-w-[560px] font-semibold"
-        id="task-details-tablet-title"
-      >
-        {details.title}
-      </h2>
+        headingId="task-details-tablet-title"
+        isSaving={isFieldPending('title')}
+        onInvalid={reportInvalid}
+        onSave={(title) => saveField({ title })}
+        title={details.title}
+      />
     </header>
   );
 }

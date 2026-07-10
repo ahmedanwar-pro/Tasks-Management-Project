@@ -33,6 +33,10 @@ export type ProjectTaskPersonResponse = {
   display_name?: string | null;
   email?: string | null;
   avatar_url?: string | null;
+  department?: string | null;
+  job_title?: string | null;
+  jobTitle?: string | null;
+  position?: string | null;
 };
 
 export type ProjectTaskResponse = {

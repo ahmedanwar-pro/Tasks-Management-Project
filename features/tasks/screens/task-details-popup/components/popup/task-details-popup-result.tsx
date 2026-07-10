@@ -71,6 +71,8 @@ export function TaskDetailsPopupResult({
       details={mapTaskDetails(task)}
       onClose={onClose}
       onCopyLink={onCopyLink}
+      projectId={projectId}
+      taskId={taskId}
     />
   );
 }

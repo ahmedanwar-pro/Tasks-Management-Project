@@ -16,7 +16,10 @@ export function TaskDetailsTabletContent({
       <div className="grid gap-6">
         <TaskDetailsTabletStatusRow details={details} />
         <TaskDetailsTabletMetaGrid details={details} />
-        <TaskDetailsTabletDescription description={details.description} />
+        <TaskDetailsTabletDescription
+          description={details.description}
+          descriptionValue={details.descriptionValue}
+        />
       </div>
     </div>
   );

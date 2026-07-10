@@ -27,9 +27,6 @@ export function TaskDetailsTabletPersonCard({
           <p className="text-body-sm leading-base text-text-primary truncate font-semibold">
             {person.name}
           </p>
-          <p className="text-label-md text-text-secondary truncate leading-tight">
-            {person.role}
-          </p>
         </div>
       </div>
     </article>
