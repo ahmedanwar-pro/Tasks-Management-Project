@@ -1,72 +1,32 @@
-# Feature Screen Review Request
+Review only [feature screen name] against the approved staged plan and later approved decisions from this thread.
 
-Review the implemented feature screen against the approved staged plan from this thread.
+Do not edit files, patch, stage, or commit.
 
-## Important
+Keep the review focused. Inspect only files directly related to:
 
-- Do not write code.
-- Do not edit files.
-- Do not apply patches.
-- Do not create commits.
-- Review only.
-
-## Review Scope
+- the screen
+- its components/hooks/api/types/utils
+- navigation entry/icon if changed
+- shared status config only if used by this screen
 
 Check:
 
-- Plan compliance.
-- Unrelated changes.
-- Reuse of existing patterns, components, hooks, API utilities, types, toasts, and design tokens.
-- UI/API/business logic separation.
-- Duplication.
-- Unused files or imports.
-- TypeScript issues.
-- Responsive behavior.
-- Accessibility concerns.
-- Loading, error, empty, success, disabled, retry, and toast states.
-- Navigation behavior.
-- Edge cases.
-- Manual testing risks.
+- plan compliance
+- filter/data consistency
+- loading/error/empty/disabled/retry states
+- responsive behavior, especially 1024px
+- accessibility basics
+- duplication or unused imports
+- unrelated changes inside the touched diff
 
-## Output
+Do not do broad repo refactors or inspect unrelated modules unless a direct import/dependency requires it.
 
-Return:
+Return a concise report:
 
-1. What is good.
-2. Issues found.
-3. Recommended fixes.
-4. Files that need changes.
-5. Priority for each issue:
-   - must-fix
-   - should-fix
-   - nice-to-have
+1. Good
+2. Issues found
+3. Recommended fixes
+4. Files needing changes
+5. Priority: must-fix / should-fix / nice-to-have
 
-Do not fix anything yet.
-
-<!-- what you should after review:
-1. Fix review issues:
-
-Apply only the must-fix items from the review.
-Do not add new scope.
-Do not create commits.
-Run relevant checks after fixing.
-
-2. Run checks:
-
-   npm run lint
-   npm run typecheck
-   npm run build
-
-3. Manual Testing
-
-desktop
-mobile
-tablet
-submit success
-submit error
-loading state
-empty state
-back/navigation
-refresh page
-invalid form data
-network error API -->
+Review only. Do not fix anything yet.
