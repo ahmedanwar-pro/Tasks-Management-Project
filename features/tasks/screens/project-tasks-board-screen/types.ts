@@ -20,8 +20,10 @@ export type ProjectTasksBoardTask = {
 export type BoardStatusConfig = {
   accentClassName: string;
   badgeClassName: string;
+  chartClassName: string;
   label: string;
   status: TaskStatus;
+  statisticsLabel: string;
 };
 
 export type ProjectTasksBoardColumnData = {

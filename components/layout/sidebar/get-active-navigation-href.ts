@@ -1,6 +1,10 @@
 import { getProjectIdFromPathname } from './navigation-items';
 
 export function getActiveNavigationHref(pathname: string): string {
+  if (/^\/my-statistics(?:\/|$)/.test(pathname)) {
+    return '/my-statistics';
+  }
+
   const projectId = getProjectIdFromPathname(pathname);
 
   if (!projectId) {

@@ -2,6 +2,7 @@ import type { ReactElement, SVGAttributes } from 'react';
 import { joinClasses } from '@/components/ui/utils';
 
 type LayoutIconName =
+  | 'analytics'
   | 'chevron'
   | 'details'
   | 'epics'
@@ -20,6 +21,15 @@ type LayoutIconProps = {
 >;
 
 const iconPaths: Record<LayoutIconName, ReactElement> = {
+  analytics: (
+    <>
+      <path d="M5 19V5" />
+      <path d="M5 19h15" />
+      <path d="M9 14v-4" />
+      <path d="M13 14V8" />
+      <path d="M17 14V6" />
+    </>
+  ),
   chevron: <path d="m14.5 4-8 8 8 8" />,
   details: (
     <>

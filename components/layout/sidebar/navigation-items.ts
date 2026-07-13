@@ -14,6 +14,13 @@ const projectsNavigationItem: AppNavigationItem = {
   icon: 'projects',
 };
 
+const myStatisticsNavigationItem: AppNavigationItem = {
+  label: 'My Statistics',
+  shortLabel: 'Stats',
+  href: '/my-statistics',
+  icon: 'analytics',
+};
+
 export function getProjectIdFromPathname(pathname: string): string | undefined {
   return pathname.match(
     /^\/projects\/([^/]+)\/(?:tasks|members|epics|edit|analytics)(?:\/|$)/,
@@ -22,13 +29,14 @@ export function getProjectIdFromPathname(pathname: string): string | undefined {
 
 export function getNavigationItems(projectId?: string): AppNavigationItem[] {
   if (!projectId) {
-    return [projectsNavigationItem];
+    return [projectsNavigationItem, myStatisticsNavigationItem];
   }
 
   const projectBaseHref = `/projects/${projectId}`;
 
   return [
     projectsNavigationItem,
+    myStatisticsNavigationItem,
     {
       label: 'Project Epics',
       shortLabel: 'Epics',
