@@ -5,6 +5,7 @@ import { ProjectEpicsErrorState } from './error/project-epics-error-state';
 import { ProjectEpicsHeader } from './header/project-epics-header';
 import { ProjectEpicsFloatingAddButton } from './list/project-epics-floating-add-button';
 import { ProjectEpicsListSection } from './list/project-epics-list-section';
+import { ProjectEpicsSuccessToast } from './project-epics-success-toast';
 
 export function ProjectEpicsListScreenContent({
   currentPage,
@@ -19,10 +20,13 @@ export function ProjectEpicsListScreenContent({
   onPageChange,
   onRetry,
   onSearchTermChange,
+  onSuccessToastClose,
   pageSize,
   projectId,
   projectName,
   searchTerm,
+  showSuccessToast,
+  successMessage,
   totalCount,
 }: ProjectEpicsListScreenContentProps): ReactElement {
   const errorTitle = isSearchActive
@@ -43,7 +47,15 @@ export function ProjectEpicsListScreenContent({
         projectId={projectId}
         projectName={projectName}
         searchTerm={searchTerm}
-      />
+      >
+        {successMessage ? (
+          <ProjectEpicsSuccessToast
+            message={successMessage}
+            onClose={onSuccessToastClose}
+            visible={showSuccessToast}
+          />
+        ) : null}
+      </ProjectEpicsHeader>
       {isError ? (
         <ProjectEpicsErrorState
           isRetrying={isRetrying}

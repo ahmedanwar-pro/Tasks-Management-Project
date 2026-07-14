@@ -20,6 +20,7 @@ import {
 
 export function useProjectEpicsListScreenData(
   projectId: string,
+  initialPage: number,
 ): ProjectEpicsListScreenData {
   const {
     currentPage,
@@ -27,7 +28,7 @@ export function useProjectEpicsListScreenData(
     limit,
     resetToFirstPage,
     setCurrentPage,
-  } = useProjectEpicsListScreenPagination();
+  } = useProjectEpicsListScreenPagination(initialPage);
   const { debouncedSearchTerm, onSearchTermChange, searchTerm } =
     useProjectEpicsSearch(resetToFirstPage);
   const projectName = useProjectEpicsProjectName(projectId);

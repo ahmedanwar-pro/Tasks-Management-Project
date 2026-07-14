@@ -17,6 +17,13 @@ export type ProjectEpicListItem = {
   deadline: string;
 };
 
+export type ProjectEpicCardProps = {
+  currentPage: number;
+  epic: ProjectEpicListItem;
+  hideOnMobile?: boolean;
+  projectId: string;
+};
+
 export type ProjectEpicsListSectionProps = {
   currentPage: number;
   epics: ProjectEpicListItem[];
@@ -37,12 +44,15 @@ export type ProjectEpicsListScreenContentProps =
     isRetrying: boolean;
     onRetry: () => void;
     onSearchTermChange: (value: string) => void;
+    onSuccessToastClose: () => void;
     projectId: string;
     projectName: string;
     searchTerm: string;
+    showSuccessToast: boolean;
+    successMessage?: string;
   };
 
 export type ProjectEpicsListScreenData = Omit<
   ProjectEpicsListScreenContentProps,
-  'projectId'
+  'onSuccessToastClose' | 'projectId' | 'showSuccessToast' | 'successMessage'
 >;

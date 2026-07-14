@@ -26,7 +26,11 @@ export function ProjectEpicsListSection({
       ) : isSearchActive && totalCount === 0 ? (
         <ProjectEpicsSearchEmptyState />
       ) : (
-        <ProjectEpicsList epics={epics} projectId={projectId} />
+        <ProjectEpicsList
+          currentPage={currentPage}
+          epics={epics}
+          projectId={projectId}
+        />
       )}
       {hasMoreMobileEpics && (
         <ProjectEpicsMobileLoadMore
