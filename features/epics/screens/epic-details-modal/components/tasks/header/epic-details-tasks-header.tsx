@@ -4,6 +4,7 @@ import { EpicDetailsTasksCountBadge } from './epic-details-tasks-count-badge';
 import { EpicDetailsTasksHeading } from './epic-details-tasks-heading';
 
 type EpicDetailsTasksHeaderProps = {
+  currentPage: number;
   epicId: string;
   isLoading?: boolean;
   projectId: string;
@@ -11,6 +12,7 @@ type EpicDetailsTasksHeaderProps = {
 };
 
 export function EpicDetailsTasksHeader({
+  currentPage,
   epicId,
   isLoading = false,
   projectId,
@@ -20,7 +22,11 @@ export function EpicDetailsTasksHeader({
     <div className="flex w-full items-center justify-between">
       <EpicDetailsTasksHeading />
       <EpicDetailsTasksCountBadge isLoading={isLoading} taskCount={taskCount} />
-      <EpicDetailsTasksAddButton epicId={epicId} projectId={projectId} />
+      <EpicDetailsTasksAddButton
+        currentPage={currentPage}
+        epicId={epicId}
+        projectId={projectId}
+      />
     </div>
   );
 }

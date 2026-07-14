@@ -11,18 +11,22 @@ type EpicDetailsModalShellProps = {
   label?: string;
   children: ReactNode;
   closeOnOutsideClick?: boolean;
+  currentPage?: number;
   initialFocus?: 'container' | 'first-focusable' | 'none';
   onClose?: () => void;
   projectId?: string;
+  shouldUseHistoryBack?: boolean;
 };
 
 export function EpicDetailsModalShell({
   label,
   children,
   closeOnOutsideClick = false,
+  currentPage = 1,
   initialFocus = 'first-focusable',
   onClose,
   projectId,
+  shouldUseHistoryBack = false,
 }: EpicDetailsModalShellProps): ReactElement {
   const panelRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -34,7 +38,13 @@ export function EpicDetailsModalShell({
     }
 
     if (projectId) {
-      closeEpicDetailsModal(projectId, router.replace);
+      closeEpicDetailsModal(
+        currentPage,
+        projectId,
+        router.replace,
+        router.back,
+        shouldUseHistoryBack,
+      );
     }
   }
 

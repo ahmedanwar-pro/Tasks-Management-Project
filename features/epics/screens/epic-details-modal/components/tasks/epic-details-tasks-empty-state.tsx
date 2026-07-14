@@ -4,11 +4,13 @@ import { PlusIcon } from '../../../shared/icons';
 import { ListIcon } from '../icons/epic-details-modal-icons';
 
 type EpicDetailsTasksEmptyStateProps = {
+  currentPage: number;
   epicId: string;
   projectId: string;
 };
 
 export function EpicDetailsTasksEmptyState({
+  currentPage,
   epicId,
   projectId,
 }: EpicDetailsTasksEmptyStateProps): ReactElement {
@@ -22,7 +24,7 @@ export function EpicDetailsTasksEmptyState({
       </p>
       <Link
         className="from-primary to-primary-container text-label-md text-text-inverse md:text-body-md mt-4 inline-flex h-9 items-center justify-center gap-2 rounded-xs bg-linear-to-br px-4 leading-tight font-bold shadow-sm md:h-11 md:px-6 md:leading-relaxed md:font-semibold"
-        href={`/projects/${projectId}/tasks/new?epicId=${epicId}`}
+        href={`/projects/${projectId}/tasks/new?epicId=${epicId}&from=epic-details&page=${currentPage}`}
       >
         <PlusIcon className="size-[10.5px] md:size-3.5" />
         Add Task

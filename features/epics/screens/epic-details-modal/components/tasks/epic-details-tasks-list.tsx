@@ -7,12 +7,14 @@ import {
 import { EpicDetailsTasksMobileAddLink } from './epic-details-tasks-mobile-add-link';
 
 type EpicDetailsTasksListProps = {
+  currentPage: number;
   epicId: string;
   projectId: string;
   tasks: EpicDetailsTask[];
 };
 
 export function EpicDetailsTasksList({
+  currentPage,
   epicId,
   projectId,
   tasks,
@@ -28,7 +30,11 @@ export function EpicDetailsTasksList({
             task={task}
           />
         ))}
-        <EpicDetailsTasksMobileAddLink epicId={epicId} projectId={projectId} />
+        <EpicDetailsTasksMobileAddLink
+          currentPage={currentPage}
+          epicId={epicId}
+          projectId={projectId}
+        />
       </div>
       <ul className="border-border-subtle bg-surface hidden w-full overflow-hidden rounded-md border lg:block">
         {tasks.map((task) => (
