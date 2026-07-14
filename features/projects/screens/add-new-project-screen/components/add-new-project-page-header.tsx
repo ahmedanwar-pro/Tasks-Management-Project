@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ReactElement } from 'react';
 import { Button } from '@/components/ui';
+import { getProjectsPageHref } from '../../projects-list-screen/utils/projects-list-navigation';
 
 function AddMemberIcon(): ReactElement {
   return (
@@ -22,7 +23,13 @@ function AddMemberIcon(): ReactElement {
   );
 }
 
-export function AddNewProjectPageHeader(): ReactElement {
+type AddNewProjectPageHeaderProps = {
+  currentPage: number;
+};
+
+export function AddNewProjectPageHeader({
+  currentPage,
+}: AddNewProjectPageHeaderProps): ReactElement {
   return (
     <header className="hidden items-end justify-between pb-10 lg:flex">
       <div className="flex flex-col gap-4">
@@ -32,7 +39,7 @@ export function AddNewProjectPageHeader(): ReactElement {
         >
           <Link
             className="hover:text-primary transition-colors"
-            href="/projects"
+            href={getProjectsPageHref(currentPage)}
           >
             Projects
           </Link>

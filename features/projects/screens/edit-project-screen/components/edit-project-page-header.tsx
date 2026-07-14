@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ReactElement } from 'react';
 import { Button } from '@/components/ui';
+import { getProjectsPageHref } from '../../projects-list-screen/utils/projects-list-navigation';
 
 function AddMemberIcon(): ReactElement {
   return (
@@ -42,13 +43,23 @@ function BreadcrumbDivider(): ReactElement {
 }
 
 type EditProjectPageHeaderProps = {
+  currentPage: number;
+  initialSource: 'list' | 'sidebar';
+  projectId: string;
   projectName?: string | null;
 };
 
 export function EditProjectPageHeader({
+  currentPage,
+  initialSource,
+  projectId,
   projectName,
 }: EditProjectPageHeaderProps): ReactElement {
   const breadcrumbProjectName = projectName?.trim() || 'Project';
+  const projectsHref =
+    initialSource === 'sidebar'
+      ? `/projects/${projectId}/epics`
+      : getProjectsPageHref(currentPage);
 
   return (
     <header className="hidden items-end justify-between pb-10 lg:flex">
@@ -59,7 +70,7 @@ export function EditProjectPageHeader({
         >
           <Link
             className="hover:text-primary transition-colors"
-            href="/projects"
+            href={projectsHref}
           >
             Projects
           </Link>

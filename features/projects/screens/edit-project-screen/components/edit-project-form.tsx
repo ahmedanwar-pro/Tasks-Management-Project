@@ -14,16 +14,22 @@ import { EditProjectFormActions } from './edit-project-form-actions';
 
 type EditProjectFormProps = {
   initialValues: ProjectFormValues;
+  initialPage: number;
+  initialSource: 'list' | 'sidebar';
   isLoading: boolean;
   onFieldChange: () => void;
   onSubmit: (values: ProjectFormValues) => void;
+  projectId: string;
 };
 
 export function EditProjectForm({
   initialValues,
+  initialPage,
+  initialSource,
   isLoading,
   onFieldChange,
   onSubmit,
+  projectId,
 }: EditProjectFormProps): ReactElement {
   const {
     formState: { errors },
@@ -61,7 +67,12 @@ export function EditProjectForm({
         error={errors.description?.message}
         registration={register('description')}
       />
-      <EditProjectFormActions isLoading={isLoading} />
+      <EditProjectFormActions
+        initialPage={initialPage}
+        initialSource={initialSource}
+        isLoading={isLoading}
+        projectId={projectId}
+      />
     </form>
   );
 }

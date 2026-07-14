@@ -5,12 +5,14 @@ import { InitializeProjectIntro } from './initialize-project-intro';
 import { ProjectTip } from './project-tip';
 
 type AddNewProjectCardProps = {
+  currentPage: number;
   isLoading: boolean;
   onFieldChange: () => void;
   onSubmit: (values: ProjectFormValues, onSuccess: () => void) => void;
 };
 
 export function AddNewProjectCard({
+  currentPage,
   isLoading,
   onFieldChange,
   onSubmit,
@@ -23,6 +25,7 @@ export function AddNewProjectCard({
 
       <div className="pt-8 lg:px-8 lg:pt-8 lg:pb-12">
         <AddNewProjectForm
+          currentPage={currentPage}
           isLoading={isLoading}
           onFieldChange={onFieldChange}
           onSubmit={onSubmit}

@@ -14,7 +14,13 @@ import {
   getProjectsPageHref,
 } from '../projects-list-screen/utils/projects-list-navigation';
 
-export function AddNewProjectScreen(): ReactElement {
+type AddNewProjectScreenProps = {
+  initialPage: number;
+};
+
+export function AddNewProjectScreen({
+  initialPage,
+}: AddNewProjectScreenProps): ReactElement {
   const router = useRouter();
   const {
     error: createProjectError,
@@ -46,7 +52,10 @@ export function AddNewProjectScreen(): ReactElement {
           onSuccess();
 
           router.replace(
-            getProjectsPageHref(getCreatedProjectDestinationPage(), 'created'),
+            getProjectsPageHref(
+              getCreatedProjectDestinationPage(initialPage),
+              'created',
+            ),
           );
         },
       },
@@ -55,7 +64,7 @@ export function AddNewProjectScreen(): ReactElement {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-6 pt-8 pb-12 lg:px-8">
-      <AddNewProjectPageHeader />
+      <AddNewProjectPageHeader currentPage={initialPage} />
 
       <ProjectFormToast
         error={
@@ -66,6 +75,7 @@ export function AddNewProjectScreen(): ReactElement {
       />
 
       <AddNewProjectCard
+        currentPage={initialPage}
         isLoading={isCreateProjectPending}
         onFieldChange={handleFieldChange}
         onSubmit={handleCreateProject}

@@ -99,7 +99,12 @@ export function EditProjectScreen({
 
   return (
     <section className="mx-auto w-full max-w-7xl px-6 pt-8 pb-12 lg:px-8">
-      <EditProjectPageHeader projectName={project?.name} />
+      <EditProjectPageHeader
+        currentPage={initialPage}
+        initialSource={initialSource}
+        projectId={projectId}
+        projectName={project?.name}
+      />
 
       <ProjectFormToast
         error={visibleError ? visibleError.message : undefined}
@@ -107,9 +112,12 @@ export function EditProjectScreen({
 
       <EditProjectCard
         initialValues={initialValues}
+        initialPage={initialPage}
+        initialSource={initialSource}
         isLoading={isUpdateProjectPending}
         onFieldChange={handleFieldChange}
         onSubmit={handleUpdateProject}
+        projectId={projectId}
       />
     </section>
   );

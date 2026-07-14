@@ -24,7 +24,7 @@ export function ProjectsList({
           />
         ))}
       </ul>
-      <AddProjectCard />
+      <AddProjectCard currentPage={currentPage} />
     </div>
   );
 }

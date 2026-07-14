@@ -4,10 +4,12 @@ import { PlusIcon } from '../icons/projects-list-icons';
 
 type ProjectsListHeaderProps = {
   children?: ReactNode;
+  currentPage: number;
 };
 
 export function ProjectsListHeader({
   children,
+  currentPage,
 }: ProjectsListHeaderProps): ReactElement {
   return (
     <header className="relative flex shrink-0 flex-col gap-3 lg:flex-row lg:items-start lg:justify-between lg:gap-6">
@@ -30,7 +32,7 @@ export function ProjectsListHeader({
 
       <Link
         className="focus-visible:outline-primary text-body-md text-text-inverse hidden h-12 items-center gap-2 rounded-xs bg-[linear-gradient(167.38deg,var(--color-primary),var(--color-primary-container))] px-6 font-medium shadow-sm transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 lg:mt-3 lg:inline-flex"
-        href="/projects/new"
+        href={`/projects/new?page=${currentPage}`}
       >
         <PlusIcon className="size-3" />
         <span>Create New Project</span>

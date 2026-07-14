@@ -12,12 +12,14 @@ import {
 import { ProjectFormActions } from './project-form-actions';
 
 type AddNewProjectFormProps = {
+  currentPage: number;
   isLoading: boolean;
   onFieldChange: () => void;
   onSubmit: (values: ProjectFormValues, onSuccess: () => void) => void;
 };
 
 export function AddNewProjectForm({
+  currentPage,
   isLoading,
   onFieldChange,
   onSubmit,
@@ -61,7 +63,7 @@ export function AddNewProjectForm({
         error={errors.description?.message}
         registration={register('description')}
       />
-      <ProjectFormActions isLoading={isLoading} />
+      <ProjectFormActions currentPage={currentPage} isLoading={isLoading} />
     </form>
   );
 }
