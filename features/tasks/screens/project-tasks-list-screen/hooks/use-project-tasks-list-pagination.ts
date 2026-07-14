@@ -1,42 +1,45 @@
 'use client';
 
-import { useCallback, useState, useSyncExternalStore } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useSyncExternalStore } from 'react';
 import {
+  getProjectTasksListPageFromSearchParams,
   initialProjectTasksListPage,
   mobileProjectTasksListViewportQuery,
+  normalizeProjectTasksListPage,
   projectTasksListPageSize,
 } from '../utils';
-
-type ProjectTasksListPageState = {
-  currentPage: number;
-  projectId: string;
-};
 
 function getServerViewportSnapshot(): null {
   return null;
 }
 
-export function useProjectTasksListPagination(projectId: string) {
-  const [pageState, setPageState] = useState<ProjectTasksListPageState>({
-    currentPage: initialProjectTasksListPage,
-    projectId,
-  });
-  const currentPage =
-    pageState.projectId === projectId
-      ? pageState.currentPage
-      : initialProjectTasksListPage;
+export function useProjectTasksListPagination() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = getProjectTasksListPageFromSearchParams(searchParams);
   const setCurrentPage = useCallback(
     (page: number) => {
-      setPageState({ currentPage: page, projectId });
+      const nextPage = normalizeProjectTasksListPage(page);
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (nextPage === initialProjectTasksListPage) {
+        params.delete('page');
+      } else {
+        params.set('page', String(nextPage));
+      }
+
+      const queryString = params.toString();
+      const nextUrl = queryString ? `${pathname}?${queryString}` : pathname;
+
+      router.replace(nextUrl, { scroll: false });
     },
-    [projectId],
+    [pathname, router, searchParams],
   );
   const resetToFirstPage = useCallback(() => {
-    setPageState({
-      currentPage: initialProjectTasksListPage,
-      projectId,
-    });
-  }, [projectId]);
+    setCurrentPage(initialProjectTasksListPage);
+  }, [setCurrentPage]);
   const subscribeToViewport = useCallback(
     (onViewportChange: () => void) => {
       const viewportQuery = window.matchMedia(

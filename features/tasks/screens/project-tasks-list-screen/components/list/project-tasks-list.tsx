@@ -38,7 +38,11 @@ export function ProjectTasksList({
 }: ProjectTasksListProps): ReactElement {
   return (
     <section aria-label="Project tasks list" className="mt-5 md:mt-8">
-      <ProjectTasksMobileList projectId={projectId} tasks={tasks} />
+      <ProjectTasksMobileList
+        currentPage={currentPage}
+        projectId={projectId}
+        tasks={tasks}
+      />
       {hasMoreMobileTasks ? (
         <ProjectTasksMobileLoadMore
           isFetchingNextPage={isFetchingNextPage}

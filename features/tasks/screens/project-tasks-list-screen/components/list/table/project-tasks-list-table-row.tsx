@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import type { KeyboardEvent, MouseEvent, ReactElement } from 'react';
+import { getProjectTaskDetailsListHref } from '../../../utils/project-tasks-list-navigation';
 import type { ProjectTasksListItem } from '../../../types';
 import { ProjectTasksListAssignee } from '../project-tasks-list-assignee';
 import { ProjectTasksListDueDate } from '../project-tasks-list-due-date';
@@ -9,6 +10,7 @@ import { ProjectTasksListSettingsButton } from '../project-tasks-list-settings-b
 import { ProjectTasksListStatusBadge } from '../project-tasks-list-status-badge';
 
 type ProjectTasksListTableRowProps = {
+  currentPage: number;
   projectId: string;
   shouldShortenCompleted: boolean;
   shouldShortenInProgress: boolean;
@@ -70,6 +72,7 @@ function getResponsiveStatusLabel({
 }
 
 export function ProjectTasksListTableRow({
+  currentPage,
   projectId,
   shouldShortenCompleted,
   shouldShortenInProgress,
@@ -78,7 +81,11 @@ export function ProjectTasksListTableRow({
   task,
 }: ProjectTasksListTableRowProps): ReactElement {
   const router = useRouter();
-  const taskDetailsHref = `/projects/${projectId}/tasks/${task.id}?view=list`;
+  const taskDetailsHref = getProjectTaskDetailsListHref(
+    projectId,
+    task.id,
+    currentPage,
+  );
 
   function openTaskDetails(): void {
     router.push(taskDetailsHref);

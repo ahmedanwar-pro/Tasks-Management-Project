@@ -2,12 +2,14 @@ import Link from 'next/link';
 import type { ReactElement } from 'react';
 import { Avatar } from '@/components/ui';
 import { UnassignedIcon } from '@/features/epics/screens/epic-details-modal/components/icons/epic-details-modal-icons';
+import { getProjectTaskDetailsListHref } from '../../utils/project-tasks-list-navigation';
 import type { ProjectTasksListItem } from '../../types';
 import { ProjectTasksListDueDate } from './project-tasks-list-due-date';
 import { ProjectTasksListSettingsButton } from './project-tasks-list-settings-button';
 import { ProjectTasksListStatusBadge } from './project-tasks-list-status-badge';
 
 type ProjectTasksMobileListProps = {
+  currentPage: number;
   projectId: string;
   tasks: ProjectTasksListItem[];
 };
@@ -31,6 +33,7 @@ function formatMobileDueDate(dateTime: string, fallback: string): string {
 }
 
 export function ProjectTasksMobileList({
+  currentPage,
   projectId,
   tasks,
 }: ProjectTasksMobileListProps): ReactElement {
@@ -47,7 +50,11 @@ export function ProjectTasksMobileList({
           <Link
             aria-label={`Open details for ${task.title}`}
             className="focus-visible:outline-primary absolute inset-0 z-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-2"
-            href={`/projects/${projectId}/tasks/${task.id}?view=list`}
+            href={getProjectTaskDetailsListHref(
+              projectId,
+              task.id,
+              currentPage,
+            )}
           >
             <span className="sr-only">Open details for {task.title}</span>
           </Link>

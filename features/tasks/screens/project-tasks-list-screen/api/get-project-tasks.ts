@@ -32,8 +32,8 @@ export async function getProjectTasks({
   }
 
   const { count, data, error } = await query
-    .order('due_date', { ascending: true, nullsFirst: false })
-    .order('id', { ascending: true })
+    .order('created_at', { ascending: false })
+    .order('id', { ascending: false })
     .range(offset, offset + limit - 1);
 
   if (error) {

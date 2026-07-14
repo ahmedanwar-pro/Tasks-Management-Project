@@ -58,6 +58,7 @@ export function ProjectTasksListTable({
           <caption className="sr-only">Project tasks</caption>
           <ProjectTasksListTableHead />
           <ProjectTasksListTableBody
+            currentPage={currentPage}
             projectId={projectId}
             shouldShortenCompleted={layout.shouldShortenCompleted}
             shouldShortenInProgress={layout.shouldShortenInProgress}

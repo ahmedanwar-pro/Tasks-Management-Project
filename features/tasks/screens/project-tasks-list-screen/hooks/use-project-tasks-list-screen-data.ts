@@ -28,7 +28,7 @@ export function useProjectTasksListScreenData(
     limit,
     resetToFirstPage,
     setCurrentPage,
-  } = useProjectTasksListPagination(projectId);
+  } = useProjectTasksListPagination();
   const { debouncedSearchTerm, onSearchTermChange, searchTerm } =
     useProjectTasksListSearch(resetToFirstPage);
   const {
