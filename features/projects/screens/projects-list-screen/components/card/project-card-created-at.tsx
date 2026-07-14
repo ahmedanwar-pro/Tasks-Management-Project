@@ -7,7 +7,7 @@ export function ProjectCardCreatedAt({
 }: ProjectCardSectionProps): ReactElement {
   return (
     <>
-      <div className="border-border-subtle text-text-secondary mt-auto flex items-center gap-1.5 border-t pt-3 lg:hidden">
+      <div className="border-border-subtle text-text-secondary mt-auto flex items-center gap-1.5 border-t pt-3 md:hidden">
         <CalendarIcon />
         <time
           className="text-[12px] leading-tight font-medium"
@@ -16,12 +16,12 @@ export function ProjectCardCreatedAt({
           {project.createdAt}
         </time>
       </div>
-      <div className="border-border-subtle hidden items-center justify-between border-t pt-4 lg:flex">
-        <span className="text-text-muted text-[11px] leading-tight font-bold tracking-tight uppercase">
+      <div className="mt-auto hidden items-center justify-between border-t border-[#dce1ea] pt-4.5 md:flex">
+        <span className="text-text-muted text-[11px] leading-4 font-bold tracking-[0.01em] uppercase">
           Created At
         </span>
         <time
-          className="text-body-sm text-text-secondary font-medium"
+          className="text-text-secondary text-[14px] leading-5 font-medium tracking-normal"
           dateTime={project.created_at}
         >
           {project.createdAt}

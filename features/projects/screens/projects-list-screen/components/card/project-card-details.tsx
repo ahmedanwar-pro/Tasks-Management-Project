@@ -27,31 +27,31 @@ export function ProjectCardDetails({
   const hasLongTitle = project.title.trim().length > 28;
   const mobileDescription = truncateWithEllipsis(
     project.description,
-    hasLongTitle ? 72 : 92,
+    hasLongTitle ? 52 : 64,
   );
   const desktopDescription = truncateWithEllipsis(
     project.description,
-    hasLongTitle ? 120 : 150,
+    hasLongTitle ? 76 : 92,
   );
 
   return (
-    <div className="flex flex-col lg:min-h-0 lg:flex-1">
-      <div className="flex items-start justify-between gap-3">
-        <h2 className="text-title-md text-text-primary min-w-0 break-all leading-relaxed font-semibold lg:line-clamp-2 lg:leading-title lg:font-medium">
+    <div className="flex flex-col md:min-h-0 md:flex-1 md:pb-2">
+      <div className="flex items-start justify-between gap-4">
+        <h2 className="text-text-primary min-w-0 break-all text-[18px] leading-[1.35] font-medium tracking-normal md:line-clamp-2 md:text-[18px] md:leading-[1.3]">
           {project.title}
         </h2>
         <Link
           aria-label={`Edit ${project.title}`}
-          className="text-text-subtle hover:text-text-secondary focus-visible:outline-primary relative z-20 flex h-5 w-4 shrink-0 items-center justify-end focus-visible:outline"
+          className="text-text-subtle hover:text-text-secondary focus-visible:outline-primary relative z-20 -mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-[2px] focus-visible:outline"
           href={`/projects/${project.id}/edit?page=${currentPage}&from=list`}
         >
-          <EditIcon />
+          <EditIcon className="size-4" />
         </Link>
       </div>
-      <p className="text-body-sm text-text-secondary mt-6 min-w-0 break-words leading-[22.75px] lg:hidden">
+      <p className="text-body-sm text-text-secondary mt-5 min-w-0 break-words leading-[22.75px] md:hidden">
         {mobileDescription}
       </p>
-      <p className="text-body-sm text-text-secondary mt-3 hidden min-w-0 break-words leading-[22.75px] lg:block">
+      <p className="text-body-sm text-text-secondary mt-4 hidden min-w-0 break-words leading-[22.75px] md:block">
         {desktopDescription}
       </p>
     </div>

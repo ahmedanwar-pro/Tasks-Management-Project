@@ -19,7 +19,7 @@ export function ProjectCard({
   return (
     <li className={className}>
       <Card
-        className="pt-4-5 relative flex h-52.75 flex-col px-5 pb-5 shadow-sm lg:h-55 lg:p-6 lg:shadow-none"
+        className="relative flex h-52.75 flex-col border-[#ccd6e4] bg-surface px-5 pt-5 pb-5 shadow-[0px_1px_2px_rgba(15,23,42,0.05),0px_6px_18px_rgba(15,23,42,0.04)] md:h-55 md:px-7 md:pt-7 md:pb-6"
         padding="none"
       >
         <Link

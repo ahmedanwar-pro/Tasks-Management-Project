@@ -52,7 +52,18 @@ export function ProjectsListScreenContent({
           />
         ) : null}
       </ProjectsListHeader>
-      <ProjectsList currentPage={currentPage} projects={projects} />
+      <div className="md:mt-8 md:rounded-lg md:border md:border-[#dfe7f8] md:bg-[#f8faff] md:p-1 md:shadow-[0px_1px_3px_rgba(45,79,140,0.08)]">
+        <div className="md:rounded-md md:bg-[#f8faff] md:px-7 md:pt-7">
+          <ProjectsList currentPage={currentPage} projects={projects} />
+          <ProjectsPagination
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+            pageSize={pageSize}
+            projectCount={projects.length}
+            totalCount={totalCount}
+          />
+        </div>
+      </div>
 
       {hasMoreMobileProjects && (
         <ProjectsMobileLoadMore
@@ -60,14 +71,6 @@ export function ProjectsListScreenContent({
           loadMoreRef={loadMoreRef}
         />
       )}
-
-      <ProjectsPagination
-        currentPage={currentPage}
-        onPageChange={onPageChange}
-        pageSize={pageSize}
-        projectCount={projects.length}
-        totalCount={totalCount}
-      />
       <MobileCreateProjectButton currentPage={currentPage} />
     </section>
   );

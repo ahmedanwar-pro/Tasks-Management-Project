@@ -1,8 +1,5 @@
 import type { ReactElement } from 'react';
-import {
-  getPageNumbers,
-  getTotalPages,
-} from '@/features/shared/utils/pagination';
+import { getTotalPages } from '@/features/shared/utils/pagination';
 import { ProjectsPaginationNav } from './projects-pagination-nav';
 import { ProjectsPaginationSummary } from './projects-pagination-summary';
 
@@ -22,10 +19,9 @@ export function ProjectsPagination({
   onPageChange,
 }: ProjectsPaginationProps): ReactElement {
   const totalPages = getTotalPages(totalCount, pageSize);
-  const pageNumbers = getPageNumbers(totalPages);
 
   return (
-    <footer className="mt-6 hidden items-center justify-between md:flex lg:mt-8">
+    <footer className="mt-6.5 -mx-7 hidden h-14 items-center justify-between border-t border-[#dce4f5] bg-[#f8faff] px-7 md:flex">
       <ProjectsPaginationSummary
         projectCount={projectCount}
         totalCount={totalCount}
@@ -33,7 +29,6 @@ export function ProjectsPagination({
       <ProjectsPaginationNav
         currentPage={currentPage}
         onPageChange={onPageChange}
-        pageNumbers={pageNumbers}
         totalPages={totalPages}
       />
     </footer>
