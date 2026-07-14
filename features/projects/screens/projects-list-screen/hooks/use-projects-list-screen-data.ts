@@ -8,23 +8,32 @@ import { mapProject } from '../utils/map-project';
 import { mobileProjectsViewportQuery } from '../utils/projects-pagination';
 import { useProjectsAuthRedirect } from './list-screen-data/use-projects-auth-redirect';
 import { useProjectsListScreenPagination } from './list-screen-data/use-projects-list-screen-pagination';
+import { useProjectsSearch } from './use-projects-search';
 import { useMoreProjectsQuery, useProjectsQuery } from './use-projects-query';
 
 export function useProjectsListScreenData(
   initialPage: number,
 ): ProjectsListScreenData {
-  const { currentPage, isMobileViewport, limit, setCurrentPage } =
-    useProjectsListScreenPagination(initialPage);
+  const {
+    currentPage,
+    isMobileViewport,
+    limit,
+    resetToFirstPage,
+    setCurrentPage,
+  } = useProjectsListScreenPagination(initialPage);
+  const { debouncedSearchTerm, onSearchTermChange, searchTerm } =
+    useProjectsSearch(resetToFirstPage);
   const { data, error, isPending, refetch } = useProjectsQuery(
     currentPage,
     limit,
+    debouncedSearchTerm,
   );
   const {
     data: moreProjectsData,
     error: moreProjectsError,
     fetchNextPage,
     isFetchingNextPage,
-  } = useMoreProjectsQuery(limit);
+  } = useMoreProjectsQuery(limit, debouncedSearchTerm);
   const firstPageProjects = data?.projects ?? [];
   const additionalMobileProjects =
     moreProjectsData?.pages.flatMap((page) => page.projects) ?? [];
@@ -61,11 +70,14 @@ export function useProjectsListScreenData(
     hasMoreMobileProjects,
     isFetchingNextPage,
     isLoading: isPending || isUnauthorized || (!data && !visibleError),
+    isSearchActive: debouncedSearchTerm.length > 0,
     loadMoreRef,
     onPageChange: setCurrentPage,
     onRetry: () => void retryProjects(),
+    onSearchTermChange,
     pageSize: limit,
     projects,
+    searchTerm,
     totalCount: data?.totalCount ?? 0,
     visibleError,
   };

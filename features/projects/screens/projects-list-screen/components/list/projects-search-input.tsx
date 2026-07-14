@@ -2,7 +2,15 @@ import type { ReactElement } from 'react';
 import { Input } from '@/components/ui';
 import { SearchIcon } from '../icons/projects-list-icons';
 
-export function ProjectsSearchInput(): ReactElement {
+type ProjectsSearchInputProps = {
+  onChange: (value: string) => void;
+  value: string;
+};
+
+export function ProjectsSearchInput({
+  onChange,
+  value,
+}: ProjectsSearchInputProps): ReactElement {
   return (
     <div className="mb-5 md:mb-5">
       <Input
@@ -11,9 +19,13 @@ export function ProjectsSearchInput(): ReactElement {
         fullWidth
         iconLeft={<SearchIcon className="text-[#7d89b0]" />}
         inputClassName="text-[14px] leading-6 placeholder:text-[#8a94b2]"
+        onChange={(event) => {
+          onChange(event.target.value);
+        }}
         placeholder="Search projects..."
         radius="md"
         type="search"
+        value={value}
         variant="bordered"
       />
     </div>

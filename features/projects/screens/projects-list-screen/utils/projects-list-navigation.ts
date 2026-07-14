@@ -2,8 +2,8 @@ import { initialProjectsPage } from './projects-pagination';
 
 export type ProjectsListSuccessType = 'created' | 'updated';
 
-export function getCreatedProjectDestinationPage(currentPage: number): number {
-  return currentPage;
+export function getCreatedProjectDestinationPage(): number {
+  return initialProjectsPage;
 }
 
 export function getUpdatedProjectDestinationPage(page: number): number {

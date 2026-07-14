@@ -45,6 +45,7 @@ export function useProjectsListScreenPagination(initialPage: number) {
     currentPage,
     isMobileViewport,
     limit,
+    resetToFirstPage,
     setCurrentPage: updateCurrentPage,
   };
 }

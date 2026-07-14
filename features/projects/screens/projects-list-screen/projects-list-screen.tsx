@@ -27,18 +27,22 @@ export function ProjectsListScreen({
   const [successMessage] = useState(() =>
     successType ? getProjectsSuccessMessage(successType) : undefined,
   );
-  const [isSuccessToastVisible, setIsSuccessToastVisible] =
-    useState(Boolean(successType));
+  const [isSuccessToastVisible, setIsSuccessToastVisible] = useState(
+    Boolean(successType),
+  );
   const {
     currentPage,
     hasMoreMobileProjects,
     isFetchingNextPage,
     isLoading,
+    isSearchActive,
     loadMoreRef,
     onPageChange,
     onRetry,
+    onSearchTermChange,
     pageSize,
     projects,
+    searchTerm,
     totalCount,
     visibleError,
   } = useProjectsListScreenData(initialPage);
@@ -85,12 +89,15 @@ export function ProjectsListScreen({
       hasMoreMobileProjects={hasMoreMobileProjects}
       isFetchingNextPage={isFetchingNextPage}
       isLoading={isLoading}
+      isSearchActive={isSearchActive}
       loadMoreRef={loadMoreRef}
       onPageChange={onPageChange}
+      onSearchTermChange={onSearchTermChange}
       onSuccessToastClose={handleSuccessToastClose}
       onRetry={onRetry}
       pageSize={pageSize}
       projects={projects}
+      searchTerm={searchTerm}
       successMessage={successMessage}
       showSuccessToast={isSuccessToastVisible}
       totalCount={totalCount}

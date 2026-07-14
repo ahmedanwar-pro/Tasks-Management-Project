@@ -1,5 +1,6 @@
 export { ProjectCard } from './card/project-card';
 export { ProjectsEmptyState } from './empty-state/projects-empty-state';
+export { ProjectsSearchEmptyState } from './empty-state/projects-search-empty-state';
 export { ProjectsErrorState } from './error/projects-error-state';
 export { ProjectsListHeader } from './header/projects-list-header';
 export { AddProjectCard } from './list/add-project-card';
@@ -7,6 +8,7 @@ export { MobileCreateProjectButton } from './list/mobile-create-project-button';
 export { ProjectsList } from './list/projects-list';
 export { ProjectsMobileLoadMore } from './list/projects-mobile-load-more';
 export { ProjectsSearchInput } from './list/projects-search-input';
+export { ProjectsLoadingList } from './loading/projects-loading-list';
 export { ProjectsLoadingState } from './loading/projects-loading-state';
 export { ProjectsPagination } from './pagination/projects-pagination';
 export { ProjectsListScreenContent } from './projects-list-screen-content';

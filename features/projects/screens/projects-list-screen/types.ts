@@ -22,12 +22,15 @@ export type ProjectsListScreenContentProps = {
   hasMoreMobileProjects: boolean;
   isFetchingNextPage: boolean;
   isLoading: boolean;
+  isSearchActive: boolean;
   loadMoreRef: RefObject<HTMLDivElement | null>;
   onPageChange: (page: number) => void;
+  onSearchTermChange: (value: string) => void;
   onSuccessToastClose: () => void;
   onRetry: () => void;
   pageSize: number;
   projects: ProjectListItem[];
+  searchTerm: string;
   successMessage?: string;
   showSuccessToast: boolean;
   totalCount: number;
@@ -36,9 +39,7 @@ export type ProjectsListScreenContentProps = {
 
 export type ProjectsListScreenData = Omit<
   ProjectsListScreenContentProps,
-  | 'onSuccessToastClose'
-  | 'successMessage'
-  | 'showSuccessToast'
+  'onSuccessToastClose' | 'successMessage' | 'showSuccessToast'
 >;
 
 export type ProjectsListScreenSuccessState = ProjectsListSuccessType;

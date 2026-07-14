@@ -53,7 +53,7 @@ export function AddNewProjectScreen({
 
           router.replace(
             getProjectsPageHref(
-              getCreatedProjectDestinationPage(initialPage),
+              getCreatedProjectDestinationPage(),
               'created',
             ),
           );

@@ -5,6 +5,7 @@ const getProjectsRpcName = 'get_projects';
 export type GetProjectsRequest = {
   limit: number;
   offset: number;
+  searchTerm?: string;
 };
 
 export type ProjectResponse = {
@@ -64,15 +65,22 @@ async function requireProjectsSession(): Promise<void> {
 export async function getProjects({
   limit,
   offset,
+  searchTerm,
 }: GetProjectsRequest): Promise<GetProjectsResponse> {
   await requireProjectsSession();
 
+  const normalizedSearchTerm = searchTerm?.trim() ?? '';
+
   // The configured Supabase client applies its active session token to this RPC.
   const { count, data, error } = await supabase
-    .rpc(getProjectsRpcName, undefined, {
-      count: 'exact',
-      get: true,
-    })
+    .rpc(
+      getProjectsRpcName,
+      { search_term: normalizedSearchTerm },
+      {
+        count: 'exact',
+        get: true,
+      },
+    )
     .range(offset, offset + limit - 1);
 
   if (error) {

@@ -16,26 +16,31 @@ const defaultClientRetryCount = 3;
 
 function shouldRetryProjectsQuery(failureCount: number, error: Error) {
   return (
-    !isProjectsUnauthorizedError(error) && failureCount < defaultClientRetryCount
+    !isProjectsUnauthorizedError(error) &&
+    failureCount < defaultClientRetryCount
   );
 }
 
-export function useProjectsQuery(currentPage: number, limit: number) {
+export function useProjectsQuery(
+  currentPage: number,
+  limit: number,
+  searchTerm: string,
+) {
   const offset = getPaginationOffset(currentPage, limit);
 
   return useQuery({
-    queryFn: () => getProjects({ limit, offset }),
-    queryKey: ['projects', currentPage, limit] as const,
+    queryFn: () => getProjects({ limit, offset, searchTerm }),
+    queryKey: ['projects', currentPage, limit, searchTerm] as const,
     retry: shouldRetryProjectsQuery,
   });
 }
 
-export function useMoreProjectsQuery(limit: number) {
+export function useMoreProjectsQuery(limit: number, searchTerm: string) {
   return useInfiniteQuery<
     GetProjectsResponse,
     Error,
     InfiniteData<GetProjectsResponse, number>,
-    readonly ['projects', 'mobile-infinite', number],
+    readonly ['projects', 'mobile-infinite', number, string],
     number
   >({
     enabled: false,
@@ -48,8 +53,9 @@ export function useMoreProjectsQuery(limit: number) {
       getProjects({
         limit,
         offset: getPaginationOffset(pageParam, limit),
+        searchTerm,
       }),
-    queryKey: ['projects', 'mobile-infinite', limit] as const,
+    queryKey: ['projects', 'mobile-infinite', limit, searchTerm] as const,
     retry: shouldRetryProjectsQuery,
   });
 }
