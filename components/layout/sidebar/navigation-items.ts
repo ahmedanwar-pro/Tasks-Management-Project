@@ -46,7 +46,7 @@ export function getNavigationItems(projectId?: string): AppNavigationItem[] {
     {
       label: 'Project Tasks',
       shortLabel: 'Tasks',
-      href: `${projectBaseHref}/tasks?view=board`,
+      href: `${projectBaseHref}/tasks`,
       icon: 'tasks',
     },
     {
@@ -58,7 +58,7 @@ export function getNavigationItems(projectId?: string): AppNavigationItem[] {
     {
       label: 'Project Details',
       shortLabel: 'Details',
-      href: `${projectBaseHref}/edit`,
+      href: `${projectBaseHref}/edit?from=sidebar`,
       icon: 'details',
     },
   ];

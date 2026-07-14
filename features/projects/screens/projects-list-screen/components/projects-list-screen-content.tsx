@@ -8,6 +8,7 @@ import { ProjectsList } from './list/projects-list';
 import { ProjectsMobileLoadMore } from './list/projects-mobile-load-more';
 import { ProjectsLoadingState } from './loading/projects-loading-state';
 import { ProjectsPagination } from './pagination/projects-pagination';
+import { ProjectsListScreenSuccessToast } from './projects-list-screen-success-toast';
 
 export function ProjectsListScreenContent({
   currentPage,
@@ -16,9 +17,12 @@ export function ProjectsListScreenContent({
   isLoading,
   loadMoreRef,
   onPageChange,
+  onSuccessToastClose,
   onRetry,
   pageSize,
   projects,
+  successMessage,
+  showSuccessToast,
   totalCount,
   visibleError,
 }: ProjectsListScreenContentProps): ReactElement {
@@ -39,8 +43,16 @@ export function ProjectsListScreenContent({
       aria-labelledby="projects-title"
       className="relative mx-auto flex w-full max-w-7xl flex-col px-6 pt-9 pb-8 lg:h-[calc(100dvh-4rem)] lg:px-8 lg:pt-8"
     >
-      <ProjectsListHeader />
-      <ProjectsList projects={projects} />
+      <ProjectsListHeader>
+        {successMessage ? (
+          <ProjectsListScreenSuccessToast
+            message={successMessage}
+            onClose={onSuccessToastClose}
+            visible={showSuccessToast}
+          />
+        ) : null}
+      </ProjectsListHeader>
+      <ProjectsList currentPage={currentPage} projects={projects} />
 
       {hasMoreMobileProjects && (
         <ProjectsMobileLoadMore

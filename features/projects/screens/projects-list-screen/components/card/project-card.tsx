@@ -6,11 +6,13 @@ import { ProjectCardCreatedAt } from './project-card-created-at';
 import { ProjectCardDetails } from './project-card-details';
 
 type ProjectCardProps = {
+  currentPage: number;
   project: ProjectListItem;
   className?: string;
 };
 
 export function ProjectCard({
+  currentPage,
   project,
   className,
 }: ProjectCardProps): ReactElement {
@@ -25,7 +27,7 @@ export function ProjectCard({
           className="focus-visible:outline-primary absolute inset-0 z-10 rounded-md focus-visible:outline-2 focus-visible:outline-offset-2"
           href={`/projects/${project.id}/epics`}
         />
-        <ProjectCardDetails project={project} />
+        <ProjectCardDetails currentPage={currentPage} project={project} />
         <ProjectCardCreatedAt project={project} />
       </Card>
     </li>

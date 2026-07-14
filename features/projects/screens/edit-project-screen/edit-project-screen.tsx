@@ -6,15 +6,23 @@ import type { ReactElement } from 'react';
 import type { ProjectFormValues } from '../../project-form';
 import { ProjectsLoadingState } from '../projects-list-screen/components';
 import { ProjectFormToast } from '../add-new-project-screen/components';
+import {
+  getProjectsPageHref,
+  getUpdatedProjectDestinationPage,
+} from '../projects-list-screen/utils/projects-list-navigation';
 import { isProjectUnauthorizedError } from './api';
 import { EditProjectCard, EditProjectPageHeader } from './components';
 import { useProjectQuery, useUpdateProjectMutation } from './hooks';
 
 type EditProjectScreenProps = {
+  initialPage: number;
+  initialSource: 'list' | 'sidebar';
   projectId: string;
 };
 
 export function EditProjectScreen({
+  initialPage,
+  initialSource,
   projectId,
 }: EditProjectScreenProps): ReactElement {
   const router = useRouter();
@@ -26,7 +34,6 @@ export function EditProjectScreen({
   const {
     error: updateProjectError,
     isPending: isUpdateProjectPending,
-    isSuccess: isUpdateProjectSuccess,
     mutate: submitProject,
     reset: resetUpdateProject,
   } = useUpdateProjectMutation(projectId);
@@ -49,7 +56,7 @@ export function EditProjectScreen({
   }, [isUnauthorized, router]);
 
   function handleFieldChange(): void {
-    if (updateProjectError || isUpdateProjectSuccess) {
+    if (updateProjectError) {
       resetUpdateProject();
     }
   }
@@ -60,11 +67,30 @@ export function EditProjectScreen({
   }: ProjectFormValues): void {
     resetUpdateProject();
 
-    submitProject({
-      description,
-      name: name.trim(),
-      projectId,
-    });
+    submitProject(
+      {
+        description,
+        name: name.trim(),
+        projectId,
+      },
+      {
+        onSuccess: () => {
+          if (initialSource === 'sidebar') {
+            router.replace(`/projects/${projectId}/epics`);
+
+            return;
+          }
+
+          try {
+            const projectPage = getUpdatedProjectDestinationPage(initialPage);
+
+            router.replace(getProjectsPageHref(projectPage, 'updated'));
+          } catch {
+            router.replace('/projects');
+          }
+        },
+      },
+    );
   }
 
   if (isProjectPending || isUnauthorized) {
@@ -77,9 +103,6 @@ export function EditProjectScreen({
 
       <ProjectFormToast
         error={visibleError ? visibleError.message : undefined}
-        success={
-          isUpdateProjectSuccess ? 'Project updated successfully' : undefined
-        }
       />
 
       <EditProjectCard

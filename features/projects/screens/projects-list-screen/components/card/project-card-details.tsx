@@ -1,11 +1,12 @@
 import type { ReactElement } from 'react';
 import Link from 'next/link';
-import type { ProjectCardSectionProps } from '../../types';
+import type { ProjectCardDetailsProps } from '../../types';
 import { EditIcon } from '../icons/projects-list-icons';
 
 export function ProjectCardDetails({
+  currentPage,
   project,
-}: ProjectCardSectionProps): ReactElement {
+}: ProjectCardDetailsProps): ReactElement {
   return (
     <div className="flex flex-col lg:block">
       <div className="flex items-start justify-between gap-3">
@@ -15,7 +16,7 @@ export function ProjectCardDetails({
         <Link
           aria-label={`Edit ${project.title}`}
           className="text-text-subtle hover:text-text-secondary focus-visible:outline-primary relative z-20 flex h-5 w-4 shrink-0 items-center justify-end focus-visible:outline"
-          href={`/projects/${project.id}/edit`}
+          href={`/projects/${project.id}/edit?page=${currentPage}&from=list`}
         >
           <EditIcon />
         </Link>

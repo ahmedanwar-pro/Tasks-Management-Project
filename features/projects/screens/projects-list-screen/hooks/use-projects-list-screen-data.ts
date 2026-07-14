@@ -8,14 +8,13 @@ import { mapProject } from '../utils/map-project';
 import { mobileProjectsViewportQuery } from '../utils/projects-pagination';
 import { useProjectsAuthRedirect } from './list-screen-data/use-projects-auth-redirect';
 import { useProjectsListScreenPagination } from './list-screen-data/use-projects-list-screen-pagination';
-import {
-  useMoreProjectsQuery,
-  useProjectsQuery,
-} from './use-projects-query';
+import { useMoreProjectsQuery, useProjectsQuery } from './use-projects-query';
 
-export function useProjectsListScreenData(): ProjectsListScreenData {
+export function useProjectsListScreenData(
+  initialPage: number,
+): ProjectsListScreenData {
   const { currentPage, isMobileViewport, limit, setCurrentPage } =
-    useProjectsListScreenPagination();
+    useProjectsListScreenPagination(initialPage);
   const { data, error, isPending, refetch } = useProjectsQuery(
     currentPage,
     limit,

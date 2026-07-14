@@ -16,7 +16,7 @@ export function getActiveNavigationHref(pathname: string): string {
   }
 
   if (/^\/projects\/[^/]+\/tasks(?:\/|$)/.test(pathname)) {
-    return `/projects/${projectId}/tasks?view=board`;
+    return `/projects/${projectId}/tasks`;
   }
 
   if (/^\/projects\/[^/]+\/epics(?:\/|$)/.test(pathname)) {
@@ -24,7 +24,7 @@ export function getActiveNavigationHref(pathname: string): string {
   }
 
   if (/^\/projects\/[^/]+\/edit(?:\/|$)/.test(pathname)) {
-    return `/projects/${projectId}/edit`;
+    return `/projects/${projectId}/edit?from=sidebar`;
   }
 
   return '/projects';
