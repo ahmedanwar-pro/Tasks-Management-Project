@@ -16,8 +16,10 @@ import { clearStaleTaskEpicCache } from '../utils/clear-stale-task-epic-cache';
 
 type TaskDetailsEditingContextValue = {
   clearStaleEpic: () => void;
+  closeSuccess: () => void;
   error: string | null;
   isFieldPending: (field: TaskUpdateField) => boolean;
+  isSuccessVisible: boolean;
   projectId: string;
   reportInvalid: () => void;
   saveField: (updates: TaskUpdatePayload) => Promise<void>;
@@ -41,7 +43,9 @@ export function TaskDetailsEditingProvider({
   const queryClient = useQueryClient();
   const {
     clearFeedback,
+    closeSuccess,
     error,
+    isSuccessVisible,
     reportInvalid,
     reportSaveError,
     reportSaveSuccess,
@@ -81,8 +85,10 @@ export function TaskDetailsEditingProvider({
   const value = useMemo<TaskDetailsEditingContextValue>(
     () => ({
       clearStaleEpic,
+      closeSuccess,
       error,
       isFieldPending,
+      isSuccessVisible,
       projectId,
       reportInvalid,
       saveField,
@@ -90,8 +96,10 @@ export function TaskDetailsEditingProvider({
     }),
     [
       clearStaleEpic,
+      closeSuccess,
       error,
       isFieldPending,
+      isSuccessVisible,
       projectId,
       reportInvalid,
       saveField,

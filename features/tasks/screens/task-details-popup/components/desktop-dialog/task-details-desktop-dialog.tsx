@@ -22,18 +22,20 @@ type TaskDetailsDesktopDialogProps = {
 };
 
 function TaskDetailsDesktopUpdateFeedback(): ReactElement | null {
-  const { error, success } = useTaskDetailsEditing();
+  const { closeSuccess, error, isSuccessVisible, success } =
+    useTaskDetailsEditing();
 
   if (!error && !success) return null;
 
   return (
-    <div className="px-8 pt-4">
-      <div className="max-w-[512px]">
-        <EpicFormFeedback
-          error={error ?? undefined}
-          success={success ?? undefined}
-        />
-      </div>
+    <div className="max-w-[512px]">
+      <EpicFormFeedback
+        error={error ?? undefined}
+        onSuccessClose={closeSuccess}
+        success={success ?? undefined}
+        successClassName="!md:mb-4"
+        visible={isSuccessVisible}
+      />
     </div>
   );
 }
@@ -81,12 +83,14 @@ export function TaskDetailsDesktopDialog({
           </button>
           <div className="flex min-w-0 flex-1 flex-col">
             <TaskDetailsTitleBlock details={details} />
-            <TaskDetailsDesktopUpdateFeedback />
             <div className="min-h-0 flex-1 overflow-hidden p-8">
-              <TaskDetailsDescription
-                description={details.description}
-                descriptionValue={details.descriptionValue}
-              />
+              <div className="flex h-full min-w-0 flex-col">
+                <TaskDetailsDesktopUpdateFeedback />
+                <TaskDetailsDescription
+                  description={details.description}
+                  descriptionValue={details.descriptionValue}
+                />
+              </div>
             </div>
             <TaskDetailsActions
               copyFeedback={copyFeedback}

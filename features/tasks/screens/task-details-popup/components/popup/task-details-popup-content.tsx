@@ -24,7 +24,8 @@ function TaskDetailsUpdateFeedback({
 }: {
   viewport: ReturnType<typeof useTaskDetailsPopupViewport>;
 }): ReactElement | null {
-  const { error, success } = useTaskDetailsEditing();
+  const { closeSuccess, error, isSuccessVisible, success } =
+    useTaskDetailsEditing();
 
   if ((!error && !success) || viewport === 'desktop') return null;
 
@@ -32,7 +33,9 @@ function TaskDetailsUpdateFeedback({
     <div className="fixed top-4 left-1/2 z-[70] w-[min(32rem,calc(100vw-2rem))] -translate-x-1/2">
       <EpicFormFeedback
         error={error ?? undefined}
+        onSuccessClose={closeSuccess}
         success={success ?? undefined}
+        visible={isSuccessVisible}
       />
     </div>
   );
