@@ -21,7 +21,7 @@ export function ProjectsPagination({
   const totalPages = getTotalPages(totalCount, pageSize);
 
   return (
-    <footer className="mt-6.5 -mx-7 hidden h-14 items-center justify-between border-t border-[#dce4f5] bg-[#f8faff] px-7 md:flex">
+    <footer className="-mx-6 mt-5 hidden h-10 items-center justify-between border-t border-[#dce4f5] bg-[#f8faff] px-6 md:flex">
       <ProjectsPaginationSummary
         projectCount={projectCount}
         totalCount={totalCount}
