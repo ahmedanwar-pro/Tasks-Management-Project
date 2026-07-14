@@ -12,19 +12,22 @@ import { useAddNewTaskScreenData } from './hooks';
 type AddNewTaskScreenProps = {
   projectId: string;
   initialEpicId?: string;
+  initialPage?: number;
+  initialSource?: 'epic-details';
   initialStatus?: TaskStatus;
 };
 
 export function AddNewTaskScreen({
   projectId,
   initialEpicId,
+  initialPage,
+  initialSource,
   initialStatus,
 }: AddNewTaskScreenProps): ReactElement {
   const {
     assigneeOptions,
     assigneeOptionsError,
     createError,
-    createSuccess,
     epicOptions,
     epicOptionsError,
     handleCreateTask,
@@ -35,7 +38,12 @@ export function AddNewTaskScreen({
     resetCreateTask,
     retryAssigneeOptions,
     retryEpicOptions,
-  } = useAddNewTaskScreenData(projectId);
+  } = useAddNewTaskScreenData(
+    projectId,
+    initialEpicId,
+    initialPage,
+    initialSource,
+  );
 
   return (
     <section
@@ -51,7 +59,6 @@ export function AddNewTaskScreen({
           isCreating={isCreating}
           isEpicOptionsLoading={isEpicOptionsLoading}
           createError={createError}
-          createSuccess={createSuccess}
           epicOptions={epicOptions}
           epicOptionsError={epicOptionsError}
           initialEpicId={initialEpicId}

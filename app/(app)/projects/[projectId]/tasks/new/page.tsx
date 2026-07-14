@@ -1,4 +1,5 @@
 import { AddNewTaskScreen } from '@/features/tasks/screens';
+import { normalizeProjectEpicsPage } from '@/features/epics/screens/project-epics-list-screen/utils';
 import {
   taskStatusValues,
   type TaskStatus,
@@ -10,6 +11,8 @@ type NewTaskPageProps = {
   }>;
   searchParams: Promise<{
     epicId?: string | string[];
+    from?: string | string[];
+    page?: string | string[];
     status?: string | string[];
   }>;
 };
@@ -29,13 +32,21 @@ export default async function NewTaskPage({
   searchParams,
 }: NewTaskPageProps) {
   const { projectId } = await params;
-  const { epicId, status } = await searchParams;
+  const { epicId, from, page, status } = await searchParams;
   const initialEpicId = Array.isArray(epicId) ? epicId[0] : epicId;
+  const initialSource = Array.isArray(from) ? from[0] : from;
+  const initialPage = normalizeProjectEpicsPage(
+    Number(Array.isArray(page) ? page[0] : page),
+  );
   const initialStatus = getInitialStatus(status);
 
   return (
     <AddNewTaskScreen
       initialEpicId={initialEpicId}
+      initialPage={initialPage}
+      initialSource={
+        initialSource === 'epic-details' ? initialSource : undefined
+      }
       initialStatus={initialStatus}
       projectId={projectId}
     />

@@ -31,7 +31,6 @@ export function AddNewTaskForm({
   isCreating = false,
   isEpicOptionsLoading = false,
   createError,
-  createSuccess = false,
   onChange,
   onRetryAssigneeOptions,
   onRetryEpicOptions,
@@ -90,7 +89,7 @@ export function AddNewTaskForm({
       onChange={onChange}
       onSubmit={handleSubmit(handleCreateTask)}
     >
-      <AddNewTaskFormFeedback error={createError} success={createSuccess} />
+      <AddNewTaskFormFeedback error={createError} />
 
       <fieldset
         className="m-0 flex min-w-0 flex-col gap-6 border-0 p-0 lg:gap-8"

@@ -14,7 +14,6 @@ export type AddNewTaskFormProps = {
   isCreating?: boolean;
   isEpicOptionsLoading?: boolean;
   createError?: Error | null;
-  createSuccess?: boolean;
   onChange?: () => void;
   onRetryAssigneeOptions?: () => void;
   onRetryEpicOptions?: () => void;

@@ -13,6 +13,11 @@ import {
   type TaskAssigneeOption,
   type TaskEpicSelectOption,
 } from '../utils';
+import { getEpicDetailsTaskHref } from '@/features/epics/screens/epic-details-modal/utils/epic-details-task-navigation';
+import {
+  getCreatedProjectTaskDestinationPage,
+  getProjectTasksListHref,
+} from '../../project-tasks-list-screen/utils/project-tasks-list-navigation';
 import { useCreateTaskMutation } from './use-create-task-mutation';
 import { useTaskEpicOptionsQuery } from './use-task-epic-options-query';
 
@@ -20,7 +25,6 @@ type AddNewTaskScreenData = {
   assigneeOptions: TaskAssigneeOption[];
   assigneeOptionsError: Error | null;
   createError: Error | null;
-  createSuccess: boolean;
   epicOptions: TaskEpicSelectOption[];
   epicOptionsError: Error | null;
   handleCreateTask: (values: AddNewTaskFormValues) => void;
@@ -35,6 +39,9 @@ type AddNewTaskScreenData = {
 
 export function useAddNewTaskScreenData(
   projectId: string,
+  initialEpicId?: string,
+  initialPage = 1,
+  initialSource?: 'epic-details',
 ): AddNewTaskScreenData {
   const router = useRouter();
   const { data: project } = useProjectNameQuery(projectId);
@@ -53,7 +60,6 @@ export function useAddNewTaskScreenData(
   const {
     error: createTaskError,
     isPending: isCreateTaskPending,
-    isSuccess: isCreateTaskSuccess,
     mutate: createTask,
     reset: resetCreateTask,
   } = useCreateTaskMutation(projectId);
@@ -62,7 +68,25 @@ export function useAddNewTaskScreenData(
     resetCreateTask();
     createTask(mapAddNewTaskFormToRequest(values, projectId), {
       onSuccess: () => {
-        router.push(`/projects/${projectId}/tasks?view=board`);
+        if (initialSource === 'epic-details' && initialEpicId) {
+          router.push(
+            getEpicDetailsTaskHref(
+              projectId,
+              initialEpicId,
+              initialPage,
+              'created',
+            ),
+          );
+          return;
+        }
+
+        router.push(
+          getProjectTasksListHref(
+            projectId,
+            getCreatedProjectTaskDestinationPage(),
+            'created',
+          ),
+        );
       },
     });
   }
@@ -71,7 +95,6 @@ export function useAddNewTaskScreenData(
     assigneeOptions: (membersData?.members ?? []).map(mapTaskAssigneeOption),
     assigneeOptionsError: membersError,
     createError: createTaskError,
-    createSuccess: isCreateTaskSuccess,
     epicOptions: (epicOptionsData?.epics ?? []).map(mapTaskEpicSelectOption),
     epicOptionsError,
     handleCreateTask,
