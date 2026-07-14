@@ -1,9 +1,14 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import type { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { DateField } from '@/components/forms';
+import {
+  getCreatedProjectEpicDestinationPage,
+  getProjectEpicsPageHref,
+} from '@/features/epics/screens/project-epics-list-screen/utils';
 import {
   addNewEpicFormSchema,
   type AddNewEpicFormValues,
@@ -14,7 +19,6 @@ import {
   mapAddNewEpicFormToRequest,
 } from '../utils';
 import { AddNewEpicFormActions } from './add-new-epic-form-actions';
-import { AddNewEpicFormFeedback } from './add-new-epic-form-feedback';
 import { EpicAssigneeField } from './epic-assignee-field';
 import { EpicDescriptionField } from './epic-description-field';
 import { EpicTitleField } from './epic-title-field';
@@ -26,13 +30,13 @@ type AddNewEpicFormProps = {
 export function AddNewEpicForm({
   projectId,
 }: AddNewEpicFormProps): ReactElement {
+  const router = useRouter();
   const {
     error: createEpicError,
     isPending: isCreateEpicPending,
-    isSuccess: isCreateEpicSuccess,
     mutate: submitEpic,
     reset: resetCreateEpic,
-  } = useCreateEpicMutation();
+  } = useCreateEpicMutation(projectId);
   const {
     formState: { errors },
     handleSubmit,
@@ -50,7 +54,7 @@ export function AddNewEpicForm({
   const descriptionValue = watch('description');
 
   function handleFieldChange(): void {
-    if (createEpicError || isCreateEpicSuccess) {
+    if (createEpicError) {
       resetCreateEpic();
     }
   }
@@ -59,7 +63,17 @@ export function AddNewEpicForm({
     resetCreateEpic();
 
     submitEpic(mapAddNewEpicFormToRequest(values, projectId), {
-      onSuccess: () => reset(addNewEpicDefaultValues),
+      onSuccess: () => {
+        reset(addNewEpicDefaultValues);
+
+        router.replace(
+          getProjectEpicsPageHref(
+            projectId,
+            getCreatedProjectEpicDestinationPage(),
+            'created',
+          ),
+        );
+      },
     });
   }
 
@@ -70,11 +84,6 @@ export function AddNewEpicForm({
       onChange={handleFieldChange}
       onSubmit={handleSubmit(handleCreateEpic)}
     >
-      <AddNewEpicFormFeedback
-        error={createEpicError}
-        success={isCreateEpicSuccess}
-      />
-
       <EpicTitleField
         error={errors.title?.message}
         registration={register('title')}
