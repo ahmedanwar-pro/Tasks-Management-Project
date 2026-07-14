@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { BoardHeader, ProjectTasksBoard } from './components';
@@ -14,6 +14,7 @@ export function ProjectTasksBoardScreen({
   projectId,
 }: ProjectTasksBoardScreenProps): ReactElement {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const {
     debouncedSearchTerm,
     isSearchPending,
@@ -25,7 +26,9 @@ export function ProjectTasksBoardScreen({
     const mobileQuery = window.matchMedia('(max-width: 767px)');
     const redirectToListView = (): void => {
       if (mobileQuery.matches) {
-        router.replace(`/projects/${projectId}/tasks?view=list`);
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('view', 'list');
+        router.replace(`/projects/${projectId}/tasks?${params.toString()}`);
       }
     };
 
@@ -35,7 +38,7 @@ export function ProjectTasksBoardScreen({
     return () => {
       mobileQuery.removeEventListener('change', redirectToListView);
     };
-  }, [projectId, router]);
+  }, [projectId, router, searchParams]);
 
   return (
     <section
