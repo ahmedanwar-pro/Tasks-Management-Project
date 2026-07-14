@@ -13,12 +13,18 @@ type UseTaskDetailsPopupActionsResult = {
 
 export function useTaskDetailsPopupActions(
   closeHref: string,
+  shouldUseHistoryBack: boolean,
 ): UseTaskDetailsPopupActionsResult {
   const router = useRouter();
   const [copyFeedback, setCopyFeedback] =
     useState<TaskDetailsCopyFeedback | null>(null);
 
   function handleClose(): void {
+    if (shouldUseHistoryBack && window.history.length > 1) {
+      router.back();
+      return;
+    }
+
     router.replace(closeHref);
   }
 

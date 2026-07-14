@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation';
+import { getProjectTasksListHref } from '@/features/tasks/screens/project-tasks-list-screen/utils/project-tasks-list-navigation';
+import { normalizeProjectTasksListPage } from '@/features/tasks/screens/project-tasks-list-screen/utils/project-tasks-list-pagination';
 import { TaskDetailsPopup } from '@/features/tasks/screens';
 
 const uuidPattern =
@@ -12,21 +14,42 @@ type TaskDetailsPageProps = {
   }>;
   searchParams: Promise<{
     fromEpic?: string | string[];
+    page?: string | string[];
     view?: string | string[];
   }>;
 };
 
+function shouldCloseTaskDetailsWithHistoryBack({
+  fromEpic,
+  view,
+}: {
+  fromEpic?: string;
+  view?: string;
+}): boolean {
+  if (fromEpic && uuidPattern.test(fromEpic)) {
+    return true;
+  }
+
+  return Boolean(view && taskViewValues.has(view));
+}
+
 function getCloseHref({
   fromEpic,
+  page,
   projectId,
   view,
 }: {
   fromEpic?: string;
+  page?: number;
   projectId: string;
   view?: string;
 }): string {
   if (fromEpic && uuidPattern.test(fromEpic)) {
     return `/projects/${projectId}/epics/${fromEpic}`;
+  }
+
+  if (view === 'list') {
+    return getProjectTasksListHref(projectId, page);
   }
 
   if (view && taskViewValues.has(view)) {
@@ -40,13 +63,22 @@ function getFirstSearchParam(value?: string | string[]): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
 
+function parseTaskListPage(page: string | string[] | undefined): number {
+  if (Array.isArray(page)) {
+    return normalizeProjectTasksListPage(Number.NaN);
+  }
+
+  return normalizeProjectTasksListPage(Number(page));
+}
+
 export default async function TaskDetailsPage({
   params,
   searchParams,
 }: TaskDetailsPageProps) {
   const { projectId, taskId } = await params;
-  const { fromEpic, view } = await searchParams;
+  const { fromEpic, page, view } = await searchParams;
   const currentView = getFirstSearchParam(view);
+  const currentPage = parseTaskListPage(page);
   const sourceEpicId = getFirstSearchParam(fromEpic);
 
   if (!uuidPattern.test(projectId) || !uuidPattern.test(taskId)) {
@@ -57,10 +89,15 @@ export default async function TaskDetailsPage({
     <TaskDetailsPopup
       closeHref={getCloseHref({
         fromEpic: sourceEpicId,
+        page: currentPage,
         projectId,
         view: currentView,
       })}
       projectId={projectId}
+      shouldUseHistoryBack={shouldCloseTaskDetailsWithHistoryBack({
+        fromEpic: sourceEpicId,
+        view: currentView,
+      })}
       taskId={taskId}
     />
   );

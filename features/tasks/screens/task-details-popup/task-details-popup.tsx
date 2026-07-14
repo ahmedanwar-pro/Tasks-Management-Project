@@ -7,16 +7,18 @@ import { useTaskDetailsPopupActions, useTaskDetailsPopupData } from './hooks';
 type TaskDetailsPopupProps = {
   closeHref: string;
   projectId: string;
+  shouldUseHistoryBack: boolean;
   taskId: string;
 };
 
 export function TaskDetailsPopup({
   closeHref,
   projectId,
+  shouldUseHistoryBack,
   taskId,
 }: TaskDetailsPopupProps): JSX.Element {
   const { copyFeedback, handleClose, handleCopyLink } =
-    useTaskDetailsPopupActions(closeHref);
+    useTaskDetailsPopupActions(closeHref, shouldUseHistoryBack);
   const { data, error, isPending, isUnauthorized, refetch } =
     useTaskDetailsPopupData(projectId, taskId);
 
