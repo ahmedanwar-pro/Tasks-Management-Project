@@ -5,7 +5,9 @@ export type CreateProjectRequest = {
   description: string;
 };
 
-export type CreateProjectResponse = null;
+export type CreateProjectResponse = {
+  id: string;
+};
 
 export async function createProject(
   request: CreateProjectRequest,
@@ -24,11 +26,15 @@ export async function createProject(
   }
 
   // The configured Supabase client applies its active session token to this REST insert.
-  const { error } = await supabase.from('projects').insert(request);
+  const { data, error } = await supabase
+    .from('projects')
+    .insert(request)
+    .select('id')
+    .single();
 
   if (error) {
     throw error;
   }
 
-  return null;
+  return data;
 }

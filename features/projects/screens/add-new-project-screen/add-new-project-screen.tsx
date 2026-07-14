@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import type { ReactElement } from 'react';
 import {
   AddNewProjectCard,
@@ -8,8 +9,13 @@ import {
 } from './components';
 import type { ProjectFormValues } from '../../project-form';
 import { useCreateProjectMutation } from './hooks/use-create-project-mutation';
+import {
+  getCreatedProjectDestinationPage,
+  getProjectsPageHref,
+} from '../projects-list-screen/utils/projects-list-navigation';
 
 export function AddNewProjectScreen(): ReactElement {
+  const router = useRouter();
   const {
     error: createProjectError,
     isPending: isCreateProjectPending,
@@ -35,7 +41,15 @@ export function AddNewProjectScreen(): ReactElement {
         description,
         name: name.trim(),
       },
-      { onSuccess },
+      {
+        onSuccess: () => {
+          onSuccess();
+
+          router.replace(
+            getProjectsPageHref(getCreatedProjectDestinationPage(), 'created'),
+          );
+        },
+      },
     );
   }
 
@@ -48,9 +62,6 @@ export function AddNewProjectScreen(): ReactElement {
           createProjectError
             ? `Failed to create project: ${createProjectError.message}`
             : undefined
-        }
-        success={
-          isCreateProjectSuccess ? 'Project created successfully' : undefined
         }
       />
 
