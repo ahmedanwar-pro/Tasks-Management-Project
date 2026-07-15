@@ -40,6 +40,8 @@ export type ProjectsListScreenContentProps = {
 export type ProjectsListScreenData = Omit<
   ProjectsListScreenContentProps,
   'onSuccessToastClose' | 'successMessage' | 'showSuccessToast'
->;
+> & {
+  committedSearchTerm: string;
+};
 
 export type ProjectsListScreenSuccessState = ProjectsListSuccessType;

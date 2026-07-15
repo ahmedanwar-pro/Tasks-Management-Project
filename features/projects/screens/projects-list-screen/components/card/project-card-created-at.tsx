@@ -16,7 +16,7 @@ export function ProjectCardCreatedAt({
           {project.createdAt}
         </time>
       </div>
-      <div className="mt-auto hidden items-center justify-between border-t border-[#dce1ea] pt-4.5 md:flex">
+      <div className="mt-auto hidden shrink-0 items-center justify-between border-t border-[#dce1ea] pt-4.5 md:flex">
         <span className="text-text-muted text-[11px] leading-4 font-bold tracking-[0.01em] uppercase">
           Created At
         </span>

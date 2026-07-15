@@ -13,6 +13,7 @@ import { useMoreProjectsQuery, useProjectsQuery } from './use-projects-query';
 
 export function useProjectsListScreenData(
   initialPage: number,
+  initialSearchTerm: string,
 ): ProjectsListScreenData {
   const {
     currentPage,
@@ -22,7 +23,7 @@ export function useProjectsListScreenData(
     setCurrentPage,
   } = useProjectsListScreenPagination(initialPage);
   const { debouncedSearchTerm, onSearchTermChange, searchTerm } =
-    useProjectsSearch(resetToFirstPage);
+    useProjectsSearch(initialSearchTerm, resetToFirstPage);
   const { data, error, isPending, refetch } = useProjectsQuery(
     currentPage,
     limit,
@@ -72,6 +73,7 @@ export function useProjectsListScreenData(
     isLoading: isPending || isUnauthorized || (!data && !visibleError),
     isSearchActive: debouncedSearchTerm.length > 0,
     loadMoreRef,
+    committedSearchTerm: debouncedSearchTerm,
     onPageChange: setCurrentPage,
     onRetry: () => void retryProjects(),
     onSearchTermChange,

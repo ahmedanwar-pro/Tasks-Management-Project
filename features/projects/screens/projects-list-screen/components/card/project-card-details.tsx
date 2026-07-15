@@ -24,20 +24,12 @@ export function ProjectCardDetails({
   currentPage,
   project,
 }: ProjectCardDetailsProps): ReactElement {
-  const hasLongTitle = project.title.trim().length > 28;
-  const mobileDescription = truncateWithEllipsis(
-    project.description,
-    hasLongTitle ? 52 : 64,
-  );
-  const desktopDescription = truncateWithEllipsis(
-    project.description,
-    hasLongTitle ? 76 : 92,
-  );
+  const mobileDescription = truncateWithEllipsis(project.description, 64);
 
   return (
-    <div className="flex flex-col md:min-h-0 md:flex-1 md:pb-2">
+    <div className="flex flex-col md:min-h-0 md:flex-1 md:overflow-hidden md:pb-2">
       <div className="flex items-start justify-between gap-4">
-        <h2 className="text-text-primary min-w-0 break-all text-[18px] leading-[1.35] font-medium tracking-normal md:line-clamp-2 md:text-[18px] md:leading-[1.3]">
+        <h2 className="text-text-primary min-w-0 [overflow-wrap:anywhere] text-[18px] leading-[1.35] font-medium tracking-normal md:line-clamp-2 md:text-[18px] md:leading-[1.3]">
           {project.title}
         </h2>
         <Link
@@ -51,8 +43,8 @@ export function ProjectCardDetails({
       <p className="text-body-sm text-text-secondary mt-5 min-w-0 break-words leading-[22.75px] md:hidden">
         {mobileDescription}
       </p>
-      <p className="text-body-sm text-text-secondary mt-4 hidden min-w-0 break-words leading-[22.75px] md:block">
-        {desktopDescription}
+      <p className="text-body-sm text-text-secondary mt-4 hidden min-w-0 break-words leading-[22.75px] md:line-clamp-2">
+        {project.description}
       </p>
     </div>
   );
