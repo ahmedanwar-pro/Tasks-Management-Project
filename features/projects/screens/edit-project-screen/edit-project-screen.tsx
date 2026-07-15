@@ -7,6 +7,7 @@ import type { ProjectFormValues } from '../../project-form';
 import { ProjectsLoadingState } from '../projects-list-screen/components';
 import { ProjectFormToast } from '../add-new-project-screen/components';
 import {
+  persistProjectsSuccessState,
   getProjectsPageHref,
   getUpdatedProjectDestinationPage,
 } from '../projects-list-screen/utils/projects-list-navigation';
@@ -61,10 +62,7 @@ export function EditProjectScreen({
     }
   }
 
-  function handleUpdateProject({
-    description,
-    name,
-  }: ProjectFormValues): void {
+  function handleUpdateProject({ description, name }: ProjectFormValues): void {
     resetUpdateProject();
 
     submitProject(
@@ -82,6 +80,14 @@ export function EditProjectScreen({
           }
 
           try {
+            persistProjectsSuccessState('updated');
+
+            if (window.history.length > 1) {
+              router.back();
+
+              return;
+            }
+
             const projectPage = getUpdatedProjectDestinationPage(initialPage);
 
             router.replace(getProjectsPageHref(projectPage, 'updated'));
@@ -98,7 +104,7 @@ export function EditProjectScreen({
   }
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-6 pt-8 pb-12 lg:px-8">
+    <section className="relative mx-auto w-full max-w-7xl px-6 pt-8 pb-12 lg:px-8">
       <EditProjectPageHeader
         currentPage={initialPage}
         initialSource={initialSource}
@@ -107,18 +113,26 @@ export function EditProjectScreen({
       />
 
       <ProjectFormToast
+        className="lg:hidden xl:block"
         error={visibleError ? visibleError.message : undefined}
       />
 
-      <EditProjectCard
-        initialValues={initialValues}
-        initialPage={initialPage}
-        initialSource={initialSource}
-        isLoading={isUpdateProjectPending}
-        onFieldChange={handleFieldChange}
-        onSubmit={handleUpdateProject}
-        projectId={projectId}
-      />
+      <div className="relative mx-auto w-full max-w-2xl">
+        <ProjectFormToast
+          className="hidden lg:top-auto lg:bottom-[calc(100%+12px)] lg:left-0 lg:block lg:translate-x-0 xl:hidden"
+          error={visibleError ? visibleError.message : undefined}
+        />
+
+        <EditProjectCard
+          initialValues={initialValues}
+          initialPage={initialPage}
+          initialSource={initialSource}
+          isLoading={isUpdateProjectPending}
+          onFieldChange={handleFieldChange}
+          onSubmit={handleUpdateProject}
+          projectId={projectId}
+        />
+      </div>
     </section>
   );
 }

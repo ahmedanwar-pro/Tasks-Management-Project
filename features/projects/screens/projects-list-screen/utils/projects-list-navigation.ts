@@ -2,6 +2,8 @@ import { initialProjectsPage } from './projects-pagination';
 
 export type ProjectsListSuccessType = 'created' | 'updated';
 
+const projectsListSuccessStorageKey = 'projects-list-success';
+
 export function getCreatedProjectDestinationPage(): number {
   return initialProjectsPage;
 }
@@ -35,4 +37,32 @@ export function getProjectsSuccessMessage(
   return successType === 'created'
     ? 'Project created successfully'
     : 'Project updated successfully';
+}
+
+export function persistProjectsSuccessState(
+  successType: ProjectsListSuccessType,
+): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  window.sessionStorage.setItem(projectsListSuccessStorageKey, successType);
+}
+
+export function consumePersistedProjectsSuccessState():
+  | ProjectsListSuccessType
+  | undefined {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+
+  const storedValue = window.sessionStorage.getItem(
+    projectsListSuccessStorageKey,
+  );
+
+  window.sessionStorage.removeItem(projectsListSuccessStorageKey);
+
+  return storedValue === 'created' || storedValue === 'updated'
+    ? storedValue
+    : undefined;
 }

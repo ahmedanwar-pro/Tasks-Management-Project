@@ -10,6 +10,7 @@ import {
 import type { ProjectFormValues } from '../../project-form';
 import { useCreateProjectMutation } from './hooks/use-create-project-mutation';
 import {
+  persistProjectsSuccessState,
   getCreatedProjectDestinationPage,
   getProjectsPageHref,
 } from '../projects-list-screen/utils/projects-list-navigation';
@@ -51,35 +52,48 @@ export function AddNewProjectScreen({
         onSuccess: () => {
           onSuccess();
 
+          persistProjectsSuccessState('created');
+
+          if (window.history.length > 1) {
+            router.back();
+
+            return;
+          }
+
           router.replace(
-            getProjectsPageHref(
-              getCreatedProjectDestinationPage(),
-              'created',
-            ),
+            getProjectsPageHref(getCreatedProjectDestinationPage(), 'created'),
           );
         },
       },
     );
   }
 
+  const createProjectErrorMessage = createProjectError
+    ? `Failed to create project: ${createProjectError.message}`
+    : undefined;
+
   return (
-    <section className="mx-auto w-full max-w-7xl px-6 pt-8 pb-12 lg:px-8">
+    <section className="relative mx-auto w-full max-w-7xl px-6 pt-8 pb-12 lg:px-8">
       <AddNewProjectPageHeader currentPage={initialPage} />
 
       <ProjectFormToast
-        error={
-          createProjectError
-            ? `Failed to create project: ${createProjectError.message}`
-            : undefined
-        }
+        className="lg:hidden xl:block"
+        error={createProjectErrorMessage}
       />
 
-      <AddNewProjectCard
-        currentPage={initialPage}
-        isLoading={isCreateProjectPending}
-        onFieldChange={handleFieldChange}
-        onSubmit={handleCreateProject}
-      />
+      <div className="relative mx-auto w-full max-w-2xl">
+        <ProjectFormToast
+          className="hidden lg:top-auto lg:bottom-[calc(100%+12px)] lg:left-0 lg:block lg:translate-x-0 xl:hidden"
+          error={createProjectErrorMessage}
+        />
+
+        <AddNewProjectCard
+          currentPage={initialPage}
+          isLoading={isCreateProjectPending}
+          onFieldChange={handleFieldChange}
+          onSubmit={handleCreateProject}
+        />
+      </div>
     </section>
   );
 }

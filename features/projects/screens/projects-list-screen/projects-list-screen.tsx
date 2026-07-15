@@ -6,6 +6,7 @@ import type { ReactElement } from 'react';
 import { ProjectsListScreenContent } from './components';
 import { useProjectsListScreenData } from './hooks';
 import {
+  consumePersistedProjectsSuccessState,
   getProjectsSuccessMessage,
   type ProjectsListSuccessType,
 } from './utils/projects-list-navigation';
@@ -24,7 +25,7 @@ export function ProjectsListScreen({
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [successMessage] = useState(() =>
+  const [successMessage, setSuccessMessage] = useState(() =>
     successType ? getProjectsSuccessMessage(successType) : undefined,
   );
   const [isSuccessToastVisible, setIsSuccessToastVisible] = useState(
@@ -56,6 +57,21 @@ export function ProjectsListScreen({
 
     router.replace(nextUrl, { scroll: false });
   }, [pathname, router, searchParams]);
+
+  useEffect(() => {
+    if (successType) {
+      return;
+    }
+
+    const persistedSuccessType = consumePersistedProjectsSuccessState();
+
+    if (!persistedSuccessType) {
+      return;
+    }
+
+    setSuccessMessage(getProjectsSuccessMessage(persistedSuccessType));
+    setIsSuccessToastVisible(true);
+  }, [successType]);
 
   useEffect(() => {
     if (!successType) {

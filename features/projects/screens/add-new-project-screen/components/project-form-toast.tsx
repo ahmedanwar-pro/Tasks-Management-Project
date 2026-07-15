@@ -1,19 +1,70 @@
-import type { ReactElement } from 'react';
-import { FormError } from '@/components/ui';
+import { useEffect, useState, type ReactElement } from 'react';
+import { joinClasses } from '@/components/ui/utils';
+import { ProjectFeedbackToast } from '@/features/projects/components/project-feedback-toast';
 
 type ProjectFormToastProps = {
+  className?: string;
+  contentClassName?: string;
   error?: string;
   success?: string;
 };
 
 export function ProjectFormToast({
+  className,
+  contentClassName,
   error,
   success,
 }: ProjectFormToastProps): ReactElement | null {
-  if (error) {
+  const [activeError, setActiveError] = useState(error);
+  const [isErrorVisible, setIsErrorVisible] = useState(Boolean(error));
+
+  useEffect(() => {
+    if (!error) {
+      setIsErrorVisible(false);
+      return;
+    }
+
+    setActiveError(error);
+    setIsErrorVisible(true);
+  }, [error]);
+
+  useEffect(() => {
+    if (error || isErrorVisible || !activeError) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setActiveError(undefined);
+    }, 220);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [activeError, error, isErrorVisible]);
+
+  if (activeError) {
     return (
-      <div className="mx-auto mb-6 w-full max-w-2xl lg:mb-4">
-        <FormError className="shadow-sm" message={error} />
+      <div
+        className={joinClasses(
+          'pointer-events-none absolute top-8 left-1/2 z-20 w-full max-w-[18rem] -translate-x-1/2 2xl:max-w-[20rem]',
+          className,
+        )}
+      >
+        <div
+          className={joinClasses('pointer-events-auto', contentClassName)}
+        >
+          <ProjectFeedbackToast
+            ariaLive="assertive"
+            closeAriaLabel="Close error message"
+            closeButtonClassName="text-danger-text hover:opacity-75 focus-visible:outline-current"
+            icon={<ErrorIcon />}
+            message={activeError}
+            onClose={() => setIsErrorVisible(false)}
+            role="alert"
+            surfaceClassName="border-border-danger bg-danger-container text-danger-text"
+            visible={isErrorVisible}
+          />
+        </div>
       </div>
     );
   }
@@ -32,4 +83,23 @@ export function ProjectFormToast({
   }
 
   return null;
+}
+
+function ErrorIcon(): ReactElement {
+  return (
+    <svg
+      aria-hidden="true"
+      className="size-4 shrink-0"
+      fill="none"
+      viewBox="0 0 16 16"
+    >
+      <circle className="text-danger" cx="8" cy="8" fill="currentColor" r="7" />
+      <path
+        d="m5.75 5.75 4.5 4.5m0-4.5-4.5 4.5"
+        stroke="white"
+        strokeLinecap="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
 }

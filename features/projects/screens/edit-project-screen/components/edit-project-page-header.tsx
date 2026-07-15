@@ -62,7 +62,7 @@ export function EditProjectPageHeader({
       : getProjectsPageHref(currentPage);
 
   return (
-    <header className="hidden items-end justify-between pb-10 lg:flex">
+    <header className="hidden items-end justify-between pb-10 lg:flex lg:pb-[4.5rem] xl:pb-10">
       <div className="flex flex-col gap-4">
         <nav
           aria-label="Breadcrumb"
