@@ -24,11 +24,12 @@ export function EditProjectFormActions({
   return (
     <div className="flex flex-col gap-4 pt-4 lg:flex-row-reverse lg:items-center lg:justify-between">
       <Button
-        className="text-body-md! h-(--control-height-2xl)! self-center rounded-md px-8! leading-relaxed! font-semibold!"
+        className="text-body-md! self-center rounded-md px-8! py-6 leading-relaxed! font-semibold!"
         isLoading={isLoading}
         loadingText="Saving project"
-        size="lg"
+        size="md"
         type="submit"
+        variant="secondary"
       >
         Save
       </Button>

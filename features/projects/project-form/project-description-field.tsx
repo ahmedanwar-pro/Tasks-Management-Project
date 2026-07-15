@@ -41,12 +41,13 @@ export function ProjectDescriptionField({
           {...registration}
           aria-describedby={descriptionId}
           aria-invalid={hasError || undefined}
-          className="lg:px-4-5 min-h-38 rounded-md px-4 py-4 lg:min-h-30 lg:rounded-sm lg:py-[14px]"
+          className="lg:px-4-5 min-h-38 px-4 py-4 lg:min-h-30 lg:py-[14px]"
           id={inputId}
           maxLength={500}
           placeholder="Provide a high-level overview of the project's architectural objectives and key milestones..."
           radius="md"
           size="sm"
+          variant="bordered"
         />
       )}
     </FormField>

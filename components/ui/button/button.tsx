@@ -50,7 +50,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   primary:
     'bg-gradient-to-r from-primary to-primary-container text-text-inverse shadow-sm hover:from-primary-container hover:to-primary active:from-primary active:to-primary',
   secondary:
-    'bg-transparent text-primary hover:bg-surface-low active:bg-surface-muted',
+    'border-primary-container bg-surface-low text-primary-container shadow-none hover:bg-surface-muted active:bg-surface-muted',
   ghost:
     'bg-transparent text-text-tertiary hover:bg-surface-low hover:text-text-primary active:bg-surface-muted',
   tonal:

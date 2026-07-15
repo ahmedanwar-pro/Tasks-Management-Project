@@ -28,7 +28,7 @@ export function ProjectTitleField({
           aria-describedby={descriptionId}
           aria-invalid={hasError || undefined}
           autoComplete="off"
-          className="h-(--control-height-2xl) rounded-md px-4 lg:h-(--control-height-xl) lg:rounded-sm"
+          className="h-(--control-height-2xl) px-4 lg:h-(--control-height-xl)"
           fullWidth
           id={inputId}
           maxLength={100}
@@ -37,6 +37,7 @@ export function ProjectTitleField({
           required
           size="lg"
           type="text"
+          variant="bordered"
         />
       )}
     </FormField>

@@ -8,7 +8,7 @@ import { joinClasses } from '../utils';
 
 type InputVariant = 'filled' | 'bordered' | 'danger';
 type InputSize = 'sm' | 'md' | 'lg';
-type InputRadius = 'xs' | 'sm' | 'md';
+type InputRadius = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 type InputProps = {
   variant?: InputVariant;
@@ -43,6 +43,8 @@ const radiusClasses: Record<InputRadius, string> = {
   xs: 'rounded-xs',
   sm: 'rounded-sm',
   md: 'rounded-md',
+  lg: 'rounded-lg',
+  xl: 'rounded-xl',
 };
 
 const inputBaseClasses =
