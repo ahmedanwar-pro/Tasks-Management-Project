@@ -9,7 +9,7 @@ import { ProjectsList } from './list/projects-list';
 import { ProjectsMobileLoadMore } from './list/projects-mobile-load-more';
 import { ProjectsSearchInput } from './list/projects-search-input';
 import { ProjectsLoadingList } from './loading/projects-loading-list';
-import { ProjectsLoadingState } from './loading/projects-loading-state';
+import { ProjectsLoadingPagination } from './loading/projects-loading-pagination';
 import { ProjectsPagination } from './pagination/projects-pagination';
 import { ProjectsListScreenSuccessToast } from './projects-list-screen-success-toast';
 
@@ -35,12 +35,9 @@ export function ProjectsListScreenContent({
   const errorTitle = isSearchActive
     ? 'Failed to search projects'
     : 'Failed to load projects';
+  const showLoadingState = isLoading;
 
-  if (isLoading && !isSearchActive) {
-    return <ProjectsLoadingState />;
-  }
-
-  if (!visibleError && totalCount === 0 && !isSearchActive) {
+  if (!visibleError && totalCount === 0 && !isSearchActive && !showLoadingState) {
     return <ProjectsEmptyState />;
   }
 
@@ -61,11 +58,15 @@ export function ProjectsListScreenContent({
       <div className="md:mt-7 md:rounded-lg md:border md:border-[#dfe7f8] md:bg-[#f8faff] md:p-1 md:shadow-[0px_1px_3px_rgba(45,79,140,0.08)]">
         <div className="md:rounded-md md:bg-[#f8faff] md:px-6 md:pt-5 md:pb-0">
           <ProjectsSearchInput
+            disabled={showLoadingState}
             onChange={onSearchTermChange}
             value={searchTerm}
           />
-          {isLoading ? (
-            <ProjectsLoadingList />
+          {showLoadingState ? (
+            <>
+              <ProjectsLoadingList />
+              <ProjectsLoadingPagination />
+            </>
           ) : visibleError ? (
             <ProjectsErrorState
               compact
@@ -90,7 +91,7 @@ export function ProjectsListScreenContent({
         </div>
       </div>
 
-      {hasMoreMobileProjects && !visibleError && totalCount > 0 && (
+      {hasMoreMobileProjects && !visibleError && totalCount > 0 && !showLoadingState && (
         <ProjectsMobileLoadMore
           isFetchingNextPage={isFetchingNextPage}
           loadMoreRef={loadMoreRef}

@@ -9,7 +9,7 @@ export { ProjectsList } from './list/projects-list';
 export { ProjectsMobileLoadMore } from './list/projects-mobile-load-more';
 export { ProjectsSearchInput } from './list/projects-search-input';
 export { ProjectsLoadingList } from './loading/projects-loading-list';
-export { ProjectsLoadingState } from './loading/projects-loading-state';
+export { ProjectsLoadingPagination } from './loading/projects-loading-pagination';
 export { ProjectsPagination } from './pagination/projects-pagination';
 export { ProjectsListScreenContent } from './projects-list-screen-content';
 export { ProjectsListScreenSuccessToast } from './projects-list-screen-success-toast';

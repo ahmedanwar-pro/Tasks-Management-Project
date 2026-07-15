@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import type { ReactElement } from 'react';
 import type { ProjectFormValues } from '../../project-form';
-import { ProjectsLoadingState } from '../projects-list-screen/components';
 import { ProjectFormToast } from '../add-new-project-screen/components';
 import {
   persistProjectsSuccessState,
@@ -12,7 +11,11 @@ import {
   getUpdatedProjectDestinationPage,
 } from '../projects-list-screen/utils/projects-list-navigation';
 import { isProjectUnauthorizedError } from './api';
-import { EditProjectCard, EditProjectPageHeader } from './components';
+import {
+  EditProjectCard,
+  EditProjectLoadingState,
+  EditProjectPageHeader,
+} from './components';
 import { useProjectQuery, useUpdateProjectMutation } from './hooks';
 
 type EditProjectScreenProps = {
@@ -100,7 +103,7 @@ export function EditProjectScreen({
   }
 
   if (isProjectPending || isUnauthorized) {
-    return <ProjectsLoadingState />;
+    return <EditProjectLoadingState />;
   }
 
   return (
