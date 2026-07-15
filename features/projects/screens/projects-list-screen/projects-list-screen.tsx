@@ -38,12 +38,16 @@ export function ProjectsListScreen({
     hasMoreMobileProjects,
     isFetchingNextPage,
     isLoading,
+    isPaginationInteractionDisabled,
+    isPaginationLoading,
     isSearchInputDisabled,
     isSearchActive,
     loadMoreRef,
     onPageChange,
     onRetry,
     onSearchTermChange,
+    paginationProjectCount,
+    paginationTotalCount,
     pageSize,
     projects,
     searchTerm,
@@ -129,6 +133,8 @@ export function ProjectsListScreen({
       hasMoreMobileProjects={hasMoreMobileProjects}
       isFetchingNextPage={isFetchingNextPage}
       isLoading={isLoading}
+      isPaginationInteractionDisabled={isPaginationInteractionDisabled}
+      isPaginationLoading={isPaginationLoading}
       isSearchInputDisabled={isSearchInputDisabled}
       isSearchActive={isSearchActive}
       loadMoreRef={loadMoreRef}
@@ -136,6 +142,8 @@ export function ProjectsListScreen({
       onSearchTermChange={onSearchTermChange}
       onSuccessToastClose={handleSuccessToastClose}
       onRetry={onRetry}
+      paginationProjectCount={paginationProjectCount}
+      paginationTotalCount={paginationTotalCount}
       pageSize={pageSize}
       projects={projects}
       searchTerm={searchTerm}

@@ -18,6 +18,8 @@ export function ProjectsListScreenContent({
   hasMoreMobileProjects,
   isFetchingNextPage,
   isLoading,
+  isPaginationInteractionDisabled,
+  isPaginationLoading,
   isSearchInputDisabled,
   isSearchActive,
   loadMoreRef,
@@ -25,6 +27,8 @@ export function ProjectsListScreenContent({
   onSearchTermChange,
   onSuccessToastClose,
   onRetry,
+  paginationProjectCount,
+  paginationTotalCount,
   pageSize,
   projects,
   searchTerm,
@@ -66,7 +70,18 @@ export function ProjectsListScreenContent({
           {showLoadingState ? (
             <>
               <ProjectsLoadingList />
-              <ProjectsLoadingPagination />
+              {isPaginationLoading ? (
+                <ProjectsPagination
+                  currentPage={currentPage}
+                  isInteractionDisabled={isPaginationInteractionDisabled}
+                  onPageChange={onPageChange}
+                  pageSize={pageSize}
+                  projectCount={paginationProjectCount}
+                  totalCount={paginationTotalCount}
+                />
+              ) : (
+                <ProjectsLoadingPagination />
+              )}
             </>
           ) : visibleError ? (
             <ProjectsErrorState
@@ -82,10 +97,11 @@ export function ProjectsListScreenContent({
               <ProjectsList currentPage={currentPage} projects={projects} />
               <ProjectsPagination
                 currentPage={currentPage}
+                isInteractionDisabled={isPaginationInteractionDisabled}
                 onPageChange={onPageChange}
                 pageSize={pageSize}
-                projectCount={projects.length}
-                totalCount={totalCount}
+                projectCount={paginationProjectCount}
+                totalCount={paginationTotalCount}
               />
             </>
           )}

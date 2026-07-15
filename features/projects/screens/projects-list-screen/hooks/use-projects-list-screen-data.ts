@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useMobileLoadMore } from '@/features/shared/hooks/use-mobile-load-more';
 import type { ProjectsListScreenData } from '../types';
 import { isProjectsUnauthorizedError } from '../api/get-projects';
@@ -54,6 +54,10 @@ export function useProjectsListScreenData(
   const isUnauthorized =
     isProjectsUnauthorizedError(error) ||
     isProjectsUnauthorizedError(moreProjectsError);
+  const [pendingPaginationState, setPendingPaginationState] = useState<{
+    projectCount: number;
+    totalCount: number;
+  } | null>(null);
   const fetchMoreProjects = useCallback(() => {
     void fetchNextPage();
   }, [fetchNextPage]);
@@ -69,22 +73,52 @@ export function useProjectsListScreenData(
 
   const retryProjects = error ? refetch : fetchNextPage;
   const projects = displayedProjectResponses.map(mapProject);
-  const isLoading = isPending || isUnauthorized || (!data && !visibleError);
+  const isInitialLoading = isPending || isUnauthorized || (!data && !visibleError);
+  const isPageChangeLoading =
+    pendingPaginationState !== null && isInitialLoading;
+  const isLoading = isInitialLoading;
   const isSearchInputDisabled =
-    isLoading && debouncedSearchTerm.length === 0 && !hasSearchInteracted;
+    isInitialLoading && debouncedSearchTerm.length === 0 && !hasSearchInteracted;
+  const paginationProjectCount = isPageChangeLoading
+    ? pendingPaginationState.projectCount
+    : projects.length;
+  const paginationTotalCount = isPageChangeLoading
+    ? pendingPaginationState.totalCount
+    : data?.totalCount ?? 0;
+  const handlePageChange = useCallback(
+    (page: number) => {
+      setPendingPaginationState({
+        projectCount: projects.length,
+        totalCount: data?.totalCount ?? 0,
+      });
+      setCurrentPage(page);
+    },
+    [data?.totalCount, projects.length, setCurrentPage],
+  );
+  const handleSearchTermChange = useCallback(
+    (value: string) => {
+      setPendingPaginationState(null);
+      onSearchTermChange(value);
+    },
+    [onSearchTermChange],
+  );
 
   return {
     currentPage,
     hasMoreMobileProjects,
     isFetchingNextPage,
     isLoading,
+    isPaginationInteractionDisabled: isPageChangeLoading,
+    isPaginationLoading: isPageChangeLoading,
     isSearchInputDisabled,
     isSearchActive: debouncedSearchTerm.length > 0,
     loadMoreRef,
     committedSearchTerm: debouncedSearchTerm,
-    onPageChange: setCurrentPage,
+    paginationProjectCount,
+    paginationTotalCount,
+    onPageChange: handlePageChange,
     onRetry: () => void retryProjects(),
-    onSearchTermChange,
+    onSearchTermChange: handleSearchTermChange,
     pageSize: limit,
     projects,
     searchTerm,

@@ -9,7 +9,7 @@ export function ProjectsLoadingList(): ReactElement {
       aria-busy="true"
       aria-label="Loading projects"
       aria-live="polite"
-      className="mt-5 flex flex-col gap-6 md:mt-0 md:grid md:grid-cols-3 md:gap-x-4 md:gap-y-3.5 md:pb-3 lg:gap-x-5 lg:gap-y-3.5"
+      className="mt-5 flex flex-col gap-6 md:mt-0 md:grid md:grid-cols-3 md:gap-x-4 md:gap-y-3.5 lg:gap-x-5 lg:gap-y-3.5"
       role="status"
     >
       {loadingCards.map((card) => (

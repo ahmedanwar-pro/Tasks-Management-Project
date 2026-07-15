@@ -5,6 +5,7 @@ import { ProjectsPaginationSummary } from './projects-pagination-summary';
 
 type ProjectsPaginationProps = {
   currentPage: number;
+  isInteractionDisabled?: boolean;
   pageSize: number;
   projectCount: number;
   totalCount: number;
@@ -13,6 +14,7 @@ type ProjectsPaginationProps = {
 
 export function ProjectsPagination({
   currentPage,
+  isInteractionDisabled = false,
   pageSize,
   projectCount,
   totalCount,
@@ -28,6 +30,7 @@ export function ProjectsPagination({
       />
       <ProjectsPaginationNav
         currentPage={currentPage}
+        isInteractionDisabled={isInteractionDisabled}
         onPageChange={onPageChange}
         totalPages={totalPages}
       />
