@@ -9,6 +9,7 @@ export function useProjectsSearch(
   onDebouncedSearchChange: () => void,
 ) {
   const normalizedInitialSearchTerm = initialSearchTerm.trim();
+  const [hasSearchInteracted, setHasSearchInteracted] = useState(false);
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(
     normalizedInitialSearchTerm,
@@ -46,11 +47,13 @@ export function useProjectsSearch(
   }, [onDebouncedSearchChange, searchTerm]);
 
   const onSearchTermChange = useCallback((value: string) => {
+    setHasSearchInteracted(true);
     setSearchTerm(value);
   }, []);
 
   return {
     debouncedSearchTerm,
+    hasSearchInteracted,
     onSearchTermChange,
     searchTerm,
   };

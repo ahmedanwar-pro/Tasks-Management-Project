@@ -38,6 +38,7 @@ export function ProjectsListScreen({
     hasMoreMobileProjects,
     isFetchingNextPage,
     isLoading,
+    isSearchInputDisabled,
     isSearchActive,
     loadMoreRef,
     onPageChange,
@@ -128,6 +129,7 @@ export function ProjectsListScreen({
       hasMoreMobileProjects={hasMoreMobileProjects}
       isFetchingNextPage={isFetchingNextPage}
       isLoading={isLoading}
+      isSearchInputDisabled={isSearchInputDisabled}
       isSearchActive={isSearchActive}
       loadMoreRef={loadMoreRef}
       onPageChange={onPageChange}

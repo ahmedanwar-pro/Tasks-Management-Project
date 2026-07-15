@@ -63,10 +63,10 @@ export function EditProjectPageHeader({
 
   return (
     <header className="hidden items-end justify-between pb-10 lg:flex lg:pb-[4.5rem] xl:pb-10">
-      <div className="flex flex-col gap-4">
+      <div className="flex min-w-0 flex-col gap-4">
         <nav
           aria-label="Breadcrumb"
-          className="text-text-muted text-label-md tracking-label flex items-center gap-2 font-bold uppercase"
+          className="text-text-muted text-label-md tracking-label flex min-w-0 items-center gap-2 font-bold uppercase"
         >
           <Link
             className="hover:text-primary transition-colors"
@@ -75,7 +75,14 @@ export function EditProjectPageHeader({
             Projects
           </Link>
           <BreadcrumbDivider />
-          <span>{breadcrumbProjectName}</span>
+          <span className="group relative min-w-0">
+            <span className="block max-w-52 truncate xl:max-w-80">
+              {breadcrumbProjectName}
+            </span>
+            <span className="pointer-events-none absolute bottom-full left-0 z-20 mb-2 w-max max-w-84 rounded-md bg-text-primary px-3 py-2 text-[13px] leading-5 font-medium tracking-normal text-text-inverse normal-case opacity-0 shadow-sm [overflow-wrap:anywhere] transition-opacity duration-150 delay-0 group-hover:opacity-100 group-hover:delay-300">
+              {breadcrumbProjectName}
+            </span>
+          </span>
           <BreadcrumbDivider />
           <span className="text-primary">Edit</span>
         </nav>

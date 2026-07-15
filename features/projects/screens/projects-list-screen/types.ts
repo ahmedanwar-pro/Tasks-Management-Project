@@ -22,6 +22,7 @@ export type ProjectsListScreenContentProps = {
   hasMoreMobileProjects: boolean;
   isFetchingNextPage: boolean;
   isLoading: boolean;
+  isSearchInputDisabled: boolean;
   isSearchActive: boolean;
   loadMoreRef: RefObject<HTMLDivElement | null>;
   onPageChange: (page: number) => void;

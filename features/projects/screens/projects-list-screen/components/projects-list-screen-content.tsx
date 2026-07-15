@@ -18,6 +18,7 @@ export function ProjectsListScreenContent({
   hasMoreMobileProjects,
   isFetchingNextPage,
   isLoading,
+  isSearchInputDisabled,
   isSearchActive,
   loadMoreRef,
   onPageChange,
@@ -58,7 +59,7 @@ export function ProjectsListScreenContent({
       <div className="md:mt-7 md:rounded-lg md:border md:border-[#dfe7f8] md:bg-[#f8faff] md:p-1 md:shadow-[0px_1px_3px_rgba(45,79,140,0.08)]">
         <div className="md:rounded-md md:bg-[#f8faff] md:px-6 md:pt-5 md:pb-0">
           <ProjectsSearchInput
-            disabled={showLoadingState}
+            disabled={isSearchInputDisabled}
             onChange={onSearchTermChange}
             value={searchTerm}
           />

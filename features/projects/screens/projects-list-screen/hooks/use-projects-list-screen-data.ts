@@ -22,8 +22,12 @@ export function useProjectsListScreenData(
     resetToFirstPage,
     setCurrentPage,
   } = useProjectsListScreenPagination(initialPage);
-  const { debouncedSearchTerm, onSearchTermChange, searchTerm } =
-    useProjectsSearch(initialSearchTerm, resetToFirstPage);
+  const {
+    debouncedSearchTerm,
+    hasSearchInteracted,
+    onSearchTermChange,
+    searchTerm,
+  } = useProjectsSearch(initialSearchTerm, resetToFirstPage);
   const { data, error, isPending, refetch } = useProjectsQuery(
     currentPage,
     limit,
@@ -65,12 +69,16 @@ export function useProjectsListScreenData(
 
   const retryProjects = error ? refetch : fetchNextPage;
   const projects = displayedProjectResponses.map(mapProject);
+  const isLoading = isPending || isUnauthorized || (!data && !visibleError);
+  const isSearchInputDisabled =
+    isLoading && debouncedSearchTerm.length === 0 && !hasSearchInteracted;
 
   return {
     currentPage,
     hasMoreMobileProjects,
     isFetchingNextPage,
-    isLoading: isPending || isUnauthorized || (!data && !visibleError),
+    isLoading,
+    isSearchInputDisabled,
     isSearchActive: debouncedSearchTerm.length > 0,
     loadMoreRef,
     committedSearchTerm: debouncedSearchTerm,
