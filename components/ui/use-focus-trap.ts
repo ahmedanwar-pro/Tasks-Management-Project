@@ -47,6 +47,10 @@ export function useFocusTrap({
     const trapContainer = container;
     const previouslyFocused = document.activeElement;
     const focusContainer = window.requestAnimationFrame(() => {
+      if (trapContainer.closest('[inert]')) {
+        return;
+      }
+
       if (initialFocus === 'none') {
         return;
       }
@@ -63,6 +67,10 @@ export function useFocusTrap({
     });
 
     function handleKeyDown(event: KeyboardEvent): void {
+      if (trapContainer.closest('[inert]')) {
+        return;
+      }
+
       if (event.key === 'Escape') {
         event.preventDefault();
         event.stopPropagation();

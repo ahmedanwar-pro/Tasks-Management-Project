@@ -1,20 +1,23 @@
 import type { ReactElement } from 'react';
+import type { LogoutTriggerId } from '../logout';
 import type { AppUser } from '../types';
 import { HeaderUser } from './header-user';
 import { MobileHeaderBrand } from './mobile-header-brand';
 
 type AppHeaderProps = {
+  activeLogoutTriggerId: LogoutTriggerId | null;
   user: AppUser | null;
   initials?: string;
   isLogoutPending: boolean;
   isUserLoading: boolean;
   menuOpen: boolean;
   sidebarCollapsed: boolean;
-  onLogout: () => void;
+  onLogout: (triggerId: LogoutTriggerId) => void;
   onOpenMenu: () => void;
 };
 
 export function AppHeader({
+  activeLogoutTriggerId,
   user,
   initials,
   isLogoutPending,
@@ -35,6 +38,7 @@ export function AppHeader({
 
       <div className="flex min-w-0 items-center gap-3 sm:gap-4">
         <HeaderUser
+          activeLogoutTriggerId={activeLogoutTriggerId}
           initials={initials}
           isLoading={isUserLoading}
           isLogoutPending={isLogoutPending}

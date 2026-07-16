@@ -76,8 +76,14 @@ export function ProjectsListScreen({
       return;
     }
 
-    setSuccessMessage(getProjectsSuccessMessage(persistedSuccessType));
-    setIsSuccessToastVisible(true);
+    const timeoutId = window.setTimeout(() => {
+      setSuccessMessage(getProjectsSuccessMessage(persistedSuccessType));
+      setIsSuccessToastVisible(true);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
   }, [successType]);
 
   useEffect(() => {

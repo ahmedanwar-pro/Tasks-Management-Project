@@ -17,15 +17,23 @@ export function ProjectFormToast({
 }: ProjectFormToastProps): ReactElement | null {
   const [activeError, setActiveError] = useState(error);
   const [isErrorVisible, setIsErrorVisible] = useState(Boolean(error));
+  const visibleError = error ?? activeError;
+  const showError = Boolean(error) || isErrorVisible;
 
   useEffect(() => {
-    if (!error) {
-      setIsErrorVisible(false);
-      return;
-    }
+    const timeoutId = window.setTimeout(() => {
+      if (!error) {
+        setIsErrorVisible(false);
+        return;
+      }
 
-    setActiveError(error);
-    setIsErrorVisible(true);
+      setActiveError(error);
+      setIsErrorVisible(true);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
   }, [error]);
 
   useEffect(() => {
@@ -42,7 +50,7 @@ export function ProjectFormToast({
     };
   }, [activeError, error, isErrorVisible]);
 
-  if (activeError) {
+  if (visibleError) {
     return (
       <div
         className={joinClasses(
@@ -50,19 +58,17 @@ export function ProjectFormToast({
           className,
         )}
       >
-        <div
-          className={joinClasses('pointer-events-auto', contentClassName)}
-        >
+        <div className={joinClasses('pointer-events-auto', contentClassName)}>
           <ProjectFeedbackToast
             ariaLive="assertive"
             closeAriaLabel="Close error message"
             closeButtonClassName="text-danger-text hover:opacity-75 focus-visible:outline-current"
             icon={<ErrorIcon />}
-            message={activeError}
+            message={visibleError}
             onClose={() => setIsErrorVisible(false)}
             role="alert"
             surfaceClassName="border-border-danger bg-danger-container text-danger-text"
-            visible={isErrorVisible}
+            visible={showError}
           />
         </div>
       </div>

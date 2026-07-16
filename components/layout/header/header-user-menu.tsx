@@ -3,16 +3,19 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactElement } from 'react';
 import { Avatar, DropdownMenu } from '@/components/ui';
+import { logoutTriggerIds, type LogoutTriggerId } from '../logout';
 import { LogoutAction } from '../sidebar/logout-action';
 
 type HeaderUserMenuProps = {
+  activeLogoutTriggerId: LogoutTriggerId | null;
   displayName: string;
   initials?: string;
   isLogoutPending: boolean;
-  onLogout: () => void;
+  onLogout: (triggerId: LogoutTriggerId) => void;
 };
 
 export function HeaderUserMenu({
+  activeLogoutTriggerId,
   displayName,
   initials,
   isLogoutPending,
@@ -20,6 +23,7 @@ export function HeaderUserMenu({
 }: HeaderUserMenuProps): ReactElement {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const logoutTriggerId = logoutTriggerIds.headerMenu;
 
   useEffect(() => {
     if (!menuOpen) {
@@ -39,7 +43,7 @@ export function HeaderUserMenu({
 
   function handleLogout(): void {
     setMenuOpen(false);
-    onLogout();
+    onLogout(logoutTriggerId);
   }
 
   return (
@@ -76,7 +80,9 @@ export function HeaderUserMenu({
         variant="ghost"
       >
         <LogoutAction
-          isPending={isLogoutPending}
+          disabled={isLogoutPending}
+          errorTargetId={logoutTriggerId}
+          isPending={activeLogoutTriggerId === logoutTriggerId}
           onLogout={handleLogout}
           presentation="menu"
         />

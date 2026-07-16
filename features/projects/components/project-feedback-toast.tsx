@@ -28,8 +28,13 @@ export function ProjectFeedbackToast({
 
   useEffect(() => {
     if (visible) {
-      setShouldRender(true);
-      return;
+      const timeoutId = window.setTimeout(() => {
+        setShouldRender(true);
+      }, 0);
+
+      return () => {
+        window.clearTimeout(timeoutId);
+      };
     }
 
     const timeoutId = window.setTimeout(() => {
@@ -41,7 +46,7 @@ export function ProjectFeedbackToast({
     };
   }, [visible]);
 
-  if (!shouldRender) {
+  if (!visible && !shouldRender) {
     return <></>;
   }
 

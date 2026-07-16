@@ -1,28 +1,31 @@
 import type { ReactElement } from 'react';
 import { Drawer, Logo } from '@/components/ui';
-import { LogoutAction, LogoutError } from './logout-action';
+import { logoutTriggerIds, type LogoutTriggerId } from '../logout';
+import { LogoutAction } from './logout-action';
 import type { AppNavigationItem } from './navigation-items';
 import { SidebarNavigation } from './sidebar-navigation';
 
 type MobileSidebarDrawerProps = {
   activeHref: string;
+  activeLogoutTriggerId: LogoutTriggerId | null;
   drawerOpen: boolean;
   isLogoutPending: boolean;
   items: AppNavigationItem[];
-  logoutError: Error | null;
   onCloseDrawer: () => void;
-  onLogout: () => void;
+  onLogout: (triggerId: LogoutTriggerId) => void;
 };
 
 export function MobileSidebarDrawer({
   activeHref,
+  activeLogoutTriggerId,
   drawerOpen,
   isLogoutPending,
   items,
-  logoutError,
   onCloseDrawer,
   onLogout,
 }: MobileSidebarDrawerProps): ReactElement {
+  const logoutTriggerId = logoutTriggerIds.mobileDrawer;
+
   return (
     <Drawer
       aria-label="Mobile navigation menu"
@@ -45,8 +48,12 @@ export function MobileSidebarDrawer({
           onNavigate={onCloseDrawer}
         />
         <div className="border-border-subtle border-t pt-6.25">
-          <LogoutAction isPending={isLogoutPending} onLogout={onLogout} />
-          {logoutError ? <LogoutError /> : null}
+          <LogoutAction
+            disabled={isLogoutPending}
+            errorTargetId={logoutTriggerId}
+            isPending={activeLogoutTriggerId === logoutTriggerId}
+            onLogout={() => onLogout(logoutTriggerId)}
+          />
         </div>
       </div>
     </Drawer>

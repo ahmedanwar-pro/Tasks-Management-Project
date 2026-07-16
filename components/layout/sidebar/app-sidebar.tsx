@@ -2,27 +2,28 @@ import type { ReactElement } from 'react';
 import { DesktopSidebar } from './desktop-sidebar';
 import { MobileBottomNavigation } from './mobile-bottom-navigation';
 import { MobileSidebarDrawer } from './mobile-sidebar-drawer';
+import type { LogoutTriggerId } from '../logout';
 import type { AppNavigationItem } from './navigation-items';
 
 type AppSidebarProps = {
   activeHref: string;
+  activeLogoutTriggerId: LogoutTriggerId | null;
   collapsed: boolean;
   drawerOpen: boolean;
   isLogoutPending: boolean;
   items: AppNavigationItem[];
-  logoutError: Error | null;
   onCloseDrawer: () => void;
-  onLogout: () => void;
+  onLogout: (triggerId: LogoutTriggerId) => void;
   onToggleCollapsed: () => void;
 };
 
 export function AppSidebar({
   activeHref,
+  activeLogoutTriggerId,
   collapsed,
   drawerOpen,
   isLogoutPending,
   items,
-  logoutError,
   onCloseDrawer,
   onLogout,
   onToggleCollapsed,
@@ -31,19 +32,19 @@ export function AppSidebar({
     <>
       <DesktopSidebar
         activeHref={activeHref}
+        activeLogoutTriggerId={activeLogoutTriggerId}
         collapsed={collapsed}
         isLogoutPending={isLogoutPending}
         items={items}
-        logoutError={logoutError}
         onLogout={onLogout}
         onToggleCollapsed={onToggleCollapsed}
       />
       <MobileSidebarDrawer
         activeHref={activeHref}
+        activeLogoutTriggerId={activeLogoutTriggerId}
         drawerOpen={drawerOpen}
         isLogoutPending={isLogoutPending}
         items={items}
-        logoutError={logoutError}
         onCloseDrawer={onCloseDrawer}
         onLogout={onLogout}
       />

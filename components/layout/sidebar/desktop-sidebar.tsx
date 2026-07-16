@@ -1,30 +1,33 @@
 import type { ReactElement } from 'react';
 import { Logo } from '@/components/ui';
 import { joinClasses } from '@/components/ui/utils';
+import { logoutTriggerIds, type LogoutTriggerId } from '../logout';
 import { LayoutIcon } from '../layout-icons';
-import { LogoutAction, LogoutError } from './logout-action';
+import { LogoutAction } from './logout-action';
 import type { AppNavigationItem } from './navigation-items';
 import { SidebarNavigation } from './sidebar-navigation';
 
 type DesktopSidebarProps = {
   activeHref: string;
+  activeLogoutTriggerId: LogoutTriggerId | null;
   collapsed: boolean;
   isLogoutPending: boolean;
   items: AppNavigationItem[];
-  logoutError: Error | null;
-  onLogout: () => void;
+  onLogout: (triggerId: LogoutTriggerId) => void;
   onToggleCollapsed: () => void;
 };
 
 export function DesktopSidebar({
   activeHref,
+  activeLogoutTriggerId,
   collapsed,
   isLogoutPending,
   items,
-  logoutError,
   onLogout,
   onToggleCollapsed,
 }: DesktopSidebarProps): ReactElement {
+  const logoutTriggerId = logoutTriggerIds.desktopSidebar;
+
   return (
     <aside
       aria-label="Application sidebar"
@@ -74,10 +77,11 @@ export function DesktopSidebar({
         </button>
         <LogoutAction
           collapsed={collapsed}
-          isPending={isLogoutPending}
-          onLogout={onLogout}
+          disabled={isLogoutPending}
+          errorTargetId={logoutTriggerId}
+          isPending={activeLogoutTriggerId === logoutTriggerId}
+          onLogout={() => onLogout(logoutTriggerId)}
         />
-        {logoutError && !collapsed ? <LogoutError /> : null}
       </div>
     </aside>
   );

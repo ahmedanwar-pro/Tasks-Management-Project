@@ -1,14 +1,16 @@
 import type { ReactElement } from 'react';
 import { Skeleton } from '@/components/ui';
+import type { LogoutTriggerId } from '../logout';
 import type { AppUser } from '../types';
 import { HeaderUserMenu } from './header-user-menu';
 
 type HeaderUserProps = {
+  activeLogoutTriggerId: LogoutTriggerId | null;
   user: AppUser | null;
   initials?: string;
   isLoading: boolean;
   isLogoutPending: boolean;
-  onLogout: () => void;
+  onLogout: (triggerId: LogoutTriggerId) => void;
 };
 
 function HeaderUserLoadingState(): ReactElement {
@@ -28,6 +30,7 @@ function HeaderUserLoadingState(): ReactElement {
 }
 
 export function HeaderUser({
+  activeLogoutTriggerId,
   user,
   initials,
   isLoading,
@@ -53,6 +56,7 @@ export function HeaderUser({
         ) : null}
       </div>
       <HeaderUserMenu
+        activeLogoutTriggerId={activeLogoutTriggerId}
         displayName={displayName}
         initials={initials}
         isLogoutPending={isLogoutPending}

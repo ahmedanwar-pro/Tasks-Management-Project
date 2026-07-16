@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { clearAuthSessionPersistence, supabase } from '@/lib/supabase';
 
 async function logout(): Promise<void> {
@@ -13,8 +13,11 @@ async function logout(): Promise<void> {
   clearAuthSessionPersistence();
 }
 
-export function useLogoutMutation() {
+export function useLogoutMutation(
+  options?: Omit<UseMutationOptions<void, Error, void>, 'mutationFn'>,
+) {
   return useMutation({
     mutationFn: logout,
+    ...options,
   });
 }
