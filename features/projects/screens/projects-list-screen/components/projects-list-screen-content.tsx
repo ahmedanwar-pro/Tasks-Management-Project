@@ -8,8 +8,7 @@ import { MobileCreateProjectButton } from './list/mobile-create-project-button';
 import { ProjectsList } from './list/projects-list';
 import { ProjectsMobileLoadMore } from './list/projects-mobile-load-more';
 import { ProjectsSearchInput } from './list/projects-search-input';
-import { ProjectsLoadingList } from './loading/projects-loading-list';
-import { ProjectsLoadingPagination } from './loading/projects-loading-pagination';
+import { ProjectsListLoadingScreen } from './loading/projects-list-loading-screen';
 import { ProjectsPagination } from './pagination/projects-pagination';
 import { ProjectsListScreenSuccessToast } from './projects-list-screen-success-toast';
 
@@ -41,9 +40,44 @@ export function ProjectsListScreenContent({
     ? 'Failed to search projects'
     : 'Failed to load projects';
   const showLoadingState = isLoading;
+  const headerChildren = successMessage ? (
+    <ProjectsListScreenSuccessToast
+      message={successMessage}
+      onClose={onSuccessToastClose}
+      visible={showSuccessToast}
+    />
+  ) : null;
 
-  if (!visibleError && totalCount === 0 && !isSearchActive && !showLoadingState) {
+  if (
+    !visibleError &&
+    totalCount === 0 &&
+    !isSearchActive &&
+    !showLoadingState
+  ) {
     return <ProjectsEmptyState />;
+  }
+
+  if (showLoadingState) {
+    return (
+      <ProjectsListLoadingScreen
+        currentPage={currentPage}
+        headerChildren={headerChildren}
+        isPaginationLoading={isPaginationLoading}
+        isSearchInputDisabled={isSearchInputDisabled}
+        onSearchTermChange={onSearchTermChange}
+        pagination={
+          <ProjectsPagination
+            currentPage={currentPage}
+            isInteractionDisabled={isPaginationInteractionDisabled}
+            onPageChange={onPageChange}
+            pageSize={pageSize}
+            projectCount={paginationProjectCount}
+            totalCount={paginationTotalCount}
+          />
+        }
+        searchTerm={searchTerm}
+      />
+    );
   }
 
   return (
@@ -52,13 +86,7 @@ export function ProjectsListScreenContent({
       className="relative mx-auto flex w-full max-w-7xl flex-col px-6 pt-8 pb-8 lg:h-[calc(100dvh-4rem)] lg:px-8 lg:pt-7"
     >
       <ProjectsListHeader currentPage={currentPage}>
-        {successMessage ? (
-          <ProjectsListScreenSuccessToast
-            message={successMessage}
-            onClose={onSuccessToastClose}
-            visible={showSuccessToast}
-          />
-        ) : null}
+        {headerChildren}
       </ProjectsListHeader>
       <div className="md:mt-7 md:rounded-lg md:border md:border-[#dfe7f8] md:bg-[#f8faff] md:p-1 md:shadow-[0px_1px_3px_rgba(45,79,140,0.08)]">
         <div className="md:rounded-md md:bg-[#f8faff] md:px-6 md:pt-5 md:pb-0">
@@ -67,23 +95,7 @@ export function ProjectsListScreenContent({
             onChange={onSearchTermChange}
             value={searchTerm}
           />
-          {showLoadingState ? (
-            <>
-              <ProjectsLoadingList />
-              {isPaginationLoading ? (
-                <ProjectsPagination
-                  currentPage={currentPage}
-                  isInteractionDisabled={isPaginationInteractionDisabled}
-                  onPageChange={onPageChange}
-                  pageSize={pageSize}
-                  projectCount={paginationProjectCount}
-                  totalCount={paginationTotalCount}
-                />
-              ) : (
-                <ProjectsLoadingPagination />
-              )}
-            </>
-          ) : visibleError ? (
+          {visibleError ? (
             <ProjectsErrorState
               compact
               onRetry={onRetry}
@@ -108,12 +120,15 @@ export function ProjectsListScreenContent({
         </div>
       </div>
 
-      {hasMoreMobileProjects && !visibleError && totalCount > 0 && !showLoadingState && (
-        <ProjectsMobileLoadMore
-          isFetchingNextPage={isFetchingNextPage}
-          loadMoreRef={loadMoreRef}
-        />
-      )}
+      {hasMoreMobileProjects &&
+        !visibleError &&
+        totalCount > 0 &&
+        !showLoadingState && (
+          <ProjectsMobileLoadMore
+            isFetchingNextPage={isFetchingNextPage}
+            loadMoreRef={loadMoreRef}
+          />
+        )}
       <MobileCreateProjectButton currentPage={currentPage} />
     </section>
   );

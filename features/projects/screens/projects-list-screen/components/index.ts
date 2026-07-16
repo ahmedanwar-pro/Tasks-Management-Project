@@ -8,6 +8,7 @@ export { MobileCreateProjectButton } from './list/mobile-create-project-button';
 export { ProjectsList } from './list/projects-list';
 export { ProjectsMobileLoadMore } from './list/projects-mobile-load-more';
 export { ProjectsSearchInput } from './list/projects-search-input';
+export { ProjectsListLoadingScreen } from './loading/projects-list-loading-screen';
 export { ProjectsLoadingList } from './loading/projects-loading-list';
 export { ProjectsLoadingPagination } from './loading/projects-loading-pagination';
 export { ProjectsPagination } from './pagination/projects-pagination';

@@ -47,7 +47,6 @@ export type ProjectsListScreenData = Omit<
   | 'onSuccessToastClose'
   | 'successMessage'
   | 'showSuccessToast'
-  | 'totalCount'
 > & {
   committedSearchTerm: string;
 };

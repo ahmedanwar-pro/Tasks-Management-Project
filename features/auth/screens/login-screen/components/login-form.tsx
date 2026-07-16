@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import type { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormError } from '@/components/ui';
@@ -21,6 +22,7 @@ export function LoginForm({
   returnTo = '/projects',
 }: LoginFormProps): ReactElement {
   const router = useRouter();
+  const [isRedirectingAfterLogin, setIsRedirectingAfterLogin] = useState(false);
   const {
     error: loginError,
     isPending: isLoginPending,
@@ -51,11 +53,15 @@ export function LoginForm({
 
   function handleLogin({ email, password, rememberMe }: LoginFormValues) {
     resetLogin();
+    setIsRedirectingAfterLogin(false);
 
     login(
       { email, password, rememberMe },
       {
-        onSuccess: () => router.replace(returnTo),
+        onSuccess: () => {
+          setIsRedirectingAfterLogin(true);
+          router.replace(returnTo);
+        },
       },
     );
   }
@@ -88,7 +94,9 @@ export function LoginForm({
 
       {loginError ? <FormError message={loginError.message} /> : null}
 
-      <AuthSubmitButton isLoading={isLoginPending}>Log in</AuthSubmitButton>
+      <AuthSubmitButton isLoading={isLoginPending || isRedirectingAfterLogin}>
+        Log in
+      </AuthSubmitButton>
     </form>
   );
 }

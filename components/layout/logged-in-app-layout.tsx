@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { ReactElement, ReactNode } from 'react';
+import { ProjectsListPendingFallback } from '@/features/projects/screens/projects-list-screen/components/projects-list-pending-fallback';
 import { AppHeader } from './header/app-header';
 import { useCurrentUser } from './hooks/use-current-user';
 import { useLogoutMutation } from './hooks/use-logout-mutation';
@@ -47,6 +48,18 @@ export function LoggedInAppLayout({
     logout();
   }
 
+  function renderMainContent(): ReactNode {
+    if (user) {
+      return children;
+    }
+
+    if (isPending && pathname === '/projects') {
+      return <ProjectsListPendingFallback />;
+    }
+
+    return null;
+  }
+
   return (
     <div className="bg-background text-text-primary min-h-dvh font-sans">
       <AppHeader
@@ -75,7 +88,7 @@ export function LoggedInAppLayout({
           sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'
         }`}
       >
-        {user ? children : null}
+        {renderMainContent()}
       </main>
     </div>
   );
