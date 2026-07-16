@@ -65,34 +65,57 @@ export function ProjectsListScreen({
     router.replace(nextUrl, { scroll: false });
   }, [pathname, router, searchParams]);
 
-  useEffect(() => {
-    if (successType) {
-      return;
-    }
+  const showProjectsSuccessToast = useCallback(
+    (projectsSuccessType: ProjectsListSuccessType) => {
+      setSuccessMessage(getProjectsSuccessMessage(projectsSuccessType));
+      setIsSuccessToastVisible(true);
+    },
+    [],
+  );
 
+  const consumePersistedProjectsSuccess = useCallback(() => {
     const persistedSuccessType = consumePersistedProjectsSuccessState();
 
     if (!persistedSuccessType) {
       return;
     }
 
+    showProjectsSuccessToast(persistedSuccessType);
+  }, [showProjectsSuccessToast]);
+
+  useEffect(() => {
+    if (successType) {
+      return;
+    }
+
     const timeoutId = window.setTimeout(() => {
-      setSuccessMessage(getProjectsSuccessMessage(persistedSuccessType));
-      setIsSuccessToastVisible(true);
+      consumePersistedProjectsSuccess();
     }, 0);
+
+    window.addEventListener('pageshow', consumePersistedProjectsSuccess);
+    window.addEventListener('popstate', consumePersistedProjectsSuccess);
 
     return () => {
       window.clearTimeout(timeoutId);
+      window.removeEventListener('pageshow', consumePersistedProjectsSuccess);
+      window.removeEventListener('popstate', consumePersistedProjectsSuccess);
     };
-  }, [successType]);
+  }, [consumePersistedProjectsSuccess, successType]);
 
   useEffect(() => {
     if (!successType) {
       return;
     }
 
-    clearProjectsSuccessQuery();
-  }, [clearProjectsSuccessQuery, successType]);
+    const timeoutId = window.setTimeout(() => {
+      showProjectsSuccessToast(successType);
+      clearProjectsSuccessQuery();
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [clearProjectsSuccessQuery, showProjectsSuccessToast, successType]);
 
   useEffect(() => {
     const currentSearchParam = searchParams.get('search') ?? '';
