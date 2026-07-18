@@ -6,7 +6,10 @@ const projectsSearchDebounceMs = 400;
 
 export function useProjectsSearch(
   initialSearchTerm: string,
-  onDebouncedSearchChange: () => void,
+  onDebouncedSearchChange: (
+    nextSearchTerm: string,
+    previousSearchTerm: string,
+  ) => void,
 ) {
   const normalizedInitialSearchTerm = initialSearchTerm.trim();
   const [hasSearchInteracted, setHasSearchInteracted] = useState(false);
@@ -36,9 +39,11 @@ export function useProjectsSearch(
         return;
       }
 
+      const previousSearchTerm = committedSearchTermRef.current;
+
       committedSearchTermRef.current = normalizedSearchTerm;
       setDebouncedSearchTerm(normalizedSearchTerm);
-      onDebouncedSearchChange();
+      onDebouncedSearchChange(normalizedSearchTerm, previousSearchTerm);
     }, projectsSearchDebounceMs);
 
     return () => {

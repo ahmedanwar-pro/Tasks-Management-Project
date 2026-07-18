@@ -47,8 +47,6 @@ export type ProjectsListScreenData = Omit<
   | 'onSuccessToastClose'
   | 'successMessage'
   | 'showSuccessToast'
-> & {
-  committedSearchTerm: string;
-};
+>;
 
 export type ProjectsListScreenSuccessState = ProjectsListSuccessType;

@@ -33,7 +33,6 @@ export function ProjectsListScreen({
     Boolean(successType),
   );
   const {
-    committedSearchTerm,
     currentPage,
     hasMoreMobileProjects,
     isFetchingNextPage,
@@ -116,27 +115,6 @@ export function ProjectsListScreen({
       window.clearTimeout(timeoutId);
     };
   }, [clearProjectsSuccessQuery, showProjectsSuccessToast, successType]);
-
-  useEffect(() => {
-    const currentSearchParam = searchParams.get('search') ?? '';
-
-    if (committedSearchTerm === currentSearchParam) {
-      return;
-    }
-
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (committedSearchTerm.length === 0) {
-      params.delete('search');
-    } else {
-      params.set('search', committedSearchTerm);
-    }
-
-    const queryString = params.toString();
-    const nextUrl = queryString ? `${pathname}?${queryString}` : pathname;
-
-    router.replace(nextUrl, { scroll: false });
-  }, [committedSearchTerm, pathname, router, searchParams]);
 
   const handleSuccessToastClose = useCallback(() => {
     setIsSuccessToastVisible(false);

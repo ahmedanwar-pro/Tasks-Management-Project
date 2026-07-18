@@ -8,7 +8,7 @@ import { MobileCreateProjectButton } from './list/mobile-create-project-button';
 import { ProjectsList } from './list/projects-list';
 import { ProjectsMobileLoadMore } from './list/projects-mobile-load-more';
 import { ProjectsSearchInput } from './list/projects-search-input';
-import { ProjectsListLoadingScreen } from './loading/projects-list-loading-screen';
+import { ProjectsListLoadingState } from './loading/projects-list-loading-state';
 import { ProjectsPagination } from './pagination/projects-pagination';
 import { ProjectsListScreenSuccessToast } from './projects-list-screen-success-toast';
 
@@ -57,29 +57,6 @@ export function ProjectsListScreenContent({
     return <ProjectsEmptyState />;
   }
 
-  if (showLoadingState) {
-    return (
-      <ProjectsListLoadingScreen
-        currentPage={currentPage}
-        headerChildren={headerChildren}
-        isPaginationLoading={isPaginationLoading}
-        isSearchInputDisabled={isSearchInputDisabled}
-        onSearchTermChange={onSearchTermChange}
-        pagination={
-          <ProjectsPagination
-            currentPage={currentPage}
-            isInteractionDisabled={isPaginationInteractionDisabled}
-            onPageChange={onPageChange}
-            pageSize={pageSize}
-            projectCount={paginationProjectCount}
-            totalCount={paginationTotalCount}
-          />
-        }
-        searchTerm={searchTerm}
-      />
-    );
-  }
-
   return (
     <section
       aria-labelledby="projects-title"
@@ -95,7 +72,21 @@ export function ProjectsListScreenContent({
             onChange={onSearchTermChange}
             value={searchTerm}
           />
-          {visibleError ? (
+          {showLoadingState ? (
+            <ProjectsListLoadingState
+              isPaginationLoading={isPaginationLoading}
+              pagination={
+                <ProjectsPagination
+                  currentPage={currentPage}
+                  isInteractionDisabled={isPaginationInteractionDisabled}
+                  onPageChange={onPageChange}
+                  pageSize={pageSize}
+                  projectCount={paginationProjectCount}
+                  totalCount={paginationTotalCount}
+                />
+              }
+            />
+          ) : visibleError ? (
             <ProjectsErrorState
               compact
               onRetry={onRetry}

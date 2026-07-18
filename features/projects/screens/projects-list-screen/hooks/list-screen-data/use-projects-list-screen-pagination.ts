@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMobileViewport } from '@/features/shared/hooks/use-mobile-viewport';
 import {
@@ -11,18 +11,41 @@ import {
 } from '../../utils/projects-pagination';
 
 export function useProjectsListScreenPagination(initialPage: number) {
-  const currentPage = normalizeProjectsPage(initialPage);
+  const [currentPage, setCurrentPageState] = useState(() =>
+    normalizeProjectsPage(initialPage),
+  );
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setCurrentPageState(normalizeProjectsPage(initialPage));
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [initialPage]);
+
   const updateCurrentPage = useCallback(
-    (page: number) => {
+    (page: number, searchTerm?: string) => {
       const nextPage = normalizeProjectsPage(page);
       const params = new URLSearchParams(window.location.search);
+
+      setCurrentPageState(nextPage);
 
       if (nextPage === initialProjectsPage) {
         params.delete('page');
       } else {
         params.set('page', String(nextPage));
+      }
+
+      if (searchTerm !== undefined) {
+        if (searchTerm.length === 0) {
+          params.delete('search');
+        } else {
+          params.set('search', searchTerm);
+        }
       }
 
       const queryString = params.toString();
@@ -32,9 +55,12 @@ export function useProjectsListScreenPagination(initialPage: number) {
     },
     [pathname, router],
   );
-  const resetToFirstPage = useCallback(() => {
-    updateCurrentPage(initialProjectsPage);
-  }, [updateCurrentPage]);
+  const resetToFirstPage = useCallback(
+    (searchTerm?: string) => {
+      updateCurrentPage(initialProjectsPage, searchTerm);
+    },
+    [updateCurrentPage],
+  );
   const isMobileViewport = useMobileViewport({
     mediaQuery: mobileProjectsViewportQuery,
     onMobileViewport: resetToFirstPage,

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useMobileLoadMore } from '@/features/shared/hooks/use-mobile-load-more';
 import type { ProjectsListScreenData } from '../types';
 import { isProjectsUnauthorizedError } from '../api/get-projects';
@@ -22,12 +22,35 @@ export function useProjectsListScreenData(
     resetToFirstPage,
     setCurrentPage,
   } = useProjectsListScreenPagination(initialPage);
+  const pageBeforeSearchRef = useRef(currentPage);
+  const handleDebouncedSearchChange = useCallback(
+    (nextSearchTerm: string, previousSearchTerm: string) => {
+      const isStartingSearch =
+        previousSearchTerm.length === 0 && nextSearchTerm.length > 0;
+      const isClearingSearch =
+        previousSearchTerm.length > 0 && nextSearchTerm.length === 0;
+
+      if (isStartingSearch) {
+        pageBeforeSearchRef.current = currentPage;
+        resetToFirstPage(nextSearchTerm);
+        return;
+      }
+
+      if (isClearingSearch) {
+        setCurrentPage(pageBeforeSearchRef.current, nextSearchTerm);
+        return;
+      }
+
+      resetToFirstPage(nextSearchTerm);
+    },
+    [currentPage, resetToFirstPage, setCurrentPage],
+  );
   const {
     debouncedSearchTerm,
     hasSearchInteracted,
     onSearchTermChange,
     searchTerm,
-  } = useProjectsSearch(initialSearchTerm, resetToFirstPage);
+  } = useProjectsSearch(initialSearchTerm, handleDebouncedSearchChange);
   const { data, error, isPending, refetch } = useProjectsQuery(
     currentPage,
     limit,
@@ -113,7 +136,6 @@ export function useProjectsListScreenData(
     isSearchInputDisabled,
     isSearchActive: debouncedSearchTerm.length > 0,
     loadMoreRef,
-    committedSearchTerm: debouncedSearchTerm,
     paginationProjectCount,
     paginationTotalCount,
     onPageChange: handlePageChange,
